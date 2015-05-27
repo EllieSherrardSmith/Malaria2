@@ -15,7 +15,7 @@ theme_set(theme_bw(24))
 ###
 
 ##Model Output (ATV only)
-data<-read.csv("C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria\\TBD and RTSS Model\\clean scripts\\DataFromModel1.csv")
+data<-read.csv("C:\\Users\\Ellie\\Documents\\Data Malaria\\MODEL OUTPUT\\DataFromModel1.csv")
 names(data) 
 data<-data[501:1000,]##dropping burn in so keeping the appropriate data
 
