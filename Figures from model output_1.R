@@ -458,7 +458,7 @@ b<-c<-S<-EIR<-X<-R0<-numeric(32)
 
   for(i in 1:32){
       b[i]<-mean(data[,i+251])
-      c[i]<-sum(ifelse(data[,i+59]==0,0,1))/1000
+      c[i]<-mean(data[,i+283])
       S[i]<-EIR[i]<-k[i]
 
       X[i]<-prevs[i]
@@ -469,19 +469,87 @@ R0[i]<-(b[i]/r)*((EIR[i]*(1+c[i]*S[i]*X[i]))/X[i])
 reductionR0<-(R0[1:16] - R0[17:32]) / R0[1:16]
 reductionR0[is.infinite(reductionR0)] <- 1 
 
-par(mfrow=c(1,1))
-plot(reductionR0~c(1:16),xaxt="n",
-     ylab=expression(paste("Relative reduction in  ", R[0])),pch=20,
-     xlab="Data Group")
-axis(1,at=seq(1,16,1),labels=c("Bites 2: gen 1","2","3","4",
-                               "Bites 3: gen 1","2","3","4",
-                               "Bites 4: gen 1","2","3","4",
-                               "Bites 5: gen 1","2","3","4"))
-boxplot(reductionR0[1:4],
+##par(mfrow=c(1,1))
+##plot(reductionR0~c(1:16),xaxt="n",
+##     ylab=expression(paste("Relative reduction in  ", R[0])),pch=20,
+##     xlab="Data Group")
+##axis(1,at=seq(1,16,1),labels=c("Bites 2: gen 1","2","3","4",
+##                               "Bites 3: gen 1","2","3","4",
+##                               "Bites 4: gen 1","2","3","4",
+##                               "Bites 5: gen 1","2","3","4"))
+
+par(las=1)
+plot(c(mean(reductionR0[1:4]),mean(reductionR0[5:8]),mean(reductionR0[9:12]),mean(reductionR0[13:16]))
+                  ~c(2:5),pch="",
+          ylab=expression(paste("Relative reduction in  ", R[0])),yaxt="n",ylim=c(-0.4,1),
+          xlab="",xaxt="n",xlim=c(1,5.5))
+axis(1,at=seq(1,5,1),labels=c("1 Bite", "2 Bites","3 Bites","4 Bites","5 Bites"))
+par(las=2)
+axis(2,at=seq(-0.5,1,0.5),labels=c(-0.5,0,0.5,1))
+
+log.binom<-function(p.vec){
+  
+  a<-p.vec[1]
+  b<-p.vec[2]
+  
+  pred1a<- ((exp(a + b * c(2:5))) / (1 + exp(a + b * c(2:5))) ) 
+  prev1<-c(min(reductionR0[1:4]),min(reductionR0[5:8]),min(reductionR0[9:12]),min(reductionR0[13:16]))
+  
+  loglik1a<- prev1* log((pred1a)+0.00001)+(1-prev1)*log(1-((pred1a)-0.00001))
+  -sum(loglik1a,  na.rm=T)
+}
+n.param<-2
+logmod<-optim(c(0,0),log.binom,method="L-BFGS-B",lower=c(-10,-10),upper=c(100,10))
+logmod
+nc<-seq(0,5.5,0.01)
+pred2L<-((exp(logmod$par[1] + logmod$par[2] * nc)) / (1 + exp(logmod$par[1] + logmod$par[2] * nc)) )
+
+log.binom<-function(p.vec){
+  
+  a<-p.vec[1]
+  b<-p.vec[2]
+  
+  pred1a<- ((exp(a + b * c(2:5))) / (1 + exp(a + b * c(2:5))) ) 
+  prev1<-c(max(reductionR0[1:4]),max(reductionR0[5:8]),max(reductionR0[9:12]),max(reductionR0[13:16]))
+  
+  loglik1a<- prev1* log((pred1a)+0.00001)+(1-prev1)*log(1-((pred1a)-0.00001))
+  -sum(loglik1a,  na.rm=T)
+}
+n.param<-2
+logmod<-optim(c(0,0),log.binom,method="L-BFGS-B",lower=c(-10,-10),upper=c(100,10))
+logmod
+
+pred2U<-((exp(logmod$par[1] + logmod$par[2] * nc)) / (1 + exp(logmod$par[1] + logmod$par[2] * nc)) )
+polygon(c(nc, rev(nc)),c(pred2U,rev(pred2L)),border=NA, col="aquamarine1")
+
+log.binom<-function(p.vec){
+  
+  a<-p.vec[1]
+  b<-p.vec[2]
+  
+  pred1a<- ((exp(a + b * c(2:5))) / (1 + exp(a + b * c(2:5))) ) 
+  prev1<-c(mean(reductionR0[1:4]),mean(reductionR0[5:8]),mean(reductionR0[9:12]),mean(reductionR0[13:16]))
+  
+  loglik1a<- prev1* log((pred1a)+0.00001)+(1-prev1)*log(1-((pred1a)-0.00001))
+  -sum(loglik1a,  na.rm=T)
+}
+n.param<-2
+logmod<-optim(c(0,0),log.binom,method="L-BFGS-B",lower=c(-10,-10),upper=c(100,10))
+logmod
+pred<-((exp(logmod$par[1] + logmod$par[2] * nc)) / (1 + exp(logmod$par[1] + logmod$par[2] * nc)) )
+lines(nc,pred,lwd=2,lty=2,col="black")
+
+
+
+par(new=T)
+
+
+boxplot(NA,reductionR0[1:4],
         reductionR0[5:8],
         reductionR0[9:12],
-        reductionR0[13:16],axat="n",ylab=expression(paste("Relative reduction in  ", R[0])))
-axis(1,at=seq(1,4,1),labels=c("2 Bites","3 Bites","4 Bites","5 Bites"))
+        reductionR0[13:16],
+          xaxt="n",ylim=c(-0.4,1),yaxt="n",
+          at=c(1,1.6,2.7,3.8,5))
 abline(h=0,lty=2,col="grey")
 
 
