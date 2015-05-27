@@ -670,43 +670,43 @@ lines(nc,pred2b,lwd=2,lty=3,col="blue")
 ###########################################################################
 data1<-list(N_C=16,
             N_T=16,
-            #N_T1=16 ##ATV
-            #N_T2=16 ##4B7
-            #N_T3=16 ##PEvaccine
-            #N_T4=16 ##PEvaccine + ATV
-            #N_T5=16 ##PEvaccine + 4B7
+            #N_Tatv=16 ##ATV
+            #N_T4b7=16 ##4B7
+            #N_Tvacc=16 ##PEvaccine
+            #N_Tatv_vacc=16 ##PEvaccine + ATV
+            #N_T4b7_vacc=16 ##PEvaccine + 4B7
             N_ooc=24,
             N_mice=5,
             ooc_count_C = structure(.Data = c(oocystsC),
                           .Dim=c(24,16)),
             ooc_count_T = structure(.Data = c(oocystsT),
                                     .Dim=c(24,16)),
-            #oc_count_T1 = structure(.Data = c(oocystsT),
+            #ooc_count_Tatv = structure(.Data = c(oocystsT),
             #                        .Dim=c(24,16)),
-            #ooc_count_T2 = structure(.Data = c(oocystsT),
+            #ooc_count_T4b7 = structure(.Data = c(oocystsT4bv),
             #                        .Dim=c(24,16)),
-            #ooc_count_T3 = structure(.Data = c(oocystsT),
+            #ooc_count_Tvacc = structure(.Data = c(oocystsTvacc),
             #                        .Dim=c(24,16)),
-            #ooc_count_T4 = structure(.Data = c(oocystsT),
+            #ooc_count_Tatv_vacc = structure(.Data = c(oocystsTatv_vacc),
             #                        .Dim=c(24,16)),
-            #ooc_count_T5 = structure(.Data = c(oocystsT),
+            #ooc_count_T4b7_vacc = structure(.Data = c(oocystsT4b7_vacc),
             #                        .Dim=c(24,16)),
             prev_C = structure(.Data =PREV_C,.Dim=c(5,16)),
             prev_T = structure(.Data =PREV_T,.Dim=c(5,16)),
-            #prev_T1 = structure(.Data =PREV_T,.Dim=c(5,16)),
-            #prev_T2 = structure(.Data =PREV_T,.Dim=c(5,16)),
-            #prev_T3 = structure(.Data =PREV_T,.Dim=c(5,16)),
-            #prev_T4 = structure(.Data =PREV_T,.Dim=c(5,16)),
-            #prev_T5 = structure(.Data =PREV_T,.Dim=c(5,16)),
+            #prev_Tatv = structure(.Data =PREV_T,.Dim=c(5,16)),
+            #prev_T4b7 = structure(.Data =PREV_T4bv,.Dim=c(5,16)),
+            #prev_Tvacc = structure(.Data =PREV_Tvacc,.Dim=c(5,16)),
+            #prev_Tatv_vacc = structure(.Data =PREV_Tatv_vacc,.Dim=c(5,16)),
+            #prev_T4b7_vacc = structure(.Data =PREV_T4b7_vacc,.Dim=c(5,16)),
             N_bin=5,
             bin_edge=c(0,1,10,100,1000,10000),
             s_count_C = structure(.Data=spors_C,.Dim=c(16,5)),
             s_count_T = structure(.Data=spors_T,.Dim=c(16,5))#,
-            #s_count_T1 = structure(.Data=spors_T,.Dim=c(16,5)),
-            #s_count_T2 = structure(.Data=spors_T,.Dim=c(16,5)),
-            #s_count_T3 = structure(.Data=spors_T,.Dim=c(16,5)),
-            #s_count_T4 = structure(.Data=spors_T,.Dim=c(16,5)),
-            #s_count_T5 = structure(.Data=spors_T,.Dim=c(16,5))
+            #s_count_Tatv = structure(.Data=spors_T,.Dim=c(16,5)),
+            #s_count_T4b7 = structure(.Data=spors_T4b7,.Dim=c(16,5)),
+            #s_count_Tvacc = structure(.Data=spors_Tvacc,.Dim=c(16,5)),
+            #s_count_Tatv_vacc = structure(.Data=spors_Tatv_vacc,.Dim=c(16,5)),
+            #s_count_T4b7_vacc = structure(.Data=spors_T4b7_vacc,.Dim=c(16,5))
             )
 
 stan_rdump(ls(data1), "Ellie.data.R", envir=list2env(data1))
