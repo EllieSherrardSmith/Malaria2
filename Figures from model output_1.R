@@ -554,3 +554,81 @@ abline(h=0,lty=2,col="grey")
 
 
 
+#########################################################
+##
+##  ARE PARASITEMIA AND GAMETOCYTEMIA CORRELATED?
+##   Stack the control and treatment data and use groups as additional explanatory variable
+##
+##
+##
+#######################################################
+
+parasitemiaAll<-c(parasitem,parasitemT)
+gametocytemiaAll<-c(gametoC,gametoT)
+type<-c(rep("Control",16),rep("Treated",16))
+
+glma <- glm(parasitemiaAll~gametocytemiaAll+type)
+glmb <- glm(parasitemiaAll~gametocytemiaAll)
+anova(glma,glmb,test="Chi")
+summary.lm(glmb)
+plot(glmb)
+
+
+##############################################################
+##
+## DOES THE PROBABILITY OF MOSQUITO INFECTION CORRELATE WITH PARASITEMIA/GAMETOCYTES?
+##
+##
+##
+####################################################
+
+thet_mosq_means
+glmc <- glm(thet_mosq_means~parasitemiaAll+type)
+glmd <- glm(thet_mosq_means~parasitemiaAll+0)
+anova(glmc,glmd,test="Chi")
+summary.lm(glmd)
+plot(glmd)
+plot(thet_mosq_means~parasitemiaAll)
+
+datprob<-data.frame(thet_mosq_means,parasitemiaAll,gametocytemiaAll,type)
+datprob$thet_mosq_means<-ifelse(datprob$parasitemiaAll==0,0,datprob$thet_mosq_means)
+
+plot(datprob$parasitemiaAll,datprob$thet_mosq_means,ylim=c(0,1))
+abline(lm(datprob$thet_mosq_means~datprob$parasitemiaAll+0),lty=2,col="grey")
+
+log.binom<-function(p.vec){
+  
+  a<-p.vec[1]
+  b<-p.vec[2]
+  
+  pred1a<- ((exp(a + b * datprob$parasitemiaAll)) / (1 + exp(a + b * datprob$parasitemiaAll)) ) 
+  prev1<-datprob$thet_mosq_means
+  
+  loglik1a<- prev1* log((pred1a)+0.00001)+(1-prev1)*log(1-((pred1a)-0.00001))
+  -sum(loglik1a,  na.rm=T)
+}
+n.param<-2
+logmod<-optim(c(0,0),log.binom,method="L-BFGS-B",lower=c(-10,-10),upper=c(100,10))
+logmod
+nc<-seq(0,20,0.01)
+pred<-((exp(logmod$par[1] + logmod$par[2] * nc)) / (1 + exp(logmod$par[1] + logmod$par[2] * nc)) )
+lines(nc,pred,lwd=2,lty=2,col="grey40")
+
+gom.binom<-function(p.vec){
+  
+  a<-p.vec[1]
+  b<-p.vec[2]
+  c<-p.vec[3]
+  
+  pred1a<- (a * exp (b * exp(c * datprob$parasitemiaAll)))  
+  prev1<-datprob$thet_mosq_means
+  
+  loglik1a<- prev1* log((pred1a)+0.00001)+(1-prev1)*log(1-((pred1a)-0.00001))
+  -sum(loglik1a,  na.rm=T)
+}
+n.param<-3
+gommod<-optim(c(1,-2,-0.8),gom.binom,method="L-BFGS-B",lower=c(0.001,-5,-1),upper=c(1,0,-0.01))
+gommod
+nc<-seq(0,20,0.01)
+pred2<-(gommod$par[1] * exp (gommod$par[2] * exp(gommod$par[3] * nc)))
+lines(nc,pred2,lwd=2,lty=2,col="black")
