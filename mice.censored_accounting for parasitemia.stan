@@ -17,13 +17,13 @@ data {
   int<lower=0> ooc_count_C[N_ooc, N_C];
 
   //Raw data parasitemia
-  int<lower=0 parasitemiaC[N_mice, N_C]
+  int<lower=0> parasitemiaC[N_C];
 
   // Raw data counts of the oocysts for each group of ATV treatments
   int<lower=0> ooc_count_T[N_ooc, N_T];
   
   //Raw data parasitemia
-  int<lower=0 parasitemiaT[N_mice, N_C]
+  int<lower=0> parasitemiaT[N_T];
 
   // Infection prevalence of each mouse in each control group
   int<lower=0> prev_C[N_mice, N_C];
@@ -115,7 +115,9 @@ model {
   vector[N_bin - 1] cdf;
   
   // Priors
-  epsilon ~ normal(0, 8);
+  epsilon_mu ~ normal(0, 8);
+  epsilon_phi ~ normal(0, 8);
+
   rho__log_mean_ooc_C ~ normal(0, 5);
   tau_bite__log_mean_ooc_C ~ cauchy(0, 2.5);
   rho_bite__log_mean_ooc_C ~ normal(0, 1);
@@ -151,13 +153,13 @@ model {
   // Oocyst measureuments (control)
   for (g in 1:N_C) {
     log_mu_ooc_C[g] <-   rho__log_mean_ooc_C
-    + epsilon_mu[1] * parasitemiaC[g] 
+    + epsilon_mu[1] * parasitemiaC[g]
     + tau_bite__log_mean_ooc_C
     * rho_bite__log_mean_ooc_C[(g - 1) / N_round + 1]
     + tau_round__log_mean_ooc_C
     * rho_round__log_mean_ooc_C[(g - 1) % N_round + 1];
     log_phi_ooc_C[g] <-  rho__log_od_ooc_C
-    + epsilon_phi[1] * parasitemiaC[g] 
+    + epsilon_phi[1] * parasitemiaC[g]
     + tau_bite__log_od_ooc_C
     * rho_bite__log_od_ooc_C[(g - 1) / N_round + 1]
     + tau_round__log_od_ooc_C
@@ -170,13 +172,13 @@ model {
   // Oocyst measureuments (treatment)
   for (g in 1:N_T) {
     log_mu_ooc_T[g] <-   rho__log_mean_ooc_T
-    + epsilon_mu[2] * parasitemiaT[g] 
+    + epsilon_mu[2] * parasitemiaT[g]
     + tau_bite__log_mean_ooc_T
     * rho_bite__log_mean_ooc_T[(g - 1) / N_round + 1]
     + tau_round__log_mean_ooc_T
     * rho_round__log_mean_ooc_T[(g - 1) % N_round + 1];
     log_phi_ooc_T[g] <-  rho__log_od_ooc_T
-    + epsilon_phi[2] * parasitemiaT[g] 
+    + epsilon_phi[2] * parasitemiaT[g]
     + tau_bite__log_od_ooc_T
     * rho_bite__log_od_ooc_T[(g - 1) / N_round + 1]
     + tau_round__log_od_ooc_T

@@ -691,8 +691,8 @@ data1<-list(N_C=16,
             #                        .Dim=c(24,16)),
             #ooc_count_T4b7_vacc = structure(.Data = c(oocystsT4b7_vacc),
             #                        .Dim=c(24,16)),
-      #      parasitemiaC = parasit,
-      #      parasitemiaT = parasitT,
+          #  parasitemiaC = parasitem,
+          #  parasitemiaT = parasitemT,
             prev_C = structure(.Data =PREV_C,.Dim=c(5,16)),
             prev_T = structure(.Data =PREV_T,.Dim=c(5,16)),
             #prev_Tatv = structure(.Data =PREV_T,.Dim=c(5,16)),
@@ -701,7 +701,7 @@ data1<-list(N_C=16,
             #prev_Tatv_vacc = structure(.Data =PREV_Tatv_vacc,.Dim=c(5,16)),
             #prev_T4b7_vacc = structure(.Data =PREV_T4b7_vacc,.Dim=c(5,16)),
             N_bin=5,
-            bin_edge=c(0,1,10,100,1000,10000),
+            bin_edge=c(0,1,10,100,1000,1002),
             s_count_C = structure(.Data=spors_C,.Dim=c(16,5)),
             s_count_T = structure(.Data=spors_T,.Dim=c(16,5))#,
             #s_count_Tatv = structure(.Data=spors_T,.Dim=c(16,5)),
@@ -712,6 +712,6 @@ data1<-list(N_C=16,
             )
 
 stan_rdump(ls(data1), "Ellie.data.R", envir=list2env(data1))
-fit1 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria\\TBD and RTSS Model\\mice.censored_sp2.stan", data=data1,
+fit1 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\mice.censored_sp.stan", data=data1,
              iter=1000, chains=2)
 
