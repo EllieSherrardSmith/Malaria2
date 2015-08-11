@@ -16,7 +16,7 @@ theme_set(theme_bw(24))
 
 ##Model Output (ATV only)
 data<-read.csv("C:\\Users\\Ellie\\Documents\\Data Malaria\\MODEL OUTPUT\\DataFromModel1.csv")
-data<-read.csv("D:\\ModelATV_Prev output.csv")
+data<-read.csv("C:\\Users\\Ellie\\Documents\\Data Malaria\\ALL DATA RE_ARRANGED_20062015\\OUTPUTS from Stan models\\ATV50.csv")
 names(data) 
 data<-data[501:1000,]##dropping burn in so keeping the appropriate data
 
@@ -38,9 +38,9 @@ sum(data[,236:247])/(500*12)
 data$sim_s_count_C.3
 
 dateffCI<-matrix(nrow=500,ncol=16)
-dateffCI<-(data[,284:299]-data[,300:315])/data[,284:299]
+dateffCI<-(data[,224:235]-data[,236:247])/data[,224:235]
 head(dateffCI)
-EfficacyEstimate2<-sum(dateffCI)/(500*16)
+EfficacyEstimate2<-sum(dateffCI)/(500*12)
 x<-stack(dateffCI)
 x2<-stack(dateffCI[,1:4])
 EfficacyEstimate2Lower<-quantile(x$values,0.05)
@@ -48,18 +48,18 @@ EfficacyEstimate2Upper<-quantile(x$values,0.95)
 
 ##Probability of mouse infection
 #Controls
-sum(data[,252:267])/(500*16)
+sum(data[,200:211])/(500*12)
 #Treatment
-sum(data[,268:283])/(500*16)
+sum(data[,212:223])/(500*12)
 
 #Efficacy on mouse infection
-((sum(data[,252:267])/(500*16))-(sum(data[,268:283])/(500*16)))/(sum(data[,252:267])/(500*16))
+((sum(data[,200:211])/(500*12))-(sum(data[,212:223])/(500*12)))/(sum(data[,200:211])/(500*12))
 
 
 ##Overall efficacy
-(((sum(data[,284:299])/(500*16))-(sum(data[,300:315])/(500*16)))+
-  ((sum(data[,252:267])/(500*16))-(sum(data[,268:283])/(500*16))))/
-  ((sum(data[,284:299])/(500*16))+(sum(data[,252:267])/(500*16)))
+#(((sum(data[,284:299])/(500*16))-(sum(data[,300:315])/(500*16)))+
+#  ((sum(data[,252:267])/(500*16))-(sum(data[,268:283])/(500*16))))/
+#  ((sum(data[,284:299])/(500*16))+(sum(data[,252:267])/(500*16)))
 
 
 ####################################
@@ -216,7 +216,7 @@ points(nc,maxoocC,pch=20)
 ## Relative reduction in probability of mosquito infection
 ###################################################################
 thet_mosq_means<-numeric(24)
-for(i in 284:299){
+for(i in 224:247){
   thet_mosq_means[i-223]<-mean(data[,i])
 }
 
@@ -250,7 +250,7 @@ R_EffectSizeMosqL<-c(quantile(dat_a1,0.025),quantile(dat_a2,0.025),quantile(dat_
 
 par(mfrow=c(1,2))
 plot((R_EffectSizeMosq+1)/2~c(1,2,5,10),pty="",main="ATV effect on mosquito population",
-     xaxt="n",yaxt="n",pch="",xlim=c(0.5,5.5),
+     xaxt="n",yaxt="n",pch="",xlim=c(0.5,10.5),
      ylab=expression(paste("Effect Size ", theta[mosquitoes], )),xlab="Bites",ylim=c(-1,1))
 axis(1,par(las=1),at=seq(0,10,1),labels=seq(0,10,1))
 
@@ -266,9 +266,9 @@ log.binom<-function(p.vec){
   -sum(loglik1a,  na.rm=T)
 }
 n.param<-2
-logmod<-optim(c(0,0),log.binom,method="L-BFGS-B",lower=c(-10,-10),upper=c(100,10))
+logmod<-optim(c(0,0),log.binom,method="L-BFGS-B",lower=c(-100,-100),upper=c(100,10))
 logmod
-nc<-seq(1.5,5.5,0.01)
+nc<-seq(1.5,10.5,0.01)
 pred2L<-((exp(logmod$par[1] + logmod$par[2] * nc)) / (1 + exp(logmod$par[1] + logmod$par[2] * nc)) )
 
 log.binom<-function(p.vec){
@@ -283,7 +283,7 @@ log.binom<-function(p.vec){
   -sum(loglik1a,  na.rm=T)
 }
 n.param<-2
-logmod<-optim(c(0,0),log.binom,method="L-BFGS-B",lower=c(-10,-10),upper=c(100,10))
+logmod<-optim(c(0,0),log.binom,method="L-BFGS-B",lower=c(-100,-100),upper=c(100,10))
 logmod
 
 pred2U<-((exp(logmod$par[1] + logmod$par[2] * nc)) / (1 + exp(logmod$par[1] + logmod$par[2] * nc)) )
@@ -301,13 +301,13 @@ log.binom<-function(p.vec){
   -sum(loglik1a,  na.rm=T)
 }
 n.param<-2
-logmod<-optim(c(0,0),log.binom,method="L-BFGS-B",lower=c(-10,-10),upper=c(100,10))
+logmod<-optim(c(0,0),log.binom,method="L-BFGS-B",lower=c(-100,-100),upper=c(100,10))
 logmod
 pred<-((exp(logmod$par[1] + logmod$par[2] * nc)) / (1 + exp(logmod$par[1] + logmod$par[2] * nc)) )
 lines(nc,pred,lwd=2,lty=2,col="black")
 
 
-axis(2,par(las=2),at=seq(0,1,0.25),labels=c(-1,-0.5,0,0.5,1))
+#axis(2,par(las=2),at=seq(0,1,0.25),labels=c(-1,-0.5,0,0.5,1))
 abline(h=0.5,lty=2,col="grey")
 
 par(new=T)
@@ -330,18 +330,17 @@ myplot1 <- mosq1 + guides(fill=FALSE) + theme(plot.title = element_text(size=20,
 #################################################################
 ## Relative reduction in probability of mouse infection
 ###################################################################
-par(mfrow=c(1,1))
 thet_mo_means<-numeric(32)
-for(i in 252:283){
-  thet_mo_means[i-251]<-mean(data[,i])
+for(i in 200:223){
+  thet_mo_means[i-199]<-mean(data[,i])
 }
 
 
-a1<-stack(data[,252:255]);a2<-stack(data[,256:259]);a3<-stack(data[,260:263]);a4<-stack(data[,264:267]);
+a1<-stack(data[,200:202]);a2<-stack(data[,203:205]);a3<-stack(data[,206:208]);a4<-stack(data[,209:211]);
 thet_mouse_bitesC<-c(mean(a1$value),mean(a2$value),mean(a3$value),mean(a4$value))
 thet_mouse_bitesC_range<-c(a1$value,a2$value,a3$value,a4$value)
 
-B1<-stack(data[,268:271]);B2<-stack(data[,272:275]);B3<-stack(data[,276:279]);B4<-stack(data[,280:283]);
+B1<-stack(data[,212:214]);B2<-stack(data[,215:217]);B3<-stack(data[,218:220]);B4<-stack(data[,221:223]);
 thet_mouse_bitesT<-c(mean(B1$value),mean(B2$value),mean(B3$value),mean(B4$value))
 thet_mouse_bitesT_range<-c(B1$value,B2$value,B3$value,B4$value)
 

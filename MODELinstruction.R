@@ -7,6 +7,13 @@ library(R2OpenBUGS)
 library(ggplot2)
 library("Rlab")
 library(contrast)
+#install.packages('devtools')
+#library(devtools)
+#source_url("https://github.com/stan-dev/shinystan/raw/develop/install_shinystan.R")
+#install_shinystan()
+library(shinyStan)
+
+
 ##########################################################################
 ## 
 ##  ##         ##       ########      ##     
@@ -449,7 +456,7 @@ EFFSPmbr<-c(sum(effectSpors[1:4])/4,
             sum(effectSpors[13:16])/4)
 
 
-MEANsp<-c(#mean(newa1),mean(newb1),mean(newc1),mean(newd1),
+MEANsporig<-c(#mean(newa1),mean(newb1),mean(newc1),mean(newd1),
           mean(a1),mean(b1),mean(c1),mean(d1),
             mean(ee1),mean(ff1),mean(g1),mean(h1),
             mean(jj1),mean(kk1),mean(l1),mean(m1),
@@ -815,3 +822,17 @@ stan_rdump(ls(data1), "Ellie.data.R", envir=list2env(data1))
 fit1 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\mice.censored_sp.stan", data=data1,
              iter=1000, chains=2)
 
+#fit1 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\mice.censored_sp_fiting to parasitemia.stan", data=PARA_ATV25_data,
+#             iter=1000, chains=2)
+
+
+
+#write.csv(print(fit1),"C:\\Users\\Ellie\\Documents\\RStudioProjects\\2080Model\\fit1ATV25.csv")
+my_shinystan<-as.shinystan(fit1)
+launch_shinystan(my_shinystan)
+
+#install.packages('devtools')
+library(devtools)
+
+source_url("https://github.com/stan-dev/shinystan/raw/develop/install_shinystan.R")
+install_shinystan()
