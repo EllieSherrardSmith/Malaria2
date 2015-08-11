@@ -183,6 +183,25 @@ spors$Parasitemia[spors$Bites==5 & spors$Treatment == 0 & spors$Round == 1],
 spors$Parasitemia[spors$Bites==5 & spors$Treatment == 0 & spors$Round == 2],
 spors$Parasitemia[spors$Bites==5 & spors$Treatment == 0 & spors$Round == 3],
 spors$Parasitemia[spors$Bites==5 & spors$Treatment == 0 & spors$Round == 4])
+
+parasitORIGmean<-c(
+  mean(spors$Parasitemia[spors$Bites==2 & spors$Treatment == 0 & spors$Round == 1]),
+  mean(spors$Parasitemia[spors$Bites==2 & spors$Treatment == 0 & spors$Round == 2]),
+  mean(spors$Parasitemia[spors$Bites==2 & spors$Treatment == 0 & spors$Round == 3]),
+  mean(spors$Parasitemia[spors$Bites==2 & spors$Treatment == 0 & spors$Round == 4]),
+  mean(spors$Parasitemia[spors$Bites==3 & spors$Treatment == 0 & spors$Round == 1]),
+  mean(spors$Parasitemia[spors$Bites==3 & spors$Treatment == 0 & spors$Round == 2]),
+  mean(spors$Parasitemia[spors$Bites==3 & spors$Treatment == 0 & spors$Round == 3]),
+  mean(spors$Parasitemia[spors$Bites==3 & spors$Treatment == 0 & spors$Round == 4]),
+  mean(spors$Parasitemia[spors$Bites==4 & spors$Treatment == 0 & spors$Round == 1]),
+  mean(spors$Parasitemia[spors$Bites==4 & spors$Treatment == 0 & spors$Round == 2]),
+  mean(spors$Parasitemia[spors$Bites==4 & spors$Treatment == 0 & spors$Round == 3]),
+  mean(spors$Parasitemia[spors$Bites==4 & spors$Treatment == 0 & spors$Round == 4]),
+  mean(spors$Parasitemia[spors$Bites==5 & spors$Treatment == 0 & spors$Round == 1]),
+  mean(spors$Parasitemia[spors$Bites==5 & spors$Treatment == 0 & spors$Round == 2]),
+  mean(spors$Parasitemia[spors$Bites==5 & spors$Treatment == 0 & spors$Round == 3]),
+  mean(spors$Parasitemia[spors$Bites==5 & spors$Treatment == 0 & spors$Round == 4]))
+
 parasitem<-parasitemUPP<-parasitemLOW<-numeric(16)
 for (i in 1:16){
   parasitem[i]<-sum(parasit[,i])/5
@@ -212,6 +231,23 @@ parasitT<-cbind(
   spors$Parasitemia[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 2],
   spors$Parasitemia[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 3],
   spors$Parasitemia[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 4])
+parasitATV32mean<-c(
+  mean(spors$Parasitemia[spors$Bites==2 & spors$Treatment == 1 & spors$Round == 1]),
+       mean(spors$Parasitemia[spors$Bites==2 & spors$Treatment == 1 & spors$Round == 2]),
+            mean(spors$Parasitemia[spors$Bites==2 & spors$Treatment == 1 & spors$Round == 3]),
+                 mean(spors$Parasitemia[spors$Bites==2 & spors$Treatment == 1 & spors$Round == 4]),
+  mean(spors$Parasitemia[spors$Bites==3 & spors$Treatment == 1 & spors$Round == 1]),
+  mean(spors$Parasitemia[spors$Bites==3 & spors$Treatment == 1 & spors$Round == 2]),
+  mean(spors$Parasitemia[spors$Bites==3 & spors$Treatment == 1 & spors$Round == 3]),
+  mean(spors$Parasitemia[spors$Bites==3 & spors$Treatment == 1 & spors$Round == 4]),
+  mean(spors$Parasitemia[spors$Bites==4 & spors$Treatment == 1 & spors$Round == 1]),
+  mean(spors$Parasitemia[spors$Bites==4 & spors$Treatment == 1 & spors$Round == 2]),
+  mean(spors$Parasitemia[spors$Bites==4 & spors$Treatment == 1 & spors$Round == 3]),
+  mean(spors$Parasitemia[spors$Bites==4 & spors$Treatment == 1 & spors$Round == 4]),
+  mean(spors$Parasitemia[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 1]),
+  mean(spors$Parasitemia[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 2]),
+  mean(spors$Parasitemia[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 3]),
+  mean(spors$Parasitemia[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 4]))
 parasitemT<-parasitemTUPP<-parasitemTLOW<-numeric(16)
 for (i in 1:16){
   parasitemT[i]<-sum(parasitT[,i])/5
@@ -271,6 +307,41 @@ gametT<-cbind(
   spors$Gametocytemia[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 3],
   spors$Gametocytemia[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 4])
 
+
+gametORIGmean<-c(
+  mean(spors$Gametocytemia[spors$Bites==2 & spors$Treatment == 0 & spors$Round == 1]),
+  mean(spors$Gametocytemia[spors$Bites==2 & spors$Treatment == 0 & spors$Round == 2]),
+  mean(spors$Gametocytemia[spors$Bites==2 & spors$Treatment == 0 & spors$Round == 3]),
+  mean(spors$Gametocytemia[spors$Bites==2 & spors$Treatment == 0 & spors$Round == 4]),
+  mean(spors$Gametocytemia[spors$Bites==3 & spors$Treatment == 0 & spors$Round == 1]),
+  mean(spors$Gametocytemia[spors$Bites==3 & spors$Treatment == 0 & spors$Round == 2]),
+  mean(spors$Gametocytemia[spors$Bites==3 & spors$Treatment == 0 & spors$Round == 3]),
+  mean(spors$Gametocytemia[spors$Bites==3 & spors$Treatment == 0 & spors$Round == 4]),
+  mean(spors$Gametocytemia[spors$Bites==4 & spors$Treatment == 0 & spors$Round == 1]),
+  mean(spors$Gametocytemia[spors$Bites==4 & spors$Treatment == 0 & spors$Round == 2]),
+  mean(spors$Gametocytemia[spors$Bites==4 & spors$Treatment == 0 & spors$Round == 3]),
+  mean(spors$Gametocytemia[spors$Bites==4 & spors$Treatment == 0 & spors$Round == 4]),
+  mean(spors$Gametocytemia[spors$Bites==5 & spors$Treatment == 0 & spors$Round == 1]),
+  mean(spors$Gametocytemia[spors$Bites==5 & spors$Treatment == 0 & spors$Round == 2]),
+  mean(spors$Gametocytemia[spors$Bites==5 & spors$Treatment == 0 & spors$Round == 3]),
+  mean(spors$Gametocytemia[spors$Bites==5 & spors$Treatment == 0 & spors$Round == 4]),
+  mean(spors$Gametocytemia[spors$Bites==2 & spors$Treatment == 1 & spors$Round == 1]),
+  mean(spors$Gametocytemia[spors$Bites==2 & spors$Treatment == 1 & spors$Round == 2]),
+mean(spors$Gametocytemia[spors$Bites==2 & spors$Treatment == 1 & spors$Round == 3]),
+mean(spors$Gametocytemia[spors$Bites==2 & spors$Treatment == 1 & spors$Round == 4]),
+mean(spors$Gametocytemia[spors$Bites==3 & spors$Treatment == 1 & spors$Round == 1]),
+mean(spors$Gametocytemia[spors$Bites==3 & spors$Treatment == 1 & spors$Round == 2]),
+mean(spors$Gametocytemia[spors$Bites==3 & spors$Treatment == 1 & spors$Round == 3]),
+mean(spors$Gametocytemia[spors$Bites==3 & spors$Treatment == 1 & spors$Round == 4]),
+mean(spors$Gametocytemia[spors$Bites==4 & spors$Treatment == 1 & spors$Round == 1]),
+mean(spors$Gametocytemia[spors$Bites==4 & spors$Treatment == 1 & spors$Round == 2]),
+mean(spors$Gametocytemia[spors$Bites==4 & spors$Treatment == 1 & spors$Round == 3]),
+mean(spors$Gametocytemia[spors$Bites==4 & spors$Treatment == 1 & spors$Round == 4]),
+mean(spors$Gametocytemia[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 1]),
+mean(spors$Gametocytemia[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 2]),
+mean(spors$Gametocytemia[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 3]),
+mean(spors$Gametocytemia[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 4]))
+
 gametoT<-gametoTUPP<-gametoTLOW<-numeric(16)
 for (i in 1:16){
   gametoT[i]<-sum(gametT[,i])/5
@@ -283,6 +354,16 @@ for (i in 1:16){
   }
 }
 ##PREVALENCE IN MICE
+spcount<-expand.grid(seq(1,nrow(spors),1))
+for(i in 1:nrow(spors)){
+  for (j in 6:10){
+    spcount[i,j-5]<-ifelse(is.na(spors[i,j])==FALSE,1,0)}}
+for (i in 1:length(spors$prevBS)){
+  spors$sporoCount[i]<-sum(spcount[i,])}
+for (i in 1:nrow(T3d11)){
+  spors$meanpermouse[i]<-sum(spors[i,6:10],na.rm=T)/spors$sporoCount[i]
+}
+
 PREV_C<-cbind(
 #spors$prevBS[spors$Bites==1 & spors$Treatment == 0 & spors$Round == 1],
 #spors$prevBS[spors$Bites==1 & spors$Treatment == 0 & spors$Round == 2],
@@ -326,6 +407,41 @@ PREV_T<-cbind(
   spors$prevBS[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 2],
   spors$prevBS[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 3],
   spors$prevBS[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 4])
+
+PREVorigMean<-c(
+  mean(spors$prevBS[spors$Bites==2 & spors$Treatment == 0 & spors$Round == 1]),
+  mean(spors$prevBS[spors$Bites==2 & spors$Treatment == 0 & spors$Round == 2]),
+  mean(spors$prevBS[spors$Bites==2 & spors$Treatment == 0 & spors$Round == 3]),
+  mean(spors$prevBS[spors$Bites==2 & spors$Treatment == 0 & spors$Round == 4]),
+  mean(spors$prevBS[spors$Bites==3 & spors$Treatment == 0 & spors$Round == 1]),
+  mean(spors$prevBS[spors$Bites==3 & spors$Treatment == 0 & spors$Round == 2]),
+  mean(spors$prevBS[spors$Bites==3 & spors$Treatment == 0 & spors$Round == 3]),
+  mean(spors$prevBS[spors$Bites==3 & spors$Treatment == 0 & spors$Round == 4]),
+  mean(spors$prevBS[spors$Bites==4 & spors$Treatment == 0 & spors$Round == 1]),
+  mean(spors$prevBS[spors$Bites==4 & spors$Treatment == 0 & spors$Round == 2]),
+  mean(spors$prevBS[spors$Bites==4 & spors$Treatment == 0 & spors$Round == 3]),
+  mean(spors$prevBS[spors$Bites==4 & spors$Treatment == 0 & spors$Round == 4]),
+  mean(spors$prevBS[spors$Bites==5 & spors$Treatment == 0 & spors$Round == 1]),
+  mean(spors$prevBS[spors$Bites==5 & spors$Treatment == 0 & spors$Round == 2]),
+  mean(spors$prevBS[spors$Bites==5 & spors$Treatment == 0 & spors$Round == 3]),
+  mean(spors$prevBS[spors$Bites==5 & spors$Treatment == 0 & spors$Round == 4]),
+  mean(spors$prevBS[spors$Bites==2 & spors$Treatment == 1 & spors$Round == 1]),
+  mean(spors$prevBS[spors$Bites==2 & spors$Treatment == 1 & spors$Round == 2]),
+  mean(spors$prevBS[spors$Bites==2 & spors$Treatment == 1 & spors$Round == 3]),
+  mean(spors$prevBS[spors$Bites==2 & spors$Treatment == 1 & spors$Round == 4]),
+  mean(spors$prevBS[spors$Bites==3 & spors$Treatment == 1 & spors$Round == 1]),
+  mean(spors$prevBS[spors$Bites==3 & spors$Treatment == 1 & spors$Round == 2]),
+  mean(spors$prevBS[spors$Bites==3 & spors$Treatment == 1 & spors$Round == 3]),
+  mean(spors$prevBS[spors$Bites==3 & spors$Treatment == 1 & spors$Round == 4]),
+  mean(spors$prevBS[spors$Bites==4 & spors$Treatment == 1 & spors$Round == 1]),
+  mean(spors$prevBS[spors$Bites==4 & spors$Treatment == 1 & spors$Round == 2]),
+  mean(spors$prevBS[spors$Bites==4 & spors$Treatment == 1 & spors$Round == 3]),
+  mean(spors$prevBS[spors$Bites==4 & spors$Treatment == 1 & spors$Round == 4]),
+  mean(spors$prevBS[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 1]),
+  mean(spors$prevBS[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 2]),
+  mean(spors$prevBS[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 3]),
+  mean(spors$prevBS[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 4]))
+
 
 ###sPOROZOITES
 sporsbites1<-subset(spors,Bites==1 & Treatment==0);sporsbites1

@@ -96,6 +96,7 @@ parasitC_REAL<-cbind(
   c(spors$Parasitemia[spors$Bites==10 & spors$Treatment == "CONTROL" & spors$Round == 2],rep(0,25)),
   c(spors$Parasitemia[spors$Bites==10 & spors$Treatment == "CONTROL" & spors$Round == 3],rep(0,25)))
 
+
 newparaC_REAL<-t(parasitC_REAL)
 
 plot(c(0,mean(spors$Parasitemia[spors$Bites==1 & spors$Treatment == "CONTROL"]),
@@ -122,6 +123,14 @@ parasitCvector<-c(
   spors$Parasitemia[spors$Bites==10 & spors$Treatment == "CONTROL" & spors$Round == 1],
   spors$Parasitemia[spors$Bites==10 & spors$Treatment == "CONTROL" & spors$Round == 2],
   spors$Parasitemia[spors$Bites==10 & spors$Treatment == "CONTROL" & spors$Round == 3])
+parasitCvectorNAMES<-c(rep("ConB1G1",10),rep("ConB1G2",10),rep("ConB1G3",10),
+                       rep("ConB2G1",30),rep("ConB2G2",10),rep("ConB2G3",10),
+                       rep("ConB5G1",30),rep("ConB5G2",10),rep("ConB5G3",10),
+                       rep("ConB10G1",23),rep("ConB10G2",5),rep("ConB10G3",5))
+parasitMean<-data.frame(parasitCvector,parasitCvectorNAMES)
+parasitMean2<-subset(parasitMean,parasitCvectorNAMES!="ConB10G1" & parasitCvectorNAMES!="ConB10G2" & parasitCvectorNAMES!="ConB10G3")
+te<-as.vector(tapply(parasitMean2$parasitCvector,parasitMean2$parasitCvectorNAMES,mean))
+contPARAmean<-c(te[4:12])
 
 parasitemC<-parasitemUPPC<-parasitemLOWC<-numeric(15)
 for (i in 1:15){
@@ -161,18 +170,26 @@ gametCvector<-c(
   spors$Gametocytemia[spors$Bites==1 & spors$Round == 1],
   spors$Gametocytemia[spors$Bites==1 & spors$Round == 2],
   spors$Gametocytemia[spors$Bites==1 & spors$Round == 3],
-  spors$Gametocytemia[spors$Bites==1 & spors$Round == 4],
+  #spors$Gametocytemia[spors$Bites==1 & spors$Round == 4],
   spors$Gametocytemia[spors$Bites==2 & spors$Round == 1],
   spors$Gametocytemia[spors$Bites==2 & spors$Round == 2],
   spors$Gametocytemia[spors$Bites==2 & spors$Round == 3],
-  spors$Gametocytemia[spors$Bites==2 & spors$Round == 4],
+  #spors$Gametocytemia[spors$Bites==2 & spors$Round == 4],
   spors$Gametocytemia[spors$Bites==5 & spors$Round == 1],
   spors$Gametocytemia[spors$Bites==5 & spors$Round == 2],
   spors$Gametocytemia[spors$Bites==5 & spors$Round == 3],
-  spors$Gametocytemia[spors$Bites==5 & spors$Round == 4],
+  #spors$Gametocytemia[spors$Bites==5 & spors$Round == 4],
   spors$Gametocytemia[spors$Bites==10 & spors$Round == 1],
   spors$Gametocytemia[spors$Bites==10 & spors$Round == 2],
   spors$Gametocytemia[spors$Bites==10 & spors$Round == 3])
+gametCvectorNAMES<-c(rep("ConB1G1",10),rep("ConB1G2",10),rep("ConB1G3",10),
+                       rep("ConB2G1",30),rep("ConB2G2",10),rep("ConB2G3",10),
+                       rep("ConB5G1",30),rep("ConB5G2",10),rep("ConB5G3",10),
+                       rep("ConB10G1",23),rep("ConB10G2",5),rep("ConB10G3",5))
+gametMean<-data.frame(gametCvector,gametCvectorNAMES)
+gametMean2<-subset(gametMean,gametCvectorNAMES!="ConB10G1" & gametCvectorNAMES!="ConB10G2" & gametCvectorNAMES!="ConB10G3")
+te<-as.vector(tapply(gametMean2$gametCvector,gametMean2$gametCvectorNAMES,mean))
+contGAMETmean<-c(te[4:12])
 
 gametoC<-gametoUPPC<-gametoLOWC<-numeric(15)
 for (i in 1:15){
@@ -188,6 +205,15 @@ for (i in 1:15){
 
 ##PREVALENCE IN MICE
 spors$prevBS<-ifelse(spors$Parasitemia > 0 | spors$Gametocytemia > 0, 1, 0)
+spcount<-expand.grid(seq(1,218,1))
+for(i in 1:218){
+for (j in 7:16){
+spcount[i,j-6]<-ifelse(is.na(spors[i,j])==FALSE,1,0)}}
+for (i in 1:length(spors$prevBS)){
+  spors$sporoCount[i]<-sum(spcount[i,])}
+for (i in 1:length(spors$prevBS)){
+spors$meanpermouse[i]<-sum(spors[i,7:16],na.rm=T)/spors$sporoCount[i]
+}
 
 PREV_C<-cbind(
   sample(spors$prevBS[spors$Bites==1 & spors$Treatment == "CONTROL" & spors$Round == 1],5),
@@ -205,6 +231,17 @@ PREV_C<-cbind(
   sample(spors$prevBS[spors$Bites==10 & spors$Treatment == "CONTROL" & spors$Round == 1],5),
   sample(spors$prevBS[spors$Bites==10 & spors$Treatment == "CONTROL" & spors$Round == 2],5),
   sample(spors$prevBS[spors$Bites==10 & spors$Treatment == "CONTROL" & spors$Round == 3],5))
+
+PREV_Cmean<-c(
+  mean(spors$prevBS[spors$Bites==1 & spors$Treatment == "CONTROL" & spors$Round == 1]),
+  mean(spors$prevBS[spors$Bites==1 & spors$Treatment == "CONTROL" & spors$Round == 2]),
+  mean(spors$prevBS[spors$Bites==1 & spors$Treatment == "CONTROL" & spors$Round == 3]),
+  mean(spors$prevBS[spors$Bites==2 & spors$Treatment == "CONTROL" & spors$Round == 1]),
+  mean(spors$prevBS[spors$Bites==2 & spors$Treatment == "CONTROL" & spors$Round == 2]),
+  mean(spors$prevBS[spors$Bites==2 & spors$Treatment == "CONTROL" & spors$Round == 3]),
+  mean(spors$prevBS[spors$Bites==5 & spors$Treatment == "CONTROL" & spors$Round == 1]),
+  mean(spors$prevBS[spors$Bites==5 & spors$Treatment == "CONTROL" & spors$Round == 2]),
+  mean(spors$prevBS[spors$Bites==5 & spors$Treatment == "CONTROL" & spors$Round == 3]))
 
 ###Sporozoite intensity
 Sporozoite1a<-spors$Sporozoite1[spors$Round==1 & spors$Bites==1]
@@ -411,6 +448,13 @@ parasitATV25vector<-c(
   sporsATV25$Parasitemia[sporsATV25$Bites==10 & sporsATV25$Round == 1],
   sporsATV25$Parasitemia[sporsATV25$Bites==10 & sporsATV25$Round == 2],
   sporsATV25$Parasitemia[sporsATV25$Bites==10 & sporsATV25$Round == 3])
+parasitATV25vectorNAMES<-c(rep("ConB1G1",5),rep("ConB1G2",5),rep("ConB1G3",5),
+                       rep("ConB2G1",5),rep("ConB2G2",5),rep("ConB2G3",5),
+                       rep("ConB5G1",5),rep("ConB5G2",5),rep("ConB5G3",5),
+                       rep("ConB10G1",5),rep("ConB10G2",5),rep("ConB10G3",5))
+parasitMeanATV25<-data.frame(parasitATV25vector,parasitATV25vectorNAMES)
+te<-as.vector(tapply(parasitMeanATV25$parasitATV25vector,parasitMeanATV25$parasitATV25vectorNAMES,mean))
+ATV25PARAmean<-c(te[4:12],te[1:3])
 
 
 parasitemATV25<-parasitemUPPATV25<-parasitemLOWATV25<-numeric(12)
@@ -457,6 +501,13 @@ gametATV25vector<-c(
   sporsATV25$Gametocytemia[sporsATV25$Bites==10 & sporsATV25$Round == 1],
   sporsATV25$Gametocytemia[sporsATV25$Bites==10 & sporsATV25$Round == 2],
   sporsATV25$Gametocytemia[sporsATV25$Bites==10 & sporsATV25$Round == 3])
+gamATV25vectorNAMES<-c(rep("ConB1G1",5),rep("ConB1G2",5),rep("ConB1G3",5),
+                           rep("ConB2G1",5),rep("ConB2G2",5),rep("ConB2G3",5),
+                           rep("ConB5G1",5),rep("ConB5G2",5),rep("ConB5G3",5),
+                           rep("ConB10G1",5),rep("ConB10G2",5),rep("ConB10G3",5))
+gamMeanATV25<-data.frame(gametATV25vector,gamATV25vectorNAMES)
+te<-as.vector(tapply(gamMeanATV25$gametATV25vector,gamMeanATV25$gamATV25vectorNAMES,mean))
+ATV25GAMmean<-c(te[4:12],te[1:3])
 
 gametoATV25<-gametoUPPATV25<-gametoLOWATV25<-numeric(12)
 for (i in 1:12){
@@ -472,6 +523,15 @@ for (i in 1:12){
 
 ##PREVALENCE IN MICE
 sporsATV25$prevBS<-ifelse(sporsATV25$Parasitemia > 0 | sporsATV25$Gametocytemia > 0, 1, 0)
+spcount<-expand.grid(seq(1,nrow(sporsATV25),1))
+for(i in 1:nrow(sporsATV25)){
+  for (j in 6:15){
+    spcount[i,j-5]<-ifelse(is.na(sporsATV25[i,j])==FALSE,1,0)}}
+for (i in 1:length(sporsATV25$prevBS)){
+  sporsATV25$sporoCount[i]<-sum(spcount[i,])}
+for (i in 1:nrow(sporsATV25)){
+  sporsATV25$meanpermouse[i]<-sum(sporsATV25[i,6:15],na.rm=T)/sporsATV25$sporoCount[i]
+}
 
 PREV_ATV25<-cbind(
   sample(sporsATV25$prevBS[sporsATV25$Bites==1 & sporsATV25$Round == 1],5),
@@ -486,6 +546,20 @@ PREV_ATV25<-cbind(
   sample(sporsATV25$prevBS[sporsATV25$Bites==10 & sporsATV25$Round == 1],5),
   sample(sporsATV25$prevBS[sporsATV25$Bites==10 & sporsATV25$Round == 2],5),
   sample(sporsATV25$prevBS[sporsATV25$Bites==10 & sporsATV25$Round == 3],5))
+
+PREV_ATV25Mean<-c(
+  mean(sporsATV25$prevBS[sporsATV25$Bites==1 & sporsATV25$Round == 1]),
+  mean(sporsATV25$prevBS[sporsATV25$Bites==1 & sporsATV25$Round == 2]),
+  mean(sporsATV25$prevBS[sporsATV25$Bites==1 & sporsATV25$Round == 3]),
+  mean(sporsATV25$prevBS[sporsATV25$Bites==2 & sporsATV25$Round == 1]),
+  mean(sporsATV25$prevBS[sporsATV25$Bites==2 & sporsATV25$Round == 2]),
+  mean(sporsATV25$prevBS[sporsATV25$Bites==2 & sporsATV25$Round == 3]),
+  mean(sporsATV25$prevBS[sporsATV25$Bites==5 & sporsATV25$Round == 1]),
+  mean(sporsATV25$prevBS[sporsATV25$Bites==5 & sporsATV25$Round == 2]),
+  mean(sporsATV25$prevBS[sporsATV25$Bites==5 & sporsATV25$Round == 3]),
+  mean(sporsATV25$prevBS[sporsATV25$Bites==10 & sporsATV25$Round == 1]),
+  mean(sporsATV25$prevBS[sporsATV25$Bites==10 & sporsATV25$Round == 2]),
+  mean(sporsATV25$prevBS[sporsATV25$Bites==10 & sporsATV25$Round == 3]))
 
 ###Sporozoite intensity
 Sporozoite1a<-sporsATV25$Sporozoite1[sporsATV25$Round==1 & sporsATV25$Bites==1]
@@ -681,6 +755,13 @@ parasitATV50vector<-c(
   sporsATV50$Parasitemia[sporsATV50$Bites==10 & sporsATV50$Round == 1],
   sporsATV50$Parasitemia[sporsATV50$Bites==10 & sporsATV50$Round == 2],
   sporsATV50$Parasitemia[sporsATV50$Bites==10 & sporsATV50$Round == 3])
+parasitATV50vectorNAMES<-c(rep("ConB1G1",5),rep("ConB1G2",5),rep("ConB1G3",5),
+                           rep("ConB2G1",5),rep("ConB2G2",5),rep("ConB2G3",5),
+                           rep("ConB5G1",5),rep("ConB5G2",5),rep("ConB5G3",5),
+                           rep("ConB10G1",5),rep("ConB10G2",5),rep("ConB10G3",5))
+parasitMeanATV50<-data.frame(parasitATV50vector,parasitATV50vectorNAMES)
+te<-as.vector(tapply(parasitMeanATV50$parasitATV50vector,parasitMeanATV50$parasitATV50vectorNAMES,mean))
+ATV50PARAmean<-c(te[4:12],te[1:3])
 
 parasitemATV50<-parasitemUPPATV50<-parasitemLOWATV50<-numeric(12)
 for (i in 1:12){
@@ -726,6 +807,13 @@ gametATV50vector<-c(
   sporsATV50$Gametocytemia[sporsATV50$Bites==10 & sporsATV50$Round == 1],
   sporsATV50$Gametocytemia[sporsATV50$Bites==10 & sporsATV50$Round == 2],
   sporsATV50$Gametocytemia[sporsATV50$Bites==10 & sporsATV50$Round == 3])
+gamATV50vectorNAMES<-c(rep("ConB1G1",5),rep("ConB1G2",5),rep("ConB1G3",5),
+                       rep("ConB2G1",5),rep("ConB2G2",5),rep("ConB2G3",5),
+                       rep("ConB5G1",5),rep("ConB5G2",5),rep("ConB5G3",5),
+                       rep("ConB10G1",5),rep("ConB10G2",5),rep("ConB10G3",5))
+gamMeanATV50<-data.frame(gametATV50vector,gamATV50vectorNAMES)
+te<-as.vector(tapply(gamMeanATV50$gametATV50vector,gamMeanATV50$gamATV50vectorNAMES,mean))
+ATV50GAMmean<-c(te[4:12],te[1:3])
 
 gametoATV50<-gametoUPPATV50<-gametoLOWATV50<-numeric(12)
 for (i in 1:12){
@@ -741,6 +829,15 @@ for (i in 1:12){
 
 ##PREVALENCE IN MICE
 sporsATV50$prevBS<-ifelse(sporsATV50$Parasitemia > 0 | sporsATV50$Gametocytemia > 0, 1, 0)
+spcount<-expand.grid(seq(1,nrow(sporsATV50),1))
+for(i in 1:nrow(sporsATV50)){
+  for (j in 6:15){
+    spcount[i,j-5]<-ifelse(is.na(sporsATV50[i,j])==FALSE,1,0)}}
+for (i in 1:length(sporsATV50$prevBS)){
+  sporsATV50$sporoCount[i]<-sum(spcount[i,])}
+for (i in 1:nrow(sporsATV50)){
+  sporsATV50$meanpermouse[i]<-sum(sporsATV50[i,6:15],na.rm=T)/sporsATV50$sporoCount[i]
+}
 
 PREV_ATV50<-cbind(
   sample(sporsATV50$prevBS[sporsATV50$Bites==1 & sporsATV50$Round == 1],5),
@@ -755,6 +852,20 @@ PREV_ATV50<-cbind(
   sample(sporsATV50$prevBS[sporsATV50$Bites==10 & sporsATV50$Round == 1],5),
   sample(sporsATV50$prevBS[sporsATV50$Bites==10 & sporsATV50$Round == 2],5),
   sample(sporsATV50$prevBS[sporsATV50$Bites==10 & sporsATV50$Round == 3],5))
+
+PREV_ATV50mean<-c(
+  mean(sporsATV50$prevBS[sporsATV50$Bites==1 & sporsATV50$Round == 1]),
+  mean(sporsATV50$prevBS[sporsATV50$Bites==1 & sporsATV50$Round == 2]),
+  mean(sporsATV50$prevBS[sporsATV50$Bites==1 & sporsATV50$Round == 3]),
+  mean(sporsATV50$prevBS[sporsATV50$Bites==2 & sporsATV50$Round == 1]),
+  mean(sporsATV50$prevBS[sporsATV50$Bites==2 & sporsATV50$Round == 2]),
+  mean(sporsATV50$prevBS[sporsATV50$Bites==2 & sporsATV50$Round == 3]),
+  mean(sporsATV50$prevBS[sporsATV50$Bites==5 & sporsATV50$Round == 1]),
+  mean(sporsATV50$prevBS[sporsATV50$Bites==5 & sporsATV50$Round == 2]),
+  mean(sporsATV50$prevBS[sporsATV50$Bites==5 & sporsATV50$Round == 3]),
+  mean(sporsATV50$prevBS[sporsATV50$Bites==10 & sporsATV50$Round == 1]),
+  mean(sporsATV50$prevBS[sporsATV50$Bites==10 & sporsATV50$Round == 2]),
+  mean(sporsATV50$prevBS[sporsATV50$Bites==10 & sporsATV50$Round == 3]))
 
 ###Sporozoite intensity
 Sporozoite1a<-sporsATV50$Sporozoite1[sporsATV50$Round==1 & sporsATV50$Bites==1]
@@ -1277,22 +1388,29 @@ lines(c(0,mean(T3d11$Parasitemia[T3d11$Bites==1]),
          mean(T3d11$Parasitemia[T3d11$Bites==10]))~c(0,1,2,5,10),lty=3,pch=20)
 
 
-parasitT3d11vector<-cbind(
+parasitT3d11vector<-c(
   T3d11$Parasitemia[T3d11$Bites==1 & T3d11$Round == 1],
   T3d11$Parasitemia[T3d11$Bites==1 & T3d11$Round == 2],
   T3d11$Parasitemia[T3d11$Bites==1 & T3d11$Round == 3],
-  T3d11$Parasitemia[T3d11$Bites==1 & T3d11$Round == 4],
+  #T3d11$Parasitemia[T3d11$Bites==1 & T3d11$Round == 4],
   T3d11$Parasitemia[T3d11$Bites==2 & T3d11$Round == 1],
   T3d11$Parasitemia[T3d11$Bites==2 & T3d11$Round == 2],
   T3d11$Parasitemia[T3d11$Bites==2 & T3d11$Round == 3],
-  T3d11$Parasitemia[T3d11$Bites==2 & T3d11$Round == 4],
+  #T3d11$Parasitemia[T3d11$Bites==2 & T3d11$Round == 4],
   T3d11$Parasitemia[T3d11$Bites==5 & T3d11$Round == 1],
   T3d11$Parasitemia[T3d11$Bites==5 & T3d11$Round == 2],
   T3d11$Parasitemia[T3d11$Bites==5 & T3d11$Round == 3],
-  T3d11$Parasitemia[T3d11$Bites==5 & T3d11$Round == 4],
+  #T3d11$Parasitemia[T3d11$Bites==5 & T3d11$Round == 4],
   T3d11$Parasitemia[T3d11$Bites==10 & T3d11$Round == 1],
   T3d11$Parasitemia[T3d11$Bites==10 & T3d11$Round == 2],
   T3d11$Parasitemia[T3d11$Bites==10 & T3d11$Round == 3])
+parasitT3D11vectorNAMES<-c(rep("ConB1G1",5),rep("ConB1G2",5),rep("ConB1G3",5),
+                           rep("ConB2G1",5),rep("ConB2G2",5),rep("ConB2G3",5),
+                           rep("ConB5G1",5),rep("ConB5G2",5),rep("ConB5G3",5),
+                           rep("ConB10G1",5),rep("ConB10G2",5),rep("ConB10G3",5))
+parasitMeanT3D11<-data.frame(parasitT3d11vector,parasitT3D11vectorNAMES)
+te<-as.vector(tapply(parasitMeanT3D11$parasitT3d11vector,parasitMeanT3D11$parasitT3D11vectorNAMES,mean))
+T3d11PARAmean<-c(te[4:12],te[1:3])
 
 parasitemT3d11<-parasitemUPPT3d11<-parasitemLOWT3d11<-numeric(15)
 for (i in 1:15){
@@ -1332,18 +1450,25 @@ gametT3d11vector<-c(
   T3d11$Gametocytemia[T3d11$Bites==1 & T3d11$Round == 1],
   T3d11$Gametocytemia[T3d11$Bites==1 & T3d11$Round == 2],
   T3d11$Gametocytemia[T3d11$Bites==1 & T3d11$Round == 3],
-  T3d11$Gametocytemia[T3d11$Bites==1 & T3d11$Round == 4],
+  #T3d11$Gametocytemia[T3d11$Bites==1 & T3d11$Round == 4],
   T3d11$Gametocytemia[T3d11$Bites==2 & T3d11$Round == 1],
   T3d11$Gametocytemia[T3d11$Bites==2 & T3d11$Round == 2],
   T3d11$Gametocytemia[T3d11$Bites==2 & T3d11$Round == 3],
-  T3d11$Gametocytemia[T3d11$Bites==2 & T3d11$Round == 4],
+  #T3d11$Gametocytemia[T3d11$Bites==2 & T3d11$Round == 4],
   T3d11$Gametocytemia[T3d11$Bites==5 & T3d11$Round == 1],
   T3d11$Gametocytemia[T3d11$Bites==5 & T3d11$Round == 2],
   T3d11$Gametocytemia[T3d11$Bites==5 & T3d11$Round == 3],
-  T3d11$Gametocytemia[T3d11$Bites==5 & T3d11$Round == 4],
+  #T3d11$Gametocytemia[T3d11$Bites==5 & T3d11$Round == 4],
   T3d11$Gametocytemia[T3d11$Bites==10 & T3d11$Round == 1],
   T3d11$Gametocytemia[T3d11$Bites==10 & T3d11$Round == 2],
   T3d11$Gametocytemia[T3d11$Bites==10 & T3d11$Round == 3])
+gamT3D11vectorNAMES<-c(rep("ConB1G1",5),rep("ConB1G2",5),rep("ConB1G3",5),
+                       rep("ConB2G1",5),rep("ConB2G2",5),rep("ConB2G3",5),
+                       rep("ConB5G1",5),rep("ConB5G2",5),rep("ConB5G3",5),
+                       rep("ConB10G1",5),rep("ConB10G2",5),rep("ConB10G3",5))
+gamMeanT3D11<-data.frame(gametT3d11vector,gamT3D11vectorNAMES)
+te<-as.vector(tapply(gamMeanT3D11$gametT3d11vector,gamMeanT3D11$gamT3D11vectorNAMES,mean))
+T3D11GAMmean<-c(te[4:12],te[1:3])
 
 gametoT3d11<-gametoUPPT3d11<-gametoLOWT3d11<-numeric(15)
 for (i in 1:15){
@@ -1359,6 +1484,15 @@ for (i in 1:15){
 
 ##PREVALENCE IN MICE
 T3d11$prevBS<-ifelse(T3d11$Parasitemia > 0 | T3d11$Gametocytemia > 0, 1, 0)
+spcount<-expand.grid(seq(1,nrow(T3d11),1))
+for(i in 1:nrow(T3d11)){
+  for (j in 6:15){
+    spcount[i,j-5]<-ifelse(is.na(T3d11[i,j])==FALSE,1,0)}}
+for (i in 1:length(T3d11$prevBS)){
+  T3d11$sporoCount[i]<-sum(spcount[i,])}
+for (i in 1:nrow(T3d11)){
+  T3d11$meanpermouse[i]<-sum(T3d11[i,6:15],na.rm=T)/T3d11$sporoCount[i]
+}
 
 PREV_T3d11<-cbind(
   sample(T3d11$prevBS[T3d11$Bites==1 & T3d11$Round == 1],5),
@@ -1376,6 +1510,20 @@ PREV_T3d11<-cbind(
   sample(T3d11$prevBS[T3d11$Bites==10 & T3d11$Round == 1],5),
   sample(T3d11$prevBS[T3d11$Bites==10 & T3d11$Round == 2],5),
   sample(T3d11$prevBS[T3d11$Bites==10 & T3d11$Round == 3],5))
+
+PREV_T3d11mean<-c(
+  mean(T3d11$prevBS[T3d11$Bites==1 & T3d11$Round == 1]),
+  mean(T3d11$prevBS[T3d11$Bites==1 & T3d11$Round == 2]),
+  mean(T3d11$prevBS[T3d11$Bites==1 & T3d11$Round == 3]),
+  mean(T3d11$prevBS[T3d11$Bites==2 & T3d11$Round == 1]),
+  mean(T3d11$prevBS[T3d11$Bites==2 & T3d11$Round == 2]),
+  mean(T3d11$prevBS[T3d11$Bites==2 & T3d11$Round == 3]),
+  mean(T3d11$prevBS[T3d11$Bites==5 & T3d11$Round == 1]),
+  mean(T3d11$prevBS[T3d11$Bites==5 & T3d11$Round == 2]),
+  mean(T3d11$prevBS[T3d11$Bites==5 & T3d11$Round == 3]),
+  mean(T3d11$prevBS[T3d11$Bites==10 & T3d11$Round == 1]),
+  mean(T3d11$prevBS[T3d11$Bites==10 & T3d11$Round == 2]),
+  mean(T3d11$prevBS[T3d11$Bites==10 & T3d11$Round == 3]))
 
 ###Sporozoite intensity
 Sporozoite1a<-T3d11$Sporozoite1[T3d11$Round==1 & T3d11$Bites==1]
@@ -1482,9 +1630,9 @@ T3d11_C<-rbind(spb1r1,spb1r2,spb1r3,spb1r4,
                spb10r1,spb10r2,spb10r3)
 
 MEANspT3d11<-c(
-  mean(Sporozoite1a,na.rm=T),mean(Sporozoite1b,na.rm=T),mean(Sporozoite1c,na.rm=T),mean(Sporozoite1d,na.rm=T),
-  mean(Sporozoite2a,na.rm=T),mean(Sporozoite2b,na.rm=T),mean(Sporozoite2c,na.rm=T),mean(Sporozoite1d,na.rm=T),
-  mean(Sporozoite5a,na.rm=T),mean(Sporozoite5b,na.rm=T),mean(Sporozoite5c,na.rm=T),mean(Sporozoite1d,na.rm=T),
+  mean(Sporozoite1a,na.rm=T),mean(Sporozoite1b,na.rm=T),mean(Sporozoite1c,na.rm=T),#mean(Sporozoite1d,na.rm=T),
+  mean(Sporozoite2a,na.rm=T),mean(Sporozoite2b,na.rm=T),mean(Sporozoite2c,na.rm=T),#mean(Sporozoite1d,na.rm=T),
+  mean(Sporozoite5a,na.rm=T),mean(Sporozoite5b,na.rm=T),mean(Sporozoite5c,na.rm=T),#mean(Sporozoite1d,na.rm=T),
   mean(Sporozoite10a,na.rm=T),mean(Sporozoite10b,na.rm=T),mean(Sporozoite10c,na.rm=T))
 
 
@@ -1620,7 +1768,31 @@ MEANspt3d11and4B785<-c(
   mean(Sporozoite2a,na.rm=T),
   mean(Sporozoite5a,na.rm=T),
   mean(Sporozoite10a,na.rm=T))
+#############################################################################
+##
+## Summary variables
+##
+#############################################################################
+tempOOCYSTS<-c(meanoocystsC[1:3],meanoocystsC[5:7],meanoocystsC[9:11],  ##controls (bites 1,2,5 and G1-3)
+               meanoocysts_ATV25,                                       ##ATV25 (bites 1,2,5,10 and G1-3) 
+               meanoocysts_ATV50,                                       ##ATV50 (bites 1,2,5,10 and G1-3)
+               meanoocystsT3d11[1:3],meanoocystsT3d11[5:7],meanoocystsT3d11[9:11],meanoocystsT3d11[13:15])   ##T3d11 (bites 1,2,5,10 and G1-3)
+                                                                        ##other treatments so effective that data not used as zero)
+tempSPORS<-c(MEANsp[1:9], ##dropping 10 bites for controls as useless at the moment...
+             MEANspATV25,MEANspATV50,MEANspT3d11)
 
+tempPARA<-c(contPARAmean,ATV25PARAmean,ATV50PARAmean,T3d11PARAmean)
+
+
+tempGAMET<-c(contGAMETmean,ATV25GAMmean,ATV50GAMmean,T3D11GAMmean)
+
+tempPREV<-c(PREV_Cmean,PREV_ATV25Mean,PREV_ATV50mean,PREV_T3d11mean)
+
+##for mice
+infstat<-c(spors$prevBS,sporsATV25$prevBS,sporsATV50$prevBS,T3d11$prevBS)
+meansporoscore<-c(spors$meanpermouse,sporsATV25$meanpermouse,sporsATV50$meanpermouse,T3d11$meanpermouse)
+mouseparasitemia<-c(spors$Parasitemia,sporsATV25$Parasitemia,sporsATV50$Parasitemia,T3d11$Parasitemia)
+mousegametocytemia<-c(spors$Gametocytemia,sporsATV25$Gametocytemia,sporsATV50$Gametocytemia,T3d11$Gametocytemia)
 ###########################################################
 ## Does parasitemia correlate with gametocytemia?
 

@@ -1,11 +1,279 @@
 ##SUMMARY FIGURES
 
+##Functional relationship between mean oocysts, sporozoites and prevalence
+OOCYSTS<-c(meanoocysts, ##from MODELinstructionR
+           tempOOCYSTS) ##from DataPreparation for Stan.R
+SPOROS<-c(MEANsporig,tempSPORS)
+PARASITEMIA<-c(parasitORIGmean,parasitATV32mean,tempPARA)
+GAMETE<-c(gametORIGmean,tempGAMET)
+PREVALENCE<-c(PREVorigMean,tempPREV)
+group_names<-c("ConB2G1","ConB2G2","ConB2G3","ConB2G4","ConB3G1","ConB3G2","ConB3G3","ConB3G4",
+                "ConB4G1","ConB4G2","ConB4G3","ConB4G4","ConB5G1","ConB5G2","ConB5G3","ConB5G4",
+                "ATV32B2G1","ATV32B2G2","ATV32B2G3","ATV32B2G4","ATV32B3G1","ATV32B3G2","ATV32B3G3","ATV32B3G4",
+                "ATV32B4G1","ATV32B4G2","ATV32B4G3","ATV32B4G4","ATV32B5G1","ATV32B5G2","ATV32B5G3","ATV32B5G4",
+                "ConB1G1b","ConB1G2b","ConB1G3b","ConB2G1b","ConB2G2b","ConB2G3b",
+                "ConB5G1b","ConB5G2b","ConB5G3b",
+                "ATV25B1G1","ATV25B1G2","ATV25B1G3","ATV25B2G1","ATV25B2G2","ATV25B2G3",
+                "ATV25B5G1","ATV25B5G2","ATV25B5G3","ATV25B10G1","ATV25B10G2","ATV25B10G3",
+               "ATV50B1G1","ATV50B1G2","ATV50B1G3","ATV50B2G1","ATV50B2G2","ATV50B2G3",
+               "ATV50B5G1","ATV50B5G2","ATV50B5G3","ATV50B10G1","ATV50B10G2","ATV50B10G3",
+               "T3d11B1G1","T3d11B1G2","T3d11B1G3","T3d11B2G1","T3d11B2G2","T3d11B2G3",
+               "T3d11B5G1","T3d11B5G2","T3d11B5G3","T3d11B10G1","T3d11B10G2","T3d11B10G3")
+sumdat<-data.frame(group_names,OOCYSTS,SPOROS,PARASITEMIA,GAMETE,PREVALENCE)
+head(sumdat)
 
-##Functional relationship between oocysts, sporozoites and prevalence
 
-##First creat a data.frame for each life stage with all the matched data on each set of rounds / bites...
-oocysts<-read.csv("C:\\Users\\Ellie\\Documents\\Data Malaria\\Blagborough data Nat Comms\\oocystsbites2to5.csv",header=TRUE)
-head(oocysts)
+###########################################################################
+##
+## 1. Fit for the mean sporozoite scores to oocyst counts
+##                mean parasitemia
+##                mean gametocytemia
+##                mean prevalence
+##
+############################################################################
+par(mfrow=c(2,2))
+##
+###
+####
+###### Mean sporozoites
+####
+###
+##
+
+Summary_data1<-list(N=77,
+                    ooc_mean = c(OOCYSTS),
+                    spor_mean = c(SPOROS))
+
+              test1 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\ooc_to_spors_mod1.stan", data=Summary_data1,
+              iter=1000, chains=4)
+    
+    print(test1)
+    params = extract(test1);names(params)
+  
+plot(sumdat$SPOROS~sumdat$OOCYSTS,xlab="Mean oocysts",ylab="Mean sporozoite scores",ylim=c(0,4))
+
+    nc<-seq(0,max(OOCYSTS),1)
+    pred<-(mean(params$alpha[501:1000]) * nc^mean(params$sigma[501:1000]))/
+          (mean(params$delta[501:1000]) + mean(params$beta[501:1000]) * nc^mean(params$sigma[501:1000])) 
+
+lines(nc,pred,lwd=2,lty=2,col="red")
+
+#sat.binom<-function(p.vec){
+  
+  #a<-p.vec[1]
+#  a<-p.vec[1]
+#  b<-p.vec[2]
+#  c<-p.vec[3]
+#  d<-p.vec[4]
+  
+#  pred1<- (a * sumdat$OOCYSTS^c)/(d + b * sumdat$OOCYSTS^c)
+  
+#  data1<-sumdat$SPOROS
+  
+#  loglik1<- data1* log((pred1)+0.001)+(1-data1)*log(1-((pred1)-0.001))
+    
+#  -sum(loglik1,na.rm=T)
+#}
+#n.param<-4
+#satmod<-optim(c(0.9,0.2,0.6,4),sat.binom,method="L-BFGS-B",lower=c(0,0.2,0.5,4),upper=c(0.95,1,0.65,5))
+#satmod
+
+#nc<-seq(0,max(sumdat$OOCYSTS),1)
+#pred<-(satmod$par[1] * nc^satmod$par[3])/(satmod$par[4] + satmod$par[2] * nc^satmod$par[3]) 
+#lines(nc,pred,lwd=2,lty=3,col="red")
+
+
+##
+###
+####
+###### Mean Prevalence
+####
+###
+##
+
+Summary_data2<-list(N=77,
+                    ooc_mean = c(OOCYSTS),
+                    prev_mean = c(PREVALENCE))
+
+test2 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\ooc_to_prev_mod1.stan", data=Summary_data2,
+              iter=1000, chains=4)
+
+    print(test2)
+    params = extract(test2);names(params)
+
+plot(sumdat$PREVALENCE~sumdat$OOCYSTS,xlab="Mean oocysts",ylab="Mean prevalence in mice",ylim=c(0,1))
+
+pred2<-(mean(params$alpha[501:1000])/mean(params$beta[501:1000])) * 
+  exp(-exp(mean(params$delta[501:1000]) - mean(params$beta[501:1000]) * nc))
+  
+lines(nc,pred2,lwd=2,lty=2,col="blue")    
+
+#test2b <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\ooc_to_prev_mod2.stan", data=Summary_data2,
+#              iter=1000, chains=4)
+
+#print(test2b)
+#params = extract(test2b);names(params)
+
+#pred2b<-(mean(params$alpha[501:1000])*nc^mean(params$sigma[501:100]))/
+#  (mean(params$delta[501:1000]) + mean(params$beta[501:1000]) * nc^mean(params$sigma[501:100])) 
+#lines(nc,pred2b,lwd=2,lty=3,col="blue")
+
+##
+###
+####
+###### Mean parasitemia
+####
+###
+##
+
+Summary_data3<-list(N=77,
+                    ooc_mean = c(OOCYSTS),
+                    para_mean = c(PARASITEMIA))
+
+#test3 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\ooc_to_para_mod1.stan", data=Summary_data3,
+#              iter=1000, chains=4)
+
+#print(test3)
+#params = extract(test3);names(params)
+
+plot(sumdat$PARASITEMIA~sumdat$OOCYSTS,xlab="Mean oocysts",ylab="Mean parasitemia in mice")
+
+#pred3<-(mean(params$alpha[501:1000]) * nc^mean(params$sigma[501:1000]))/
+#  (mean(params$delta[501:1000]) + mean(params$beta[501:1000]) * nc^mean(params$sigma[501:1000]))
+#lines(nc,pred3)
+
+test3b <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\ooc_to_para_mod2.stan", data=Summary_data3,
+              iter=1000, chains=4)
+
+print(test3b) ##better (lower and less variable lp hence lower AIC)
+params = extract(test3b);names(params)
+
+pred3b<-(mean(params$alpha[501:1000])/mean(params$beta[501:1000])) * exp (-exp(mean(params$delta[501:1000]) - mean(params$beta[501:1000]) * nc)) 
+lines(nc,pred3b,lwd=2,lty=2,col="blue")
+
+##
+###
+####
+###### Mean gametocytemia
+####
+###
+##
+
+Summary_data4<-list(N=77,
+                    ooc_mean = c(sumdat$OOCYSTS),
+                    gama_mean = c(sumdat$GAMETE))
+
+test4 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\ooc_to_gama_mod1.stan", data=Summary_data4,
+              iter=1000, chains=4)
+
+print(test4) ##better
+params = extract(test4);names(params)
+
+plot(sumdat$GAMETE~sumdat$OOCYSTS,xlab="Mean oocysts",ylab="Mean gametocytemia in mice")
+
+pred4<-(mean(params$alpha[501:1000]) * nc^mean(params$sigma[501:1000]))/
+  (mean(params$delta[501:1000]) + mean(params$beta[501:1000]) * nc^mean(params$sigma[501:1000]))
+lines(nc,pred4,col="blue",lty=2,lwd=2)
+
+#test4b <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\ooc_to_gama_mod2.stan", data=Summary_data4,
+#               iter=1000, chains=4)
+
+#print(test4b) ##better (lower and less variable lp hence lower AIC)
+#params = extract(test4b);names(params)
+
+#pred4b<-(mean(params$alpha[501:1000])/mean(params$beta[501:1000])) * exp (-exp(mean(params$delta[501:1000]) - mean(params$beta[501:1000]) * nc)) 
+#lines(nc,pred4b,lwd=2,lty=3,col="blue")
+
+
+############################################################################
+##
+## 3. Fit for the prevalence of infection in mice to sporozoite scores from mosquito
+##            parasitemia
+##            gametocytemia
+## Now can use the individual moue data
+############################################################################
+
+
+###############################################################
+##
+##
+##Functional relationships for the mice individual infection status
+##
+##
+################################################################
+INFSTAT<-c(spors$prevBS, ##original data
+           infstat    )     ##new data controls, ATV25, 50 and T3d11
+MEANSPORPERMOUSE<-c(spors$meanpermouse,meansporoscore)
+PARASITEMIAPERMOUSE<-c(spors$Parasitemia,mouseparasitemia)
+GAMETOCYTPERMOUSE<-c(spors$Gametocytemia,mousegametocytemia)
+
+
+dat<-data.frame(MEANSPORPERMOUSE,INFSTAT,PARASITEMIAPERMOUSE,GAMETOCYTPERMOUSE)
+datb<-rbind(dat[1:331,],dat[365:658,])
+datc<-datb[complete.cases(datb),]
+dim(datc)
+
+############################################################################
+##
+## 4. Fit infection in mice to sporozoite scores from mosquito
+##
+## #Bernoulli distributions
+##
+############################################################################
+
+##
+###
+####
+###### Infection status
+####
+###
+##
+
+Summ_data1<-list(N=583,
+                inf = c(datc$INFSTAT),
+                spor_mean = c(datc$MEANSPORPERMOUSE))
+test5 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\spor_to_prev_mod1.stan", data=Summ_data1,
+                 iter=1000, chains=2) ###SLOWER!!More data points - only run 4 chains for final function
+
+print(test5)
+params = extract(test5);names(params)
+
+nc2<-seq(0,4,0.01)
+
+plot(dat$INFSTAT~dat$MEANSPORPERMOUSE)
+predprevs<-(mean(params$alpha) * nc2^mean(params$sigma))/(mean(params$delta) + mean(params$beta) * nc2^mean(params$sigma))
+lines(nc2,predprevs)
+
+#####################################
+######################START HERE TOMORROW!!!! TRY other functions dor the prevalence
+
+##
+###
+####
+###### Parasitemia
+####
+###
+##
+
+Summ_data1<-list(N=583,
+                 inf = c(datc$INFSTAT),
+                 spor_mean = c(datc$PARASITEMIAPERMOUSE))
+test5 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\spor_to_prev_mod1.stan", data=Summ_data1,
+              iter=1000, chains=2)
+
+print(test5)
+params = extract(test5);names(params)
+
+nc2<-seq(0,4,0.01)
+
+plot(dat$INFSTAT~dat$MEANSPORPERMOUSE)
+predprevs<-(mean(params$alpha) * nc2^mean(params$sigma))/(mean(params$delta) + mean(params$beta) * nc2^mean(params$sigma))
+lines(nc2,predprevs)
+
+
+
+
+
 
 datOOC<-data.frame(oocysts$oocystsbites2control[oocysts$round=="day41"][1:24],
                    oocysts$oocystsbites2control[oocysts$round=="day72"][1:24],
@@ -62,9 +330,9 @@ oocystsC2<-data.frame(sample(con$Oocyst[con$Bites == 1 & con$Round == 1],45),sam
                       sample(ATV25$Oocyst[ATV25$Bites == 5 & ATV25$Round == 1],45),sample(ATV25$Oocyst[ATV25$Bites == 5 & ATV25$Round == 2],45),
                       sample(ATV25$Oocyst[ATV25$Bites == 5 & ATV25$Round == 3],45))
 colnames(oocystsC2)<-c("ConB1G1b","ConB1G2b","ConB1G3b","ConB2G1b","ConB2G2b","ConB2G3b",
-                    "ConB5G1b","ConB5G2b","ConB5G3b",
-                    "ATV25B1G1","ATV25B1G2","ATV25B1G3","ATV25B2G1","ATV25B2G2","ATV25B2G3",
-                    "ATV25B5G1","ATV25B5G2","ATV25B5G3")
+                       "ConB5G1b","ConB5G2b","ConB5G3b",
+                       "ATV25B1G1","ATV25B1G2","ATV25B1G3","ATV25B2G1","ATV25B2G2","ATV25B2G3",
+                       "ATV25B5G1","ATV25B5G2","ATV25B5G3")
 
 d2 <- stack(datOOC);d3 <- stack(oocystsC2); datOOC2 <- rbind(d2,d3)
 as.vector(tapply(datOOC2$values,datOOC2$ind,mean))
@@ -180,115 +448,3 @@ d11<-stack(prev1);d12<-stack(prev2);datPREV<-rbind(d11,d12)
 
 PREVS<-as.vector(tapply(datPREV$values,datPREV$ind,mean))
 
-############################################################################
-##
-## 1. Fit for the mean distribution of sporozoite scores to oocyst counts
-##
-##
-##
-############################################################################
-
-plot(MEANsporig~meanoocysts,xlab="Mean oocysts",ylab="Mean sporozoite scores")
-meanoocysts2<-c(meanoocystsC[1:3],meanoocystsC[5:7],meanoocystsC[9:11])
-points(MEANsp[1:9]~meanoocysts2,pch=20)
-points(MEANspATV25[1:9]~meanoocysts_ATV25[1:9],pch=20,col="grey")
-
-
-sat.binom<-function(p.vec){
-  
-  #a<-p.vec[1]
-  a<-p.vec[1]
-  b<-p.vec[2]
-  c<-p.vec[3]
-  d<-p.vec[4]
-  
-  pred1<- (a * meanoocysts^c)/(d + b * meanoocysts^c)
-  pred2<- (a * meanoocysts2^c)/(d + b * meanoocysts2^c)
-  pred3<- (a * meanoocysts_ATV25[1:9]^c)/(d + b * meanoocysts_ATV25[1:9]^c)
-  
-  data1<-MEANsporig
-  data2<-MEANsp[1:9]
-  data3<-MEANspATV25[1:9]
-  
-  loglik1<- data1* log((pred1)+0.001)+(1-data1)*log(1-((pred1)-0.001))
-  loglik2<- data2* log((pred2)+0.001)+(1-data2)*log(1-((pred2)-0.001))
-  loglik3<- data3* log((pred3)+0.001)+(1-data3)*log(1-((pred3)-0.001))
-  
-  
-  -sum(loglik1,loglik2,loglik3,na.rm=T)
-}
-n.param<-4
-satmod<-optim(c(0.9,0.2,0.6,4),sat.binom,method="L-BFGS-B",lower=c(0,0.2,0.5,4),upper=c(0.95,1,0.65,5))
-satmod
-
-nc<-seq(0,max(meanoocysts),1)
-pred<-(satmod$par[1] * nc^satmod$par[3])/(satmod$par[4] + satmod$par[2] * nc^satmod$par[3]) 
-lines(nc,pred,lwd=2,lty=3,col="red")
-
-
-############################################################################
-##
-## 2. Fit for the prevalence of infection in mice to oocyst counts from mosquito
-##
-##
-##
-############################################################################
-par(mar=c(5,5,2,2))
-OOCYSTS<-c(meanoocysts,meanoocysts2,meanoocysts_ATV25[1:9])
-SPORS<-c(MEANsporig,MEANsp[1:9],MEANspATV25[1:9])
-plot(c(0,PREVS)~c(0,OOCYSTS),ylim=c(0,1),xlim=c(0,max(OOCYSTS)),xlab="Mean oocysts",ylab="Prevalence Mice")
-
-#log.binom<-function(p.vec){
-  
-#  a<-p.vec[1]
-#  b<-p.vec[2]
-  
-#  pred1a<- ((exp(a + b * c(0,OOCYSTS))) / (1 + exp(a + b * c(0,OOCYSTS))) ) 
-#  prev1<-c(0,PREVS)
-  
-#  loglik1a<- prev1* log((pred1a)+0.00001)+(1-prev1)*log(1-((pred1a)-0.00001))
-#  -sum(loglik1a,  na.rm=T)
-#}
-#n.param<-2
-#logmod<-optim(c(0,0),log.binom,method="L-BFGS-B",lower=c(-10,-10),upper=c(10,10))
-#logmod
-nc<-seq(0,max(OOCYSTS),1)
-#pred2<-((exp(logmod$par[1] + logmod$par[2] * nc)) / (1 + exp(logmod$par[1] + logmod$par[2] * nc)) ) 
-#lines(nc,pred2,lwd=2,lty=2,col="red")
-
-
-
-#gom.binom<-function(p.vec){
-#  a0<-p.vec[1]
-#  b0<-p.vec[2]
-#  b1<-p.vec[3]
-  
-#  pred1<- (a0 * exp (-b0 * b1 ^OOCYSTS)) 
-#  data1<- PREVS
-#  loglik1<- data1* log((pred1)+0.00001)+(1-data1)*log(1-((pred1)-0.00001))
-#  -sum(loglik1,na.rm=T)
-#}
-#n.param<-3
-#gommod<-optim(c(0.7266714, 1.3155981, 0.8747033),gom.binom,method="L-BFGS-B",lower=c(0.5,0.3,0.6),upper=c(0.9,2.3,0.89))
-#gommod
-
-#nc<-seq(0,max(OOCYSTS),1)
-#pred2a<-(gommod$par[1] * exp (-gommod$par[2] * gommod$par[3] ^  nc))
-#lines(nc,pred2a,lwd=2,lty=2,col="blue")
-
-gom.binom<-function(p.vec){
-  Z<-p.vec[1]
-  B<-p.vec[2]
-  G0<-p.vec[3]
-  
-  pred1<- (Z/B) * exp (-exp(G0 - B * OOCYSTS))
-  data1<- PREVS
-  loglik1<- data1* log((pred1)+0.00001)+(1-data1)*log(1-((pred1)-0.00001))
-  -sum(loglik1,na.rm=T)
-}
-n.param<-3
-gommod<-optim(c(0.25, 0.24, 0.9),gom.binom,method="L-BFGS-B",lower=c(0.10,0.15,0.6),upper=c(0.15,0.8,1))
-gommod
-
-pred2b<-(gommod$par[1]/gommod$par[2]) * exp (-exp(gommod$par[3] - gommod$par[2] * nc))
-lines(nc,pred2b,lwd=2,lty=3,col="blue")
