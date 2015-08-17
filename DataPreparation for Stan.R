@@ -59,70 +59,70 @@ meanoocystsC<-c(mean(con$Oocyst[con$Bites == 1 & con$Round == 1]),mean(con$Oocys
 
 
 ##1.1 Sporozoites, parasitemia and Gametocytemia 
-spors<-read.table("C:\\Users\\Ellie\\Documents\\Data Malaria\\ALL DATA RE_ARRANGED_20062015\\controls\\mouse3AddingCombinations.txt",header=TRUE)##Or do mouse3AddingCombinations
+spors2<-read.table("C:\\Users\\Ellie\\Documents\\Data Malaria\\ALL DATA RE_ARRANGED_20062015\\controls\\mouse3AddingCombinations.txt",header=TRUE)##Or do mouse3AddingCombinations
 
 ##MEAN PARASITEMIA IN MICE
 parasitC<-cbind(
-  sample(spors$Parasitemia[spors$Bites==1 & spors$Treatment == "CONTROL" & spors$Round == 1],5),
-  sample(spors$Parasitemia[spors$Bites==1 & spors$Treatment == "CONTROL" & spors$Round == 2],5),
-  sample(spors$Parasitemia[spors$Bites==1 & spors$Treatment == "CONTROL" & spors$Round == 3],5),
-  sample(spors$Parasitemia[spors$Bites==1 & spors$Treatment == "CONTROL" & spors$Round == 4],5),
+  sample(spors2$Parasitemia[spors2$Bites==1 & spors2$Treatment == "CONTROL" & spors2$Round == 1],5),
+  sample(spors2$Parasitemia[spors2$Bites==1 & spors2$Treatment == "CONTROL" & spors2$Round == 2],5),
+  sample(spors2$Parasitemia[spors2$Bites==1 & spors2$Treatment == "CONTROL" & spors2$Round == 3],5),
+  sample(spors2$Parasitemia[spors2$Bites==1 & spors2$Treatment == "CONTROL" & spors2$Round == 4],5),
   
-  sample(spors$Parasitemia[spors$Bites==2 & spors$Treatment == "CONTROL" & spors$Round == 1],5),
-  sample(spors$Parasitemia[spors$Bites==2 & spors$Treatment == "CONTROL" & spors$Round == 2],5),
-  sample(spors$Parasitemia[spors$Bites==2 & spors$Treatment == "CONTROL" & spors$Round == 3],5),
-  sample(spors$Parasitemia[spors$Bites==2 & spors$Treatment == "CONTROL" & spors$Round == 4],5),
+  sample(spors2$Parasitemia[spors2$Bites==2 & spors2$Treatment == "CONTROL" & spors2$Round == 1],5),
+  sample(spors2$Parasitemia[spors2$Bites==2 & spors2$Treatment == "CONTROL" & spors2$Round == 2],5),
+  sample(spors2$Parasitemia[spors2$Bites==2 & spors2$Treatment == "CONTROL" & spors2$Round == 3],5),
+  sample(spors2$Parasitemia[spors2$Bites==2 & spors2$Treatment == "CONTROL" & spors2$Round == 4],5),
 
-  sample(spors$Parasitemia[spors$Bites==5 & spors$Treatment == "CONTROL" & spors$Round == 1],5),
-  sample(spors$Parasitemia[spors$Bites==5 & spors$Treatment == "CONTROL" & spors$Round == 2],5),
-  sample(spors$Parasitemia[spors$Bites==5 & spors$Treatment == "CONTROL" & spors$Round == 3],5),
-  sample(spors$Parasitemia[spors$Bites==5 & spors$Treatment == "CONTROL" & spors$Round == 4],5),
+  sample(spors2$Parasitemia[spors2$Bites==5 & spors2$Treatment == "CONTROL" & spors2$Round == 1],5),
+  sample(spors2$Parasitemia[spors2$Bites==5 & spors2$Treatment == "CONTROL" & spors2$Round == 2],5),
+  sample(spors2$Parasitemia[spors2$Bites==5 & spors2$Treatment == "CONTROL" & spors2$Round == 3],5),
+  sample(spors2$Parasitemia[spors2$Bites==5 & spors2$Treatment == "CONTROL" & spors2$Round == 4],5),
   
-  sample(spors$Parasitemia[spors$Bites==10 & spors$Treatment == "CONTROL" & spors$Round == 1],5),
-  sample(spors$Parasitemia[spors$Bites==10 & spors$Treatment == "CONTROL" & spors$Round == 2],5),
-  sample(spors$Parasitemia[spors$Bites==10 & spors$Treatment == "CONTROL" & spors$Round == 3],5))
+  sample(spors2$Parasitemia[spors2$Bites==10 & spors2$Treatment == "CONTROL" & spors2$Round == 1],5),
+  sample(spors2$Parasitemia[spors2$Bites==10 & spors2$Treatment == "CONTROL" & spors2$Round == 2],5),
+  sample(spors2$Parasitemia[spors2$Bites==10 & spors2$Treatment == "CONTROL" & spors2$Round == 3],5))
 
 parasitC_REAL<-cbind(
-  c(spors$Parasitemia[spors$Bites==1 & spors$Treatment == "CONTROL" & spors$Round == 1],rep(0,20)),
-  c(spors$Parasitemia[spors$Bites==1 & spors$Treatment == "CONTROL" & spors$Round == 2],rep(0,20)),
-  c(spors$Parasitemia[spors$Bites==1 & spors$Treatment == "CONTROL" & spors$Round == 3],rep(0,20)),
-  spors$Parasitemia[spors$Bites==2 & spors$Treatment == "CONTROL" & spors$Round == 1],
-  c(spors$Parasitemia[spors$Bites==2 & spors$Treatment == "CONTROL" & spors$Round == 2],rep(0,20)),
-  c(spors$Parasitemia[spors$Bites==2 & spors$Treatment == "CONTROL" & spors$Round == 3],rep(0,20)),
-  spors$Parasitemia[spors$Bites==5 & spors$Treatment == "CONTROL" & spors$Round == 1],
-  c(spors$Parasitemia[spors$Bites==5 & spors$Treatment == "CONTROL" & spors$Round == 2],rep(0,20)),
-  c(spors$Parasitemia[spors$Bites==5 & spors$Treatment == "CONTROL" & spors$Round == 3],rep(0,20)),
-  c(spors$Parasitemia[spors$Bites==10 & spors$Treatment == "CONTROL" & spors$Round == 1],rep(0,7)),
-  c(spors$Parasitemia[spors$Bites==10 & spors$Treatment == "CONTROL" & spors$Round == 2],rep(0,25)),
-  c(spors$Parasitemia[spors$Bites==10 & spors$Treatment == "CONTROL" & spors$Round == 3],rep(0,25)))
+  c(spors2$Parasitemia[spors2$Bites==1 & spors2$Treatment == "CONTROL" & spors2$Round == 1],rep(0,20)),
+  c(spors2$Parasitemia[spors2$Bites==1 & spors2$Treatment == "CONTROL" & spors2$Round == 2],rep(0,20)),
+  c(spors2$Parasitemia[spors2$Bites==1 & spors2$Treatment == "CONTROL" & spors2$Round == 3],rep(0,20)),
+  spors2$Parasitemia[spors2$Bites==2 & spors2$Treatment == "CONTROL" & spors2$Round == 1],
+  c(spors2$Parasitemia[spors2$Bites==2 & spors2$Treatment == "CONTROL" & spors2$Round == 2],rep(0,20)),
+  c(spors2$Parasitemia[spors2$Bites==2 & spors2$Treatment == "CONTROL" & spors2$Round == 3],rep(0,20)),
+  spors2$Parasitemia[spors2$Bites==5 & spors2$Treatment == "CONTROL" & spors2$Round == 1],
+  c(spors2$Parasitemia[spors2$Bites==5 & spors2$Treatment == "CONTROL" & spors2$Round == 2],rep(0,20)),
+  c(spors2$Parasitemia[spors2$Bites==5 & spors2$Treatment == "CONTROL" & spors2$Round == 3],rep(0,20)),
+  c(spors2$Parasitemia[spors2$Bites==10 & spors2$Treatment == "CONTROL" & spors2$Round == 1],rep(0,7)),
+  c(spors2$Parasitemia[spors2$Bites==10 & spors2$Treatment == "CONTROL" & spors2$Round == 2],rep(0,25)),
+  c(spors2$Parasitemia[spors2$Bites==10 & spors2$Treatment == "CONTROL" & spors2$Round == 3],rep(0,25)))
 
 
 newparaC_REAL<-t(parasitC_REAL)
 
-plot(c(0,mean(spors$Parasitemia[spors$Bites==1 & spors$Treatment == "CONTROL"]),
-mean(spors$Parasitemia[spors$Bites==2 & spors$Treatment == "CONTROL"]),
-mean(spors$Parasitemia[spors$Bites==5 & spors$Treatment == "CONTROL"]),
-mean(spors$Parasitemia[spors$Bites==10 & spors$Treatment == "CONTROL"]))~c(0,1,2,5,10),
+plot(c(0,mean(spors2$Parasitemia[spors2$Bites==1 & spors2$Treatment == "CONTROL"]),
+mean(spors2$Parasitemia[spors2$Bites==2 & spors2$Treatment == "CONTROL"]),
+mean(spors2$Parasitemia[spors2$Bites==5 & spors2$Treatment == "CONTROL"]),
+mean(spors2$Parasitemia[spors2$Bites==10 & spors2$Treatment == "CONTROL"]))~c(0,1,2,5,10),
   ylim=c(0,10),xlim=c(0,10),
   ylab="Parasitemia (%)",xlab="Number of Bites")
-lines(c(0,mean(spors$Parasitemia[spors$Bites==1 & spors$Treatment == "CONTROL"]),
-       mean(spors$Parasitemia[spors$Bites==2 & spors$Treatment == "CONTROL"]),
-       mean(spors$Parasitemia[spors$Bites==5 & spors$Treatment == "CONTROL"]),
-       mean(spors$Parasitemia[spors$Bites==10 & spors$Treatment == "CONTROL"]))~c(0,1,2,5,10))
+lines(c(0,mean(spors2$Parasitemia[spors2$Bites==1 & spors2$Treatment == "CONTROL"]),
+       mean(spors2$Parasitemia[spors2$Bites==2 & spors2$Treatment == "CONTROL"]),
+       mean(spors2$Parasitemia[spors2$Bites==5 & spors2$Treatment == "CONTROL"]),
+       mean(spors2$Parasitemia[spors2$Bites==10 & spors2$Treatment == "CONTROL"]))~c(0,1,2,5,10))
 
 parasitCvector<-c(
-  spors$Parasitemia[spors$Bites==1 & spors$Treatment == "CONTROL" & spors$Round == 1],
-  spors$Parasitemia[spors$Bites==1 & spors$Treatment == "CONTROL" & spors$Round == 2],
-  spors$Parasitemia[spors$Bites==1 & spors$Treatment == "CONTROL" & spors$Round == 3],
-  spors$Parasitemia[spors$Bites==2 & spors$Treatment == "CONTROL" & spors$Round == 1],
-  spors$Parasitemia[spors$Bites==2 & spors$Treatment == "CONTROL" & spors$Round == 2],
-  spors$Parasitemia[spors$Bites==2 & spors$Treatment == "CONTROL" & spors$Round == 3],
-  spors$Parasitemia[spors$Bites==5 & spors$Treatment == "CONTROL" & spors$Round == 1],
-  spors$Parasitemia[spors$Bites==5 & spors$Treatment == "CONTROL" & spors$Round == 2],
-  spors$Parasitemia[spors$Bites==5 & spors$Treatment == "CONTROL" & spors$Round == 3],
-  spors$Parasitemia[spors$Bites==10 & spors$Treatment == "CONTROL" & spors$Round == 1],
-  spors$Parasitemia[spors$Bites==10 & spors$Treatment == "CONTROL" & spors$Round == 2],
-  spors$Parasitemia[spors$Bites==10 & spors$Treatment == "CONTROL" & spors$Round == 3])
+  spors2$Parasitemia[spors2$Bites==1 & spors2$Treatment == "CONTROL" & spors2$Round == 1],
+  spors2$Parasitemia[spors2$Bites==1 & spors2$Treatment == "CONTROL" & spors2$Round == 2],
+  spors2$Parasitemia[spors2$Bites==1 & spors2$Treatment == "CONTROL" & spors2$Round == 3],
+  spors2$Parasitemia[spors2$Bites==2 & spors2$Treatment == "CONTROL" & spors2$Round == 1],
+  spors2$Parasitemia[spors2$Bites==2 & spors2$Treatment == "CONTROL" & spors2$Round == 2],
+  spors2$Parasitemia[spors2$Bites==2 & spors2$Treatment == "CONTROL" & spors2$Round == 3],
+  spors2$Parasitemia[spors2$Bites==5 & spors2$Treatment == "CONTROL" & spors2$Round == 1],
+  spors2$Parasitemia[spors2$Bites==5 & spors2$Treatment == "CONTROL" & spors2$Round == 2],
+  spors2$Parasitemia[spors2$Bites==5 & spors2$Treatment == "CONTROL" & spors2$Round == 3],
+  spors2$Parasitemia[spors2$Bites==10 & spors2$Treatment == "CONTROL" & spors2$Round == 1],
+  spors2$Parasitemia[spors2$Bites==10 & spors2$Treatment == "CONTROL" & spors2$Round == 2],
+  spors2$Parasitemia[spors2$Bites==10 & spors2$Treatment == "CONTROL" & spors2$Round == 3])
 parasitCvectorNAMES<-c(rep("ConB1G1",10),rep("ConB1G2",10),rep("ConB1G3",10),
                        rep("ConB2G1",30),rep("ConB2G2",10),rep("ConB2G3",10),
                        rep("ConB5G1",30),rep("ConB5G2",10),rep("ConB5G3",10),
@@ -147,41 +147,41 @@ for (i in 1:15){
 
 ##MEAN Gametocytemia IN MICE
 gametC<-cbind(
-  sample(spors$Gametocytemia[spors$Bites==1 & spors$Round == 1],5),
-  sample(spors$Gametocytemia[spors$Bites==1 & spors$Round == 2],5),
-  sample(spors$Gametocytemia[spors$Bites==1 & spors$Round == 3],5),
-  sample(spors$Gametocytemia[spors$Bites==1 & spors$Round == 4],5),
+  sample(spors2$Gametocytemia[spors2$Bites==1 & spors2$Round == 1],5),
+  sample(spors2$Gametocytemia[spors2$Bites==1 & spors2$Round == 2],5),
+  sample(spors2$Gametocytemia[spors2$Bites==1 & spors2$Round == 3],5),
+  sample(spors2$Gametocytemia[spors2$Bites==1 & spors2$Round == 4],5),
   
-  sample(spors$Gametocytemia[spors$Bites==2 & spors$Round == 1],5),
-  sample(spors$Gametocytemia[spors$Bites==2 & spors$Round == 2],5),
-  sample(spors$Gametocytemia[spors$Bites==2 & spors$Round == 3],5),
-  sample(spors$Gametocytemia[spors$Bites==2 & spors$Round == 4],5),
+  sample(spors2$Gametocytemia[spors2$Bites==2 & spors2$Round == 1],5),
+  sample(spors2$Gametocytemia[spors2$Bites==2 & spors2$Round == 2],5),
+  sample(spors2$Gametocytemia[spors2$Bites==2 & spors2$Round == 3],5),
+  sample(spors2$Gametocytemia[spors2$Bites==2 & spors2$Round == 4],5),
   
-  sample(spors$Gametocytemia[spors$Bites==5 & spors$Round == 1],5),
-  sample(spors$Gametocytemia[spors$Bites==5 & spors$Round == 2],5),
-  sample(spors$Gametocytemia[spors$Bites==5 & spors$Round == 3],5),
-  sample(spors$Gametocytemia[spors$Bites==5 & spors$Round == 4],5),
+  sample(spors2$Gametocytemia[spors2$Bites==5 & spors2$Round == 1],5),
+  sample(spors2$Gametocytemia[spors2$Bites==5 & spors2$Round == 2],5),
+  sample(spors2$Gametocytemia[spors2$Bites==5 & spors2$Round == 3],5),
+  sample(spors2$Gametocytemia[spors2$Bites==5 & spors2$Round == 4],5),
   
-  sample(spors$Gametocytemia[spors$Bites==10 & spors$Round == 1],5),
-  sample(spors$Gametocytemia[spors$Bites==10 & spors$Round == 2],5),
-  sample(spors$Gametocytemia[spors$Bites==10 & spors$Round == 3],5))
+  sample(spors2$Gametocytemia[spors2$Bites==10 & spors2$Round == 1],5),
+  sample(spors2$Gametocytemia[spors2$Bites==10 & spors2$Round == 2],5),
+  sample(spors2$Gametocytemia[spors2$Bites==10 & spors2$Round == 3],5))
 
 gametCvector<-c(
-  spors$Gametocytemia[spors$Bites==1 & spors$Round == 1],
-  spors$Gametocytemia[spors$Bites==1 & spors$Round == 2],
-  spors$Gametocytemia[spors$Bites==1 & spors$Round == 3],
-  #spors$Gametocytemia[spors$Bites==1 & spors$Round == 4],
-  spors$Gametocytemia[spors$Bites==2 & spors$Round == 1],
-  spors$Gametocytemia[spors$Bites==2 & spors$Round == 2],
-  spors$Gametocytemia[spors$Bites==2 & spors$Round == 3],
-  #spors$Gametocytemia[spors$Bites==2 & spors$Round == 4],
-  spors$Gametocytemia[spors$Bites==5 & spors$Round == 1],
-  spors$Gametocytemia[spors$Bites==5 & spors$Round == 2],
-  spors$Gametocytemia[spors$Bites==5 & spors$Round == 3],
-  #spors$Gametocytemia[spors$Bites==5 & spors$Round == 4],
-  spors$Gametocytemia[spors$Bites==10 & spors$Round == 1],
-  spors$Gametocytemia[spors$Bites==10 & spors$Round == 2],
-  spors$Gametocytemia[spors$Bites==10 & spors$Round == 3])
+  spors2$Gametocytemia[spors2$Bites==1 & spors2$Round == 1],
+  spors2$Gametocytemia[spors2$Bites==1 & spors2$Round == 2],
+  spors2$Gametocytemia[spors2$Bites==1 & spors2$Round == 3],
+  #spors2$Gametocytemia[spors2$Bites==1 & spors2$Round == 4],
+  spors2$Gametocytemia[spors2$Bites==2 & spors2$Round == 1],
+  spors2$Gametocytemia[spors2$Bites==2 & spors2$Round == 2],
+  spors2$Gametocytemia[spors2$Bites==2 & spors2$Round == 3],
+  #spors2$Gametocytemia[spors2$Bites==2 & spors2$Round == 4],
+  spors2$Gametocytemia[spors2$Bites==5 & spors2$Round == 1],
+  spors2$Gametocytemia[spors2$Bites==5 & spors2$Round == 2],
+  spors2$Gametocytemia[spors2$Bites==5 & spors2$Round == 3],
+  #spors2$Gametocytemia[spors2$Bites==5 & spors2$Round == 4],
+  spors2$Gametocytemia[spors2$Bites==10 & spors2$Round == 1],
+  spors2$Gametocytemia[spors2$Bites==10 & spors2$Round == 2],
+  spors2$Gametocytemia[spors2$Bites==10 & spors2$Round == 3])
 gametCvectorNAMES<-c(rep("ConB1G1",10),rep("ConB1G2",10),rep("ConB1G3",10),
                        rep("ConB2G1",30),rep("ConB2G2",10),rep("ConB2G3",10),
                        rep("ConB5G1",30),rep("ConB5G2",10),rep("ConB5G3",10),
@@ -204,145 +204,145 @@ for (i in 1:15){
 }
 
 ##PREVALENCE IN MICE
-spors$prevBS<-ifelse(spors$Parasitemia > 0 | spors$Gametocytemia > 0, 1, 0)
+spors2$prevBS<-ifelse(spors2$Parasitemia > 0 | spors2$Gametocytemia > 0, 1, 0)
 spcount<-expand.grid(seq(1,218,1))
 for(i in 1:218){
 for (j in 7:16){
-spcount[i,j-6]<-ifelse(is.na(spors[i,j])==FALSE,1,0)}}
-for (i in 1:length(spors$prevBS)){
-  spors$sporoCount[i]<-sum(spcount[i,])}
-for (i in 1:length(spors$prevBS)){
-spors$meanpermouse[i]<-sum(spors[i,7:16],na.rm=T)/spors$sporoCount[i]
+spcount[i,j-6]<-ifelse(is.na(spors2[i,j])==FALSE,1,0)}}
+for (i in 1:length(spors2$prevBS)){
+  spors2$sporoCount[i]<-sum(spcount[i,])}
+for (i in 1:length(spors2$prevBS)){
+spors2$meanpermouse[i]<-sum(spors2[i,7:16],na.rm=T)/spors2$sporoCount[i]
 }
 
 PREV_C<-cbind(
-  sample(spors$prevBS[spors$Bites==1 & spors$Treatment == "CONTROL" & spors$Round == 1],5),
-  sample(spors$prevBS[spors$Bites==1 & spors$Treatment == "CONTROL" & spors$Round == 2],5),
-  sample(spors$prevBS[spors$Bites==1 & spors$Treatment == "CONTROL" & spors$Round == 3],5),
-  sample(spors$prevBS[spors$Bites==1 & spors$Treatment == "CONTROL" & spors$Round == 4],5),
-  sample(spors$prevBS[spors$Bites==2 & spors$Treatment == "CONTROL" & spors$Round == 1],5),
-  sample(spors$prevBS[spors$Bites==2 & spors$Treatment == "CONTROL" & spors$Round == 2],5),
-  sample(spors$prevBS[spors$Bites==2 & spors$Treatment == "CONTROL" & spors$Round == 3],5),
-  sample(spors$prevBS[spors$Bites==2 & spors$Treatment == "CONTROL" & spors$Round == 4],5),
-  sample(spors$prevBS[spors$Bites==5 & spors$Treatment == "CONTROL" & spors$Round == 1],5),
-  sample(spors$prevBS[spors$Bites==5 & spors$Treatment == "CONTROL" & spors$Round == 2],5),
-  sample(spors$prevBS[spors$Bites==5 & spors$Treatment == "CONTROL" & spors$Round == 3],5),
-  sample(spors$prevBS[spors$Bites==5 & spors$Treatment == "CONTROL" & spors$Round == 4],5),
-  sample(spors$prevBS[spors$Bites==10 & spors$Treatment == "CONTROL" & spors$Round == 1],5),
-  sample(spors$prevBS[spors$Bites==10 & spors$Treatment == "CONTROL" & spors$Round == 2],5),
-  sample(spors$prevBS[spors$Bites==10 & spors$Treatment == "CONTROL" & spors$Round == 3],5))
+  sample(spors2$prevBS[spors2$Bites==1 & spors2$Treatment == "CONTROL" & spors2$Round == 1],5),
+  sample(spors2$prevBS[spors2$Bites==1 & spors2$Treatment == "CONTROL" & spors2$Round == 2],5),
+  sample(spors2$prevBS[spors2$Bites==1 & spors2$Treatment == "CONTROL" & spors2$Round == 3],5),
+  sample(spors2$prevBS[spors2$Bites==1 & spors2$Treatment == "CONTROL" & spors2$Round == 4],5),
+  sample(spors2$prevBS[spors2$Bites==2 & spors2$Treatment == "CONTROL" & spors2$Round == 1],5),
+  sample(spors2$prevBS[spors2$Bites==2 & spors2$Treatment == "CONTROL" & spors2$Round == 2],5),
+  sample(spors2$prevBS[spors2$Bites==2 & spors2$Treatment == "CONTROL" & spors2$Round == 3],5),
+  sample(spors2$prevBS[spors2$Bites==2 & spors2$Treatment == "CONTROL" & spors2$Round == 4],5),
+  sample(spors2$prevBS[spors2$Bites==5 & spors2$Treatment == "CONTROL" & spors2$Round == 1],5),
+  sample(spors2$prevBS[spors2$Bites==5 & spors2$Treatment == "CONTROL" & spors2$Round == 2],5),
+  sample(spors2$prevBS[spors2$Bites==5 & spors2$Treatment == "CONTROL" & spors2$Round == 3],5),
+  sample(spors2$prevBS[spors2$Bites==5 & spors2$Treatment == "CONTROL" & spors2$Round == 4],5),
+  sample(spors2$prevBS[spors2$Bites==10 & spors2$Treatment == "CONTROL" & spors2$Round == 1],5),
+  sample(spors2$prevBS[spors2$Bites==10 & spors2$Treatment == "CONTROL" & spors2$Round == 2],5),
+  sample(spors2$prevBS[spors2$Bites==10 & spors2$Treatment == "CONTROL" & spors2$Round == 3],5))
 
 PREV_Cmean<-c(
-  mean(spors$prevBS[spors$Bites==1 & spors$Treatment == "CONTROL" & spors$Round == 1]),
-  mean(spors$prevBS[spors$Bites==1 & spors$Treatment == "CONTROL" & spors$Round == 2]),
-  mean(spors$prevBS[spors$Bites==1 & spors$Treatment == "CONTROL" & spors$Round == 3]),
-  mean(spors$prevBS[spors$Bites==2 & spors$Treatment == "CONTROL" & spors$Round == 1]),
-  mean(spors$prevBS[spors$Bites==2 & spors$Treatment == "CONTROL" & spors$Round == 2]),
-  mean(spors$prevBS[spors$Bites==2 & spors$Treatment == "CONTROL" & spors$Round == 3]),
-  mean(spors$prevBS[spors$Bites==5 & spors$Treatment == "CONTROL" & spors$Round == 1]),
-  mean(spors$prevBS[spors$Bites==5 & spors$Treatment == "CONTROL" & spors$Round == 2]),
-  mean(spors$prevBS[spors$Bites==5 & spors$Treatment == "CONTROL" & spors$Round == 3]))
+  mean(spors2$prevBS[spors2$Bites==1 & spors2$Treatment == "CONTROL" & spors2$Round == 1]),
+  mean(spors2$prevBS[spors2$Bites==1 & spors2$Treatment == "CONTROL" & spors2$Round == 2]),
+  mean(spors2$prevBS[spors2$Bites==1 & spors2$Treatment == "CONTROL" & spors2$Round == 3]),
+  mean(spors2$prevBS[spors2$Bites==2 & spors2$Treatment == "CONTROL" & spors2$Round == 1]),
+  mean(spors2$prevBS[spors2$Bites==2 & spors2$Treatment == "CONTROL" & spors2$Round == 2]),
+  mean(spors2$prevBS[spors2$Bites==2 & spors2$Treatment == "CONTROL" & spors2$Round == 3]),
+  mean(spors2$prevBS[spors2$Bites==5 & spors2$Treatment == "CONTROL" & spors2$Round == 1]),
+  mean(spors2$prevBS[spors2$Bites==5 & spors2$Treatment == "CONTROL" & spors2$Round == 2]),
+  mean(spors2$prevBS[spors2$Bites==5 & spors2$Treatment == "CONTROL" & spors2$Round == 3]))
 
 ###Sporozoite intensity
-Sporozoite1a<-spors$Sporozoite1[spors$Round==1 & spors$Bites==1]
+Sporozoite1a<-spors2$Sporozoite1[spors2$Round==1 & spors2$Bites==1]
 spb1r1<-c(length(Sporozoite1a[Sporozoite1a==0]),length(Sporozoite1a[Sporozoite1a==1]),
           length(Sporozoite1a[Sporozoite1a==2]),length(Sporozoite1a[Sporozoite1a==3]),
           length(Sporozoite1a[Sporozoite1a==4]))
 
-Sporozoite2a<-c(spors$Sporozoite1[spors$Round==1 & spors$Bites==2],spors$Sporozoite2[spors$Round==1 & spors$Bites==2])
+Sporozoite2a<-c(spors2$Sporozoite1[spors2$Round==1 & spors2$Bites==2],spors2$Sporozoite2[spors2$Round==1 & spors2$Bites==2])
 spb2r1<-c(length(Sporozoite2a[Sporozoite2a==0]),length(Sporozoite2a[Sporozoite2a==1]),
           length(Sporozoite2a[Sporozoite2a==2]),length(Sporozoite2a[Sporozoite2a==3]),
           length(Sporozoite2a[Sporozoite2a==4]))
 
-Sporozoite5a<-c(spors$Sporozoite1[spors$Round==1 & spors$Bites==5],spors$Sporozoite2[spors$Round==1 & spors$Bites==5],
-                spors$Sporozoite3[spors$Round==1 & spors$Bites==5],spors$Sporozoite4[spors$Round==1 & spors$Bites==5],
-                spors$Sporozoite5[spors$Round==1 & spors$Bites==5])
+Sporozoite5a<-c(spors2$Sporozoite1[spors2$Round==1 & spors2$Bites==5],spors2$Sporozoite2[spors2$Round==1 & spors2$Bites==5],
+                spors2$Sporozoite3[spors2$Round==1 & spors2$Bites==5],spors2$Sporozoite4[spors2$Round==1 & spors2$Bites==5],
+                spors2$Sporozoite5[spors2$Round==1 & spors2$Bites==5])
 spb5r1<-c(length(Sporozoite5a[Sporozoite5a==0]),length(Sporozoite5a[Sporozoite5a==1]),
           length(Sporozoite5a[Sporozoite5a==2]),length(Sporozoite5a[Sporozoite5a==3]),
           length(Sporozoite5a[Sporozoite5a==4]))
 
-Sporozoite10a<-c(spors$Sporozoite1[spors$Round==1 & spors$Bites==10],spors$Sporozoite2[spors$Round==1 & spors$Bites==10],
-                 spors$Sporozoite3[spors$Round==1 & spors$Bites==10],spors$Sporozoite4[spors$Round==1 & spors$Bites==10],
-                 spors$Sporozoite5[spors$Round==1 & spors$Bites==10],spors$Sporozoite6[spors$Round==1 & spors$Bites==10],
-                 spors$Sporozoite7[spors$Round==1 & spors$Bites==10],spors$Sporozoite8[spors$Round==1 & spors$Bites==10],
-                 spors$Sporozoite9[spors$Round==1 & spors$Bites==10],spors$Sporozoite10[spors$Round==1 & spors$Bites==10])
+Sporozoite10a<-c(spors2$Sporozoite1[spors2$Round==1 & spors2$Bites==10],spors2$Sporozoite2[spors2$Round==1 & spors2$Bites==10],
+                 spors2$Sporozoite3[spors2$Round==1 & spors2$Bites==10],spors2$Sporozoite4[spors2$Round==1 & spors2$Bites==10],
+                 spors2$Sporozoite5[spors2$Round==1 & spors2$Bites==10],spors2$Sporozoite6[spors2$Round==1 & spors2$Bites==10],
+                 spors2$Sporozoite7[spors2$Round==1 & spors2$Bites==10],spors2$Sporozoite8[spors2$Round==1 & spors2$Bites==10],
+                 spors2$Sporozoite9[spors2$Round==1 & spors2$Bites==10],spors2$Sporozoite10[spors2$Round==1 & spors2$Bites==10])
 spb10r1<-c(length(Sporozoite10a[Sporozoite10a==0]),length(Sporozoite10a[Sporozoite10a==1]),
           length(Sporozoite10a[Sporozoite10a==2]),length(Sporozoite10a[Sporozoite10a==3]),
           length(Sporozoite10a[Sporozoite10a==4]))
 
 
-Sporozoite1b<-spors$Sporozoite1[spors$Round==2 & spors$Bites==1]
+Sporozoite1b<-spors2$Sporozoite1[spors2$Round==2 & spors2$Bites==1]
 spb1r2<-c(length(Sporozoite1b[Sporozoite1b==0]),length(Sporozoite1b[Sporozoite1b==1]),
           length(Sporozoite1b[Sporozoite1b==2]),length(Sporozoite1b[Sporozoite1b==3]),
           length(Sporozoite1b[Sporozoite1b==4]))
 
-Sporozoite2b<-c(spors$Sporozoite1[spors$Round==2 & spors$Bites==2],spors$Sporozoite2[spors$Round==2 & spors$Bites==2])
+Sporozoite2b<-c(spors2$Sporozoite1[spors2$Round==2 & spors2$Bites==2],spors2$Sporozoite2[spors2$Round==2 & spors2$Bites==2])
 spb2r2<-c(length(Sporozoite2b[Sporozoite2b==0]),length(Sporozoite2b[Sporozoite2b==1]),
           length(Sporozoite2b[Sporozoite2b==2]),length(Sporozoite2b[Sporozoite2b==3]),
           length(Sporozoite2b[Sporozoite2b==4]))
 
-Sporozoite5b<-c(spors$Sporozoite1[spors$Round==2 & spors$Bites==5],spors$Sporozoite2[spors$Round==2 & spors$Bites==5],
-                spors$Sporozoite3[spors$Round==2 & spors$Bites==5],spors$Sporozoite4[spors$Round==2 & spors$Bites==5],
-                spors$Sporozoite5[spors$Round==2 & spors$Bites==5])
+Sporozoite5b<-c(spors2$Sporozoite1[spors2$Round==2 & spors2$Bites==5],spors2$Sporozoite2[spors2$Round==2 & spors2$Bites==5],
+                spors2$Sporozoite3[spors2$Round==2 & spors2$Bites==5],spors2$Sporozoite4[spors2$Round==2 & spors2$Bites==5],
+                spors2$Sporozoite5[spors2$Round==2 & spors2$Bites==5])
 spb5r2<-c(length(Sporozoite5b[Sporozoite5b==0]),length(Sporozoite5b[Sporozoite5b==1]),
           length(Sporozoite5b[Sporozoite5b==2]),length(Sporozoite5b[Sporozoite5b==3]),
           length(Sporozoite5b[Sporozoite5b==4]))
 
-Sporozoite10b<-c(spors$Sporozoite1[spors$Round==2 & spors$Bites==10],spors$Sporozoite2[spors$Round==2 & spors$Bites==10],
-                 spors$Sporozoite3[spors$Round==2 & spors$Bites==10],spors$Sporozoite4[spors$Round==2 & spors$Bites==10],
-                 spors$Sporozoite5[spors$Round==2 & spors$Bites==10],spors$Sporozoite6[spors$Round==2 & spors$Bites==10],
-                 spors$Sporozoite7[spors$Round==2 & spors$Bites==10],spors$Sporozoite8[spors$Round==2 & spors$Bites==10],
-                 spors$Sporozoite9[spors$Round==2 & spors$Bites==10],spors$Sporozoite10[spors$Round==2 & spors$Bites==10])
+Sporozoite10b<-c(spors2$Sporozoite1[spors2$Round==2 & spors2$Bites==10],spors2$Sporozoite2[spors2$Round==2 & spors2$Bites==10],
+                 spors2$Sporozoite3[spors2$Round==2 & spors2$Bites==10],spors2$Sporozoite4[spors2$Round==2 & spors2$Bites==10],
+                 spors2$Sporozoite5[spors2$Round==2 & spors2$Bites==10],spors2$Sporozoite6[spors2$Round==2 & spors2$Bites==10],
+                 spors2$Sporozoite7[spors2$Round==2 & spors2$Bites==10],spors2$Sporozoite8[spors2$Round==2 & spors2$Bites==10],
+                 spors2$Sporozoite9[spors2$Round==2 & spors2$Bites==10],spors2$Sporozoite10[spors2$Round==2 & spors2$Bites==10])
 spb10r2<-c(length(Sporozoite10b[Sporozoite10b==0]),length(Sporozoite10b[Sporozoite10b==1]),
            length(Sporozoite10b[Sporozoite10b==2]),length(Sporozoite10b[Sporozoite10b==3]),
            length(Sporozoite10b[Sporozoite10b==4]))
 
 
-Sporozoite1c<-spors$Sporozoite1[spors$Round==3 & spors$Bites==1]
+Sporozoite1c<-spors2$Sporozoite1[spors2$Round==3 & spors2$Bites==1]
 spb1r3<-c(length(Sporozoite1c[Sporozoite1c==0]),length(Sporozoite1c[Sporozoite1c==1]),
           length(Sporozoite1c[Sporozoite1c==2]),length(Sporozoite1c[Sporozoite1c==3]),
           length(Sporozoite1c[Sporozoite1c==4]))
 
-Sporozoite2c<-c(spors$Sporozoite1[spors$Round==3 & spors$Bites==2],spors$Sporozoite2[spors$Round==3 & spors$Bites==2])
+Sporozoite2c<-c(spors2$Sporozoite1[spors2$Round==3 & spors2$Bites==2],spors2$Sporozoite2[spors2$Round==3 & spors2$Bites==2])
 spb2r3<-c(length(Sporozoite2c[Sporozoite2c==0]),length(Sporozoite2c[Sporozoite2c==1]),
           length(Sporozoite2c[Sporozoite2c==2]),length(Sporozoite2c[Sporozoite2c==3]),
           length(Sporozoite2c[Sporozoite2c==4]))
 
-Sporozoite5c<-c(spors$Sporozoite1[spors$Round==3 & spors$Bites==5],spors$Sporozoite2[spors$Round==3 & spors$Bites==5],
-                spors$Sporozoite3[spors$Round==3 & spors$Bites==5],spors$Sporozoite4[spors$Round==3 & spors$Bites==5],
-                spors$Sporozoite5[spors$Round==3 & spors$Bites==5])
+Sporozoite5c<-c(spors2$Sporozoite1[spors2$Round==3 & spors2$Bites==5],spors2$Sporozoite2[spors2$Round==3 & spors2$Bites==5],
+                spors2$Sporozoite3[spors2$Round==3 & spors2$Bites==5],spors2$Sporozoite4[spors2$Round==3 & spors2$Bites==5],
+                spors2$Sporozoite5[spors2$Round==3 & spors2$Bites==5])
 spb5r3<-c(length(Sporozoite5c[Sporozoite5c==0]),length(Sporozoite5c[Sporozoite5c==1]),
           length(Sporozoite5c[Sporozoite5c==2]),length(Sporozoite5c[Sporozoite5c==3]),
           length(Sporozoite5c[Sporozoite5c==4]))
 
-Sporozoite10c<-c(spors$Sporozoite1[spors$Round==3 & spors$Bites==10],spors$Sporozoite2[spors$Round==3 & spors$Bites==10],
-                 spors$Sporozoite3[spors$Round==3 & spors$Bites==10],spors$Sporozoite4[spors$Round==3 & spors$Bites==10],
-                 spors$Sporozoite5[spors$Round==3 & spors$Bites==10],spors$Sporozoite6[spors$Round==3 & spors$Bites==10],
-                 spors$Sporozoite7[spors$Round==3 & spors$Bites==10],spors$Sporozoite8[spors$Round==3 & spors$Bites==10],
-                 spors$Sporozoite9[spors$Round==3 & spors$Bites==10],spors$Sporozoite10[spors$Round==3 & spors$Bites==10])
+Sporozoite10c<-c(spors2$Sporozoite1[spors2$Round==3 & spors2$Bites==10],spors2$Sporozoite2[spors2$Round==3 & spors2$Bites==10],
+                 spors2$Sporozoite3[spors2$Round==3 & spors2$Bites==10],spors2$Sporozoite4[spors2$Round==3 & spors2$Bites==10],
+                 spors2$Sporozoite5[spors2$Round==3 & spors2$Bites==10],spors2$Sporozoite6[spors2$Round==3 & spors2$Bites==10],
+                 spors2$Sporozoite7[spors2$Round==3 & spors2$Bites==10],spors2$Sporozoite8[spors2$Round==3 & spors2$Bites==10],
+                 spors2$Sporozoite9[spors2$Round==3 & spors2$Bites==10],spors2$Sporozoite10[spors2$Round==3 & spors2$Bites==10])
 spb10r3<-c(length(Sporozoite10c[Sporozoite10c==0]),length(Sporozoite10c[Sporozoite10c==1]),
            length(Sporozoite10c[Sporozoite10c==2]),length(Sporozoite10c[Sporozoite10c==3]),
            length(Sporozoite10c[Sporozoite10c==4]))
 
 
-Sporozoite1d<-spors$Sporozoite1[spors$Round==4 & spors$Bites==1]
+Sporozoite1d<-spors2$Sporozoite1[spors2$Round==4 & spors2$Bites==1]
 spb1r4<-c(length(Sporozoite1d[Sporozoite1d==0]),length(Sporozoite1d[Sporozoite1d==1]),
           length(Sporozoite1d[Sporozoite1d==2]),length(Sporozoite1d[Sporozoite1d==3]),
           length(Sporozoite1d[Sporozoite1d==4]))
 
-Sporozoite2d<-c(spors$Sporozoite1[spors$Round==4 & spors$Bites==2],spors$Sporozoite2[spors$Round==4 & spors$Bites==2])
+Sporozoite2d<-c(spors2$Sporozoite1[spors2$Round==4 & spors2$Bites==2],spors2$Sporozoite2[spors2$Round==4 & spors2$Bites==2])
 spb2r4<-c(length(Sporozoite2d[Sporozoite2d==0]),length(Sporozoite2d[Sporozoite2d==1]),
           length(Sporozoite2d[Sporozoite2d==2]),length(Sporozoite2d[Sporozoite2d==3]),
           length(Sporozoite2d[Sporozoite2d==4]))
 
-Sporozoite5d<-c(spors$Sporozoite1[spors$Round==4 & spors$Bites==5],spors$Sporozoite2[spors$Round==4 & spors$Bites==5],
-                spors$Sporozoite3[spors$Round==4 & spors$Bites==5],spors$Sporozoite4[spors$Round==4 & spors$Bites==5],
-                spors$Sporozoite5[spors$Round==4 & spors$Bites==5])
+Sporozoite5d<-c(spors2$Sporozoite1[spors2$Round==4 & spors2$Bites==5],spors2$Sporozoite2[spors2$Round==4 & spors2$Bites==5],
+                spors2$Sporozoite3[spors2$Round==4 & spors2$Bites==5],spors2$Sporozoite4[spors2$Round==4 & spors2$Bites==5],
+                spors2$Sporozoite5[spors2$Round==4 & spors2$Bites==5])
 spb5r4<-c(length(Sporozoite5d[Sporozoite5d==0]),length(Sporozoite5d[Sporozoite5d==1]),
           length(Sporozoite5d[Sporozoite5d==2]),length(Sporozoite5d[Sporozoite5d==3]),
           length(Sporozoite5d[Sporozoite5d==4]))
 
-spors_C<-rbind(spb1r1,spb1r2,spb1r3,
+spors2_C<-rbind(spb1r1,spb1r2,spb1r3,
                spb2r1,spb2r2,spb2r3,
                spb5r1,spb5r2,spb5r3,
                spb10r1,spb10r2,spb10r3)
@@ -359,15 +359,15 @@ MEANsp2<-c(
   mean(c(Sporozoite5a,Sporozoite5b,Sporozoite5c),na.rm=T),
   mean(c(Sporozoite10a,Sporozoite10b,Sporozoite10c),na.rm=T))
 
-plot(c(0,mean(spors$Parasitemia[spors$Bites==1 & spors$Treatment == "CONTROL"]),
-       mean(spors$Parasitemia[spors$Bites==2 & spors$Treatment == "CONTROL"]),
-       mean(spors$Parasitemia[spors$Bites==5 & spors$Treatment == "CONTROL"]),
-       mean(spors$Parasitemia[spors$Bites==10 & spors$Treatment == "CONTROL"]))~c(0,MEANsp2),
+plot(c(0,mean(spors2$Parasitemia[spors2$Bites==1 & spors2$Treatment == "CONTROL"]),
+       mean(spors2$Parasitemia[spors2$Bites==2 & spors2$Treatment == "CONTROL"]),
+       mean(spors2$Parasitemia[spors2$Bites==5 & spors2$Treatment == "CONTROL"]),
+       mean(spors2$Parasitemia[spors2$Bites==10 & spors2$Treatment == "CONTROL"]))~c(0,MEANsp2),
      ylab="Parasitemia (%)", xlab="Sporozoite Score",ylim=c(0,15),xlim=c(0,3))
-abline(lm(c(0,mean(spors$Parasitemia[spors$Bites==1 & spors$Treatment == "CONTROL"]),
-   mean(spors$Parasitemia[spors$Bites==2 & spors$Treatment == "CONTROL"]),
-   mean(spors$Parasitemia[spors$Bites==5 & spors$Treatment == "CONTROL"]),
-   mean(spors$Parasitemia[spors$Bites==10 & spors$Treatment == "CONTROL"]))~c(0,MEANsp2)+0),lty=1)
+abline(lm(c(0,mean(spors2$Parasitemia[spors2$Bites==1 & spors2$Treatment == "CONTROL"]),
+   mean(spors2$Parasitemia[spors2$Bites==2 & spors2$Treatment == "CONTROL"]),
+   mean(spors2$Parasitemia[spors2$Bites==5 & spors2$Treatment == "CONTROL"]),
+   mean(spors2$Parasitemia[spors2$Bites==10 & spors2$Treatment == "CONTROL"]))~c(0,MEANsp2)+0),lty=1)
 
 ##################################
 ## 1.2 ATV-25%
@@ -1789,10 +1789,10 @@ tempGAMET<-c(contGAMETmean,ATV25GAMmean,ATV50GAMmean,T3D11GAMmean)
 tempPREV<-c(PREV_Cmean,PREV_ATV25Mean,PREV_ATV50mean,PREV_T3d11mean)
 
 ##for mice
-infstat<-c(spors$prevBS,sporsATV25$prevBS,sporsATV50$prevBS,T3d11$prevBS)
-meansporoscore<-c(spors$meanpermouse,sporsATV25$meanpermouse,sporsATV50$meanpermouse,T3d11$meanpermouse)
-mouseparasitemia<-c(spors$Parasitemia,sporsATV25$Parasitemia,sporsATV50$Parasitemia,T3d11$Parasitemia)
-mousegametocytemia<-c(spors$Gametocytemia,sporsATV25$Gametocytemia,sporsATV50$Gametocytemia,T3d11$Gametocytemia)
+infstat<-c(spors2$prevBS,sporsATV25$prevBS,sporsATV50$prevBS,T3d11$prevBS)
+meansporoscore<-c(spors2$meanpermouse,sporsATV25$meanpermouse,sporsATV50$meanpermouse,T3d11$meanpermouse)
+mouseparasitemia<-c(spors2$Parasitemia,sporsATV25$Parasitemia,sporsATV50$Parasitemia,T3d11$Parasitemia)
+mousegametocytemia<-c(spors2$Gametocytemia,sporsATV25$Gametocytemia,sporsATV50$Gametocytemia,T3d11$Gametocytemia)
 ###########################################################
 ## Does parasitemia correlate with gametocytemia?
 

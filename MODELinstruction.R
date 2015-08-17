@@ -59,14 +59,19 @@ prevooc1<-c(sum(sum(prevoocC[1:24])/24,sum(prevoocC[25:48])/24,sum(prevoocC[49:7
             sum(sum(prevoocC[193:216])/24,sum(prevoocC[217:240])/24,sum(prevoocC[241:264])/24,sum(prevoocC[265:288])/24)/4,
             sum(sum(prevoocC[289:312])/24,sum(prevoocC[313:336])/24,sum(prevoocC[337:360])/24,sum(prevoocC[360:384])/24)/4)
 
-freqoocC<-numeric(length(unique(oocystsC)))
-oocystsC2<-sort(unique(oocystsC))
-for (i in 1:length(oocystsC2)){ 
-  freqoocC[i]<-sum(ifelse(oocystsC==unique(oocystsC2)[i],1,0))}
-probNooc<-numeric(length(freqoocC))
-for (j in 1:length(freqoocC)){
-probNooc[j]<-freqoocC[j]/sum(freqoocC)}
-freqdistoocC<-data.frame(oocystsC2,probNooc);colnames(freqdistoocC)[1]<-"Nooc"
+prevooc1ConGens<-c(sum(prevoocC[1:24])/24,sum(prevoocC[25:48])/24,sum(prevoocC[49:72])/24,sum(prevoocC[73:96])/24,
+            sum(prevoocC[97:120])/24,sum(prevoocC[121:144])/24,sum(prevoocC[145:168])/24,sum(prevoocC[169:192])/24,
+            sum(prevoocC[193:216])/24,sum(prevoocC[217:240])/24,sum(prevoocC[241:264])/24,sum(prevoocC[265:288])/24,
+            sum(prevoocC[289:312])/24,sum(prevoocC[313:336])/24,sum(prevoocC[337:360])/24,sum(prevoocC[360:384])/24)
+
+#freqoocC<-numeric(length(unique(oocystsC)))
+#oocystsC2<-sort(unique(oocystsC))
+#for (i in 1:length(oocystsC2)){ 
+#  freqoocC[i]<-sum(ifelse(oocystsC==unique(oocystsC2)[i],1,0))}
+#probNooc<-numeric(length(freqoocC))
+#for (j in 1:length(freqoocC)){
+#probNooc[j]<-freqoocC[j]/sum(freqoocC)}
+#freqdistoocC<-data.frame(oocystsC2,probNooc);colnames(freqdistoocC)[1]<-"Nooc"
 
 oocystsT<-c(#oocysts$oocystsbites1atv[oocysts$round=="day41"][1:24],
             #oocysts$oocystsbites1atv[oocysts$round=="day72"][1:24],
@@ -94,16 +99,22 @@ prevoocT<-c(sum(sum(prevoocT[1:24])/24,sum(prevoocT[25:48])/24,sum(prevoocT[49:7
             sum(sum(prevoocT[97:120])/24,sum(prevoocT[121:144])/24,sum(prevoocT[145:168])/24,sum(prevoocT[169:192])/24)/4,
             sum(sum(prevoocT[193:216])/24,sum(prevoocT[217:240])/24,sum(prevoocT[241:264])/24,sum(prevoocT[265:288])/24)/4,
             sum(sum(prevoocT[289:312])/24,sum(prevoocT[313:336])/24,sum(prevoocT[337:360])/24,sum(prevoocT[360:384])/24)/4)
+
+prevoocTgens<-c(sum(prevoocT[1:24])/24,sum(prevoocT[25:48])/24,sum(prevoocT[49:72])/24,sum(prevoocT[73:96])/24,
+            sum(prevoocT[97:120])/24,sum(prevoocT[121:144])/24,sum(prevoocT[145:168])/24,sum(prevoocT[169:192])/24,
+            sum(prevoocT[193:216])/24,sum(prevoocT[217:240])/24,sum(prevoocT[241:264])/24,sum(prevoocT[265:288])/24,
+            sum(prevoocT[289:312])/24,sum(prevoocT[313:336])/24,sum(prevoocT[337:360])/24,sum(prevoocT[360:384])/24)
+
 EffOoc<-(prevooc1-prevoocT)/prevooc1
 
-freqoocT<-numeric(length(unique(oocystsT)))
-oocystsT2<-sort(unique(oocystsT))
-for (i in 1:length(oocystsT2)){ 
-  freqoocT[i]<-sum(ifelse(oocystsT==unique(oocystsT2)[i],1,0))}
-probNoocT<-numeric(length(freqoocT))
-for (j in 1:length(freqoocT)){
-  probNoocT[j]<-freqoocT[j]/sum(freqoocT)}
-freqdistoocT<-data.frame(oocystsT2,probNoocT);colnames(freqdistoocT)[1]<-"NoocT"
+#freqoocT<-numeric(length(unique(oocystsT)))
+#oocystsT2<-sort(unique(oocystsT))
+#for (i in 1:length(oocystsT2)){ 
+#  freqoocT[i]<-sum(ifelse(oocystsT==unique(oocystsT2)[i],1,0))}
+#probNoocT<-numeric(length(freqoocT))
+#for (j in 1:length(freqoocT)){
+#  probNoocT[j]<-freqoocT[j]/sum(freqoocT)}
+#freqdistoocT<-data.frame(oocystsT2,probNoocT);colnames(freqdistoocT)[1]<-"NoocT"
 
 meanoocysts<-c(#mean(oocysts$oocystsbites1control[oocysts$round=="day41"],na.rm=TRUE),
                #mean(oocysts$oocystsbites1control[oocysts$round=="day72"],na.rm=TRUE),
@@ -149,21 +160,21 @@ meanoocysts<-c(#mean(oocysts$oocystsbites1control[oocysts$round=="day41"],na.rm=
 
 spors<-read.csv("C:\\Users\\Ellie\\Documents\\Data Malaria\\Blagborough data Nat Comms\\sporozoites.csv",header=TRUE)
 spors$prevBS<-ifelse(spors$Parasitemia > 0 | spors$Gametocytemia > 0, 1, 0)
-spors[10:40,]
+#spors[10:40,]
 ##MEAN PARASITEMIA IN MICE
-mean(spors$Parasitemia[spors$Treatment == 0 & spors$Bites == 5])
-mean(spors$Parasitemia[spors$Treatment == 1 & spors$Bites == 5])
-summary(aov(c(spors$Parasitemia[spors$Treatment == 0 & spors$Bites == 4],spors$Parasitemia[spors$Treatment == 1 & spors$Bites == 4])~c(rep("Con",100),rep("Treat",100))))
-summary(aov(c(spors$Parasitemia[spors$Treatment == 0 & spors$Bites == 1],spors$Parasitemia[spors$Treatment == 1 & spors$Bites == 1])~c(rep("Con",20),rep("Treat",20))))
-summary(aov(c(spors$Parasitemia[spors$Treatment == 0 & spors$Bites == 2],spors$Parasitemia[spors$Treatment == 1 & spors$Bites == 2])~c(rep("Con",20),rep("Treat",20))))
-summary(aov(c(spors$Parasitemia[spors$Treatment == 0 & spors$Bites == 3],spors$Parasitemia[spors$Treatment == 1 & spors$Bites == 3])~c(rep("Con",20),rep("Treat",20))))
-summary(aov(c(spors$Parasitemia[spors$Treatment == 0 & spors$Bites == 4],spors$Parasitemia[spors$Treatment == 1 & spors$Bites == 4])~c(rep("Con",20),rep("Treat",20))))
-summary(aov(c(spors$Parasitemia[spors$Treatment == 0 & spors$Bites == 5],spors$Parasitemia[spors$Treatment == 1 & spors$Bites == 5])~c(rep("Con",20),rep("Treat",20))))
+#mean(spors$Parasitemia[spors$Treatment == 0 & spors$Bites == 5])
+#mean(spors$Parasitemia[spors$Treatment == 1 & spors$Bites == 5])
+#summary(aov(c(spors$Parasitemia[spors$Treatment == 0 & spors$Bites == 4],spors$Parasitemia[spors$Treatment == 1 & spors$Bites == 4])~c(rep("Con",100),rep("Treat",100))))
+#summary(aov(c(spors$Parasitemia[spors$Treatment == 0 & spors$Bites == 1],spors$Parasitemia[spors$Treatment == 1 & spors$Bites == 1])~c(rep("Con",20),rep("Treat",20))))
+#summary(aov(c(spors$Parasitemia[spors$Treatment == 0 & spors$Bites == 2],spors$Parasitemia[spors$Treatment == 1 & spors$Bites == 2])~c(rep("Con",20),rep("Treat",20))))
+#summary(aov(c(spors$Parasitemia[spors$Treatment == 0 & spors$Bites == 3],spors$Parasitemia[spors$Treatment == 1 & spors$Bites == 3])~c(rep("Con",20),rep("Treat",20))))
+#summary(aov(c(spors$Parasitemia[spors$Treatment == 0 & spors$Bites == 4],spors$Parasitemia[spors$Treatment == 1 & spors$Bites == 4])~c(rep("Con",20),rep("Treat",20))))
+#summary(aov(c(spors$Parasitemia[spors$Treatment == 0 & spors$Bites == 5],spors$Parasitemia[spors$Treatment == 1 & spors$Bites == 5])~c(rep("Con",20),rep("Treat",20))))
 
-summary(aov(c(spors$Parasitemia[spors$Treatment == 0 & spors$Bites == 4 & spors$Round == 1],spors$Parasitemia[spors$Treatment == 1 & spors$Bites == 4 & spors$Round == 1])~c(rep("Con",5),rep("Treat",5))))
-summary(aov(c(spors$Parasitemia[spors$Treatment == 0 & spors$Bites == 4 & spors$Round == 2],spors$Parasitemia[spors$Treatment == 1 & spors$Bites == 4 & spors$Round == 2])~c(rep("Con",5),rep("Treat",5))))
-summary(aov(c(spors$Parasitemia[spors$Treatment == 0 & spors$Bites == 4 & spors$Round == 3],spors$Parasitemia[spors$Treatment == 1 & spors$Bites == 4 & spors$Round == 3])~c(rep("Con",5),rep("Treat",5))))
-summary(aov(c(spors$Parasitemia[spors$Treatment == 0 & spors$Bites == 4 & spors$Round == 4],spors$Parasitemia[spors$Treatment == 1 & spors$Bites == 4 & spors$Round == 4])~c(rep("Con",5),rep("Treat",5))))
+#summary(aov(c(spors$Parasitemia[spors$Treatment == 0 & spors$Bites == 4 & spors$Round == 1],spors$Parasitemia[spors$Treatment == 1 & spors$Bites == 4 & spors$Round == 1])~c(rep("Con",5),rep("Treat",5))))
+#summary(aov(c(spors$Parasitemia[spors$Treatment == 0 & spors$Bites == 4 & spors$Round == 2],spors$Parasitemia[spors$Treatment == 1 & spors$Bites == 4 & spors$Round == 2])~c(rep("Con",5),rep("Treat",5))))
+#summary(aov(c(spors$Parasitemia[spors$Treatment == 0 & spors$Bites == 4 & spors$Round == 3],spors$Parasitemia[spors$Treatment == 1 & spors$Bites == 4 & spors$Round == 3])~c(rep("Con",5),rep("Treat",5))))
+#summary(aov(c(spors$Parasitemia[spors$Treatment == 0 & spors$Bites == 4 & spors$Round == 4],spors$Parasitemia[spors$Treatment == 1 & spors$Bites == 4 & spors$Round == 4])~c(rep("Con",5),rep("Treat",5))))
 
 
 parasit<-cbind(
@@ -202,18 +213,18 @@ parasitORIGmean<-c(
   mean(spors$Parasitemia[spors$Bites==5 & spors$Treatment == 0 & spors$Round == 3]),
   mean(spors$Parasitemia[spors$Bites==5 & spors$Treatment == 0 & spors$Round == 4]))
 
-parasitem<-parasitemUPP<-parasitemLOW<-numeric(16)
-for (i in 1:16){
-  parasitem[i]<-sum(parasit[,i])/5
+#parasitem<-parasitemUPP<-parasitemLOW<-numeric(16)
+#for (i in 1:16){
+#  parasitem[i]<-sum(parasit[,i])/5
   
-a<-numeric(10000)
-for (j in 1:10000){ 
+#a<-numeric(10000)
+#for (j in 1:10000){ 
 
-  a[j]<-mean(sample(parasit[,i],4))
-  parasitemUPP[i]<-quantile(a,0.975)
-  parasitemLOW[i]<-quantile(a,0.025)
-}
-}
+#  a[j]<-mean(sample(parasit[,i],4))
+#  parasitemUPP[i]<-quantile(a,0.975)
+#  parasitemLOW[i]<-quantile(a,0.025)
+#}
+#}
 parasitT<-cbind(
   spors$Parasitemia[spors$Bites==2 & spors$Treatment == 1 & spors$Round == 1],
   spors$Parasitemia[spors$Bites==2 & spors$Treatment == 1 & spors$Round == 2],
@@ -248,18 +259,18 @@ parasitATV32mean<-c(
   mean(spors$Parasitemia[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 2]),
   mean(spors$Parasitemia[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 3]),
   mean(spors$Parasitemia[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 4]))
-parasitemT<-parasitemTUPP<-parasitemTLOW<-numeric(16)
-for (i in 1:16){
-  parasitemT[i]<-sum(parasitT[,i])/5
+#parasitemT<-parasitemTUPP<-parasitemTLOW<-numeric(16)
+#for (i in 1:16){
+#  parasitemT[i]<-sum(parasitT[,i])/5
   
-  a<-numeric(10000)
-  for (j in 1:10000){ 
+#  a<-numeric(10000)
+#  for (j in 1:10000){ 
     
-    a[j]<-mean(sample(parasitT[,i],4))
-    parasitemTUPP[i]<-quantile(a,0.975)
-    parasitemTLOW[i]<-quantile(a,0.025)
-  }
-}
+#    a[j]<-mean(sample(parasitT[,i],4))
+#    parasitemTUPP[i]<-quantile(a,0.975)
+#    parasitemTLOW[i]<-quantile(a,0.025)
+#  }
+#}
 ##MEAN Gametocytemia IN MICE
 gametC<-cbind(
   spors$Gametocytemia[spors$Bites==2 & spors$Treatment == 0 & spors$Round == 1],
@@ -278,17 +289,17 @@ gametC<-cbind(
   spors$Gametocytemia[spors$Bites==5 & spors$Treatment == 0 & spors$Round == 2],
   spors$Gametocytemia[spors$Bites==5 & spors$Treatment == 0 & spors$Round == 3],
   spors$Gametocytemia[spors$Bites==5 & spors$Treatment == 0 & spors$Round == 4])
-gametoC<-gametoCUPP<-gametoCLOW<-numeric(16)
-for (i in 1:16){
-  gametoC[i]<-sum(gametC[,i])/5
-a<-numeric(10000)
-for (j in 1:10000){ 
+#gametoC<-gametoCUPP<-gametoCLOW<-numeric(16)
+#for (i in 1:16){
+#  gametoC[i]<-sum(gametC[,i])/5
+#a<-numeric(10000)
+#for (j in 1:10000){ 
   
-  a[j]<-mean(sample(gametC[,i],4))
-  gametoCUPP[i]<-quantile(a,0.975)
-  gametoCLOW[i]<-quantile(a,0.025)
-}
-}
+#  a[j]<-mean(sample(gametC[,i],4))
+#  gametoCUPP[i]<-quantile(a,0.975)
+#  gametoCLOW[i]<-quantile(a,0.025)
+#}
+#}
 gametT<-cbind(
   spors$Gametocytemia[spors$Bites==2 & spors$Treatment == 1 & spors$Round == 1],
   spors$Gametocytemia[spors$Bites==2 & spors$Treatment == 1 & spors$Round == 2],
@@ -342,17 +353,17 @@ mean(spors$Gametocytemia[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 
 mean(spors$Gametocytemia[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 3]),
 mean(spors$Gametocytemia[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 4]))
 
-gametoT<-gametoTUPP<-gametoTLOW<-numeric(16)
-for (i in 1:16){
-  gametoT[i]<-sum(gametT[,i])/5
-  a<-numeric(10000)
-  for (j in 1:10000){ 
+#gametoT<-gametoTUPP<-gametoTLOW<-numeric(16)
+#for (i in 1:16){
+#  gametoT[i]<-sum(gametT[,i])/5
+#  a<-numeric(10000)
+#  for (j in 1:10000){ 
     
-    a[j]<-mean(sample(gametT[,i],4))
-    gametoTUPP[i]<-quantile(a,0.975)
-    gametoTLOW[i]<-quantile(a,0.025)
-  }
-}
+#    a[j]<-mean(sample(gametT[,i],4))
+#    gametoTUPP[i]<-quantile(a,0.975)
+#    gametoTLOW[i]<-quantile(a,0.025)
+#  }
+#}
 ##PREVALENCE IN MICE
 spcount<-expand.grid(seq(1,nrow(spors),1))
 for(i in 1:nrow(spors)){
@@ -360,7 +371,7 @@ for(i in 1:nrow(spors)){
     spcount[i,j-5]<-ifelse(is.na(spors[i,j])==FALSE,1,0)}}
 for (i in 1:length(spors$prevBS)){
   spors$sporoCount[i]<-sum(spcount[i,])}
-for (i in 1:nrow(T3d11)){
+for (i in 1:nrow(spors)){
   spors$meanpermouse[i]<-sum(spors[i,6:10],na.rm=T)/spors$sporoCount[i]
 }
 

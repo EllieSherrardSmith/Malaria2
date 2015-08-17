@@ -11,5 +11,5 @@ real<lower=0, upper=6> delta;
 }
 model {
 for (n in 1:N)
-inf[n] ~ bernoulli_logit((alpha * pow(spor_mean[n],sigma))/(delta + beta * pow(spor_mean[n],sigma)));
+inf[n] ~ bernoulli_logit((alpha/beta) * exp(-exp(delta - beta * spor_mean[n])));
 }

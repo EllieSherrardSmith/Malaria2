@@ -16,7 +16,7 @@ theme_set(theme_bw(24))
 
 ##Model Output (ATV only)
 data<-read.csv("C:\\Users\\Ellie\\Documents\\Data Malaria\\MODEL OUTPUT\\DataFromModel1.csv")
-data<-read.csv("D:\\ModelATV_Prev output.csv")
+#data<-read.csv("D:\\ModelATV_Prev output.csv")
 names(data) 
 data<-data[501:1000,]##dropping burn in so keeping the appropriate data
 
@@ -26,16 +26,18 @@ data<-data[501:1000,]##dropping burn in so keeping the appropriate data
 ##
 ############################
 
-##Probability of mosquito infection
+##Probability of infection
 #Controls
-sum(data[,224:235])/(500*12)
+sum(data[,252:267])/(500*16) ##mouse
+sum(data[,284:299])/(500*16) ##mosquito
 
 #Treatment
-sum(data[,236:247])/(500*12)
+sum(data[,268:283])/(500*16)
+sum(data[,300:315])/(500*16)
 
 #Efficacy on mosquito infection
-(sum(data[,224:235])/(500*12)-sum(data[,236:247])/(500*12))/sum(data[,224:235])/(500*12)
-data$sim_s_count_C.3
+(sum(data[,284:299])/(500*16)-sum(data[,300:315])/(500*16))/sum(data[,284:299])/(500*16)
+
 
 dateffCI<-matrix(nrow=500,ncol=16)
 dateffCI<-(data[,284:299]-data[,300:315])/data[,284:299]
@@ -138,7 +140,7 @@ aOocystsT<- ggplot(dat2T, aes(x=Bites, y=Oocysts, fill=data_type),guides(fill=FA
   geom_boxplot()  + guides(fill=FALSE) + ggtitle("Treatments ATV") + 
   scale_y_continuous(limits=c(-10,100), breaks=seq(0,100,50), expand = c(0, 0))
 
-multiplot(aOocystsC, aOocystsT, aOocysts, cols=3)
+multiplot(aOocystsC, aOocystsT, aOocysts, cols=3)##run multiplot function
 ##################################
 ###
 ###################################
@@ -215,16 +217,16 @@ points(nc,maxoocC,pch=20)
 #################################################################
 ## Relative reduction in probability of mosquito infection
 ###################################################################
-thet_mosq_means<-numeric(24)
+thet_mosq_means<-numeric(16)
 for(i in 284:299){
-  thet_mosq_means[i-223]<-mean(data[,i])
+  thet_mosq_means[i-283]<-mean(data[,i],na.rm=T)
 }
 
-    a1<-stack(data[,224:226]);a2<-stack(data[,227:229]);a3<-stack(data[,230:232]);a4<-stack(data[,233:235]);
+    a1<-stack(data[,284:287]);a2<-stack(data[,288:291]);a3<-stack(data[,292:295]);a4<-stack(data[,296:299]);
     thet_mosq_bitesC<-c(mean(a1$value),mean(a2$value),mean(a3$value),mean(a4$value))
     thet_mosq_bitesC_range<-c(a1$value,a2$value,a3$value,a4$value)
 
-    B1<-stack(data[,236:238]);B2<-stack(data[,239:241]);B3<-stack(data[,242:244]);B4<-stack(data[,245:247]);
+    B1<-stack(data[,300:303]);B2<-stack(data[,304:307]);B3<-stack(data[,308:311]);B4<-stack(data[,312:315]);
     thet_mosq_bitesT<-c(mean(B1$value),mean(B2$value),mean(B3$value),mean(B4$value))
     thet_mosq_bitesT_range<-c(B1$value,B2$value,B3$value,B4$value)
 
@@ -235,7 +237,7 @@ dat_a1<-(a1$value-B1$value)/a1$value; dat_a2<-(a2$value-B2$value)/a2$value; dat_
 
 thet_effect_mosq <- c(dat_a1,dat_a2,dat_a3,dat_a4)
 length(thet_effect_mosq)
-Bites <- rep(c(1,2,5,10),each=1500)
+Bites <- rep(c(2,3,4,5),each=2000)
 datmosq<-data.frame(thet_effect_mosq,Bites)
 
 R_EffectSizeMosq<-c(mean(dat_a1),mean(dat_a2),mean(dat_a3),mean(dat_a4))
@@ -249,17 +251,17 @@ R_EffectSizeMosqL<-c(quantile(dat_a1,0.025),quantile(dat_a2,0.025),quantile(dat_
 (R_EffectSizeMosqL+1)/2
 
 par(mfrow=c(1,2))
-plot((R_EffectSizeMosq+1)/2~c(1,2,5,10),pty="",main="ATV effect on mosquito population",
-     xaxt="n",yaxt="n",pch="",xlim=c(0.5,5.5),
-     ylab=expression(paste("Effect Size ", theta[mosquitoes], )),xlab="Bites",ylim=c(-1,1))
-axis(1,par(las=1),at=seq(0,10,1),labels=seq(0,10,1))
+plot((R_EffectSizeMosq+1)/2~c(2,3,4,5),pty="",main="ATV effect on mosquito population",
+     xaxt="n",yaxt="n",pch="",xlim=c(1.5,5.5),
+     ylab=expression(paste("Effect Size ", theta[mosquitoes], )),xlab="Bites",ylim=c(0,1))
+axis(1,par(las=1),at=seq(2,5,1),labels=seq(2,5,1))
 
 log.binom<-function(p.vec){
   
   a<-p.vec[1]
   b<-p.vec[2]
   
-  pred1a<- ((exp(a + b * c(1,2,5,10))) / (1 + exp(a + b * c(1,2,5,10))) ) 
+  pred1a<- ((exp(a + b * c(2,3,4,5))) / (1 + exp(a + b * c(2,3,4,5))) ) 
   prev1<-(R_EffectSizeMosqL+1)/2
   
   loglik1a<- prev1* log((pred1a)+0.00001)+(1-prev1)*log(1-((pred1a)-0.00001))
@@ -276,7 +278,7 @@ log.binom<-function(p.vec){
   a<-p.vec[1]
   b<-p.vec[2]
   
-  pred1a<- ((exp(a + b * c(1,2,5,10))) / (1 + exp(a + b * c(1,2,5,10))) ) 
+  pred1a<- ((exp(a + b * c(2,3,4,5))) / (1 + exp(a + b * c(2,3,4,5))) ) 
   prev1<-(R_EffectSizeMosqU+1)/2
   
   loglik1a<- prev1* log((pred1a)+0.00001)+(1-prev1)*log(1-((pred1a)-0.00001))
@@ -294,7 +296,7 @@ log.binom<-function(p.vec){
   a<-p.vec[1]
   b<-p.vec[2]
   
-  pred1a<- ((exp(a + b * c(1,2,5,10))) / (1 + exp(a + b * c(1,2,5,10))) ) 
+  pred1a<- ((exp(a + b * c(2,3,4,5))) / (1 + exp(a + b * c(2,3,4,5))) ) 
   prev1<-(R_EffectSizeMosq+1)/2
   
   loglik1a<- prev1* log((pred1a)+0.00001)+(1-prev1)*log(1-((pred1a)-0.00001))
@@ -311,8 +313,8 @@ axis(2,par(las=2),at=seq(0,1,0.25),labels=c(-1,-0.5,0,0.5,1))
 abline(h=0.5,lty=2,col="grey")
 
 par(new=T)
-boxplot(datmosq$thet_effect_mosq~datmosq$Bites,xaxt="n",yaxt="n",ylim=c(-0.9,1))
-points(R_EffectSizeMosq~c(1:4),pch=20,col="red")
+boxplot(c(NA,datmosq$thet_effect_mosq)~c(1,datmosq$Bites),xaxt="n",yaxt="n",ylim=c(-0.9,1))
+points(R_EffectSizeMosq~c(1,2,3,4),pch=20,col="red")
 
 
 Relative_reduction_in_probability_of_mosquito_infection<-(thet_mosq_means[1:16]-thet_mosq_means[17:32])/thet_mosq_means[1:16]
@@ -330,7 +332,7 @@ myplot1 <- mosq1 + guides(fill=FALSE) + theme(plot.title = element_text(size=20,
 #################################################################
 ## Relative reduction in probability of mouse infection
 ###################################################################
-par(mfrow=c(1,1))
+
 thet_mo_means<-numeric(32)
 for(i in 252:283){
   thet_mo_means[i-251]<-mean(data[,i])
