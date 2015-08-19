@@ -64,6 +64,26 @@ sum(data[,268:283])/(500*16)
   ((sum(data[,284:299])/(500*16))+(sum(data[,252:267])/(500*16)))
 
 
+##2 bites effect size
+(((sum(data[,284:287])/(500*4))-(sum(data[,300:303])/(500*4)))+
+   ((sum(data[,252:255])/(500*4))-(sum(data[,268:271])/(500*4))))/
+  ((sum(data[,284:287])/(500*4))+(sum(data[,252:255])/(500*4)))
+
+##3 bites effect size
+(((sum(data[,288:291])/(500*4))-(sum(data[,304:307])/(500*4)))+
+   ((sum(data[,256:259])/(500*4))-(sum(data[,272:275])/(500*4))))/
+  ((sum(data[,288:291])/(500*4))+(sum(data[,256:259])/(500*4)))
+
+##4 bites effect size
+(((sum(data[,292:295])/(500*4))-(sum(data[,308:311])/(500*4)))+
+   ((sum(data[,260:263])/(500*4))-(sum(data[,276:279])/(500*4))))/
+  ((sum(data[,292:295])/(500*4))+(sum(data[,260:263])/(500*4)))
+
+##5 bites effect size
+(((sum(data[,296:299])/(500*4))-(sum(data[,312:315])/(500*4)))+
+   ((sum(data[,264:267])/(500*4))-(sum(data[,280:283])/(500*4))))/
+  ((sum(data[,296:299])/(500*4))+(sum(data[,264:267])/(500*4)))
+
 ####################################
 ##
 ## Explore distributions of the parameter estimates
@@ -148,10 +168,10 @@ estprev<-stack(data[,252:283])
 estpervmq<-stack(data[,284:315])
 Prev_Mice<-c(estprev[,1],prevs)
 
-  prevmq<-c(sum(prevooc[1:24])/24,sum(prevooc[25:48])/24,sum(prevooc[49:72])/24,sum(prevooc[73:96])/24,
-            sum(prevooc[97:120])/24,sum(prevooc[121:144])/24,sum(prevooc[145:168])/24,sum(prevooc[169:192])/24,
-            sum(prevooc[193:216])/24,sum(prevooc[217:240])/24,sum(prevooc[241:264])/24,sum(prevooc[265:288])/24,
-            sum(prevooc[289:312])/24,sum(prevooc[313:336])/24,sum(prevooc[337:360])/24,sum(prevooc[361:384])/24)
+  prevmq<-c(sum(prevoocC[1:24])/24,sum(prevoocC[25:48])/24,sum(prevoocC[49:72])/24,sum(prevoocC[73:96])/24,
+            sum(prevoocC[97:120])/24,sum(prevoocC[121:144])/24,sum(prevoocC[145:168])/24,sum(prevoocC[169:192])/24,
+            sum(prevoocC[193:216])/24,sum(prevoocC[217:240])/24,sum(prevoocC[241:264])/24,sum(prevoocC[265:288])/24,
+            sum(prevoocC[289:312])/24,sum(prevoocC[313:336])/24,sum(prevoocC[337:360])/24,sum(prevoocC[361:384])/24)
             
   prevmqT<-c(sum(prevoocT[1:24])/24,sum(prevoocT[25:48])/24,sum(prevoocT[49:72])/24,sum(prevoocT[73:96])/24,
                 sum(prevoocT[97:120])/24,sum(prevoocT[121:144])/24,sum(prevoocT[145:168])/24,sum(prevoocT[169:192])/24,
@@ -217,8 +237,8 @@ points(nc,maxoocC,pch=20)
 #################################################################
 ## Relative reduction in probability of mosquito infection
 ###################################################################
-thet_mosq_means<-numeric(16)
-for(i in 284:299){
+thet_mosq_means<-numeric(32)
+for(i in 284:315){
   thet_mosq_means[i-283]<-mean(data[,i],na.rm=T)
 }
 
@@ -567,8 +587,8 @@ abline(h=0,lty=2,col="grey")
 ##
 #######################################################
 
-parasitemiaAll<-c(parasitem,parasitemT)
-gametocytemiaAll<-c(gametoC,gametoT)
+parasitemiaAll<-c(parasitORIGmean,parasitATV32mean)
+gametocytemiaAll<-c(gametORIGmean)
 type<-c(rep("Control",16),rep("Treated",16))
 
 glma <- glm(parasitemiaAll~gametocytemiaAll+type)
@@ -578,35 +598,38 @@ summary.lm(glmb)
 plot(glmb)
 
 
+
 ##############################################################
 ##
-## DOES THE PROBABILITY OF MOSQUITO INFECTION CORRELATE WITH PARASITEMIA/GAMETOCYTES?
+## DOES THE PROBABILITY OF MOUSE INFECTION CORRELATE WITH PARASITEMIA/GAMETOCYTES?
 ##
 ##
 ##
 ####################################################
+thet_mo_means
 
-thet_mosq_means
-glmc <- glm(thet_mosq_means~parasitemiaAll+type)
-glmd <- glm(thet_mosq_means~parasitemiaAll+0)
+glmc <- glm(thet_mo_means~parasitemiaAll+type+0)
+glmd <- glm(thet_mo_means~parasitemiaAll+0)
 anova(glmc,glmd,test="Chi")
 summary.lm(glmd)
 plot(glmd)
 plot(thet_mosq_means~parasitemiaAll)
 
-datprob<-data.frame(thet_mosq_means,parasitemiaAll,gametocytemiaAll,type)
+datprob<-data.frame(thet_mo_means,thet_mosq_means,parasitemiaAll,gametocytemiaAll,type)
+datprob$thet_mo_means<-ifelse(datprob$parasitemiaAll==0,0,datprob$thet_mo_means)
 datprob$thet_mosq_means<-ifelse(datprob$parasitemiaAll==0,0,datprob$thet_mosq_means)
 
-plot(datprob$parasitemiaAll,datprob$thet_mosq_means,ylim=c(0,1))
-abline(lm(datprob$thet_mosq_means~datprob$parasitemiaAll+0),lty=2,col="grey")
+plot(datprob$parasitemiaAll,datprob$thet_mo_means,ylim=c(0,1))
+points(datprob$parasitemiaAll,datprob$thet_mosq_means,pch=20)
+abline(lm(datprob$thet_mo_means~datprob$parasitemiaAll+0),lty=2,col="grey")
 
 log.binom<-function(p.vec){
   
   a<-p.vec[1]
   b<-p.vec[2]
   
-  pred1a<- ((exp(a + b * datprob$parasitemiaAll)) / (1 + exp(a + b * datprob$parasitemiaAll)) ) 
-  prev1<-datprob$thet_mosq_means
+  pred1a<- ((exp(a + b * c(0,datprob$parasitemiaAll))) / (1 + exp(a + b * c(0,datprob$parasitemiaAll))) ) 
+  prev1<-c(0,datprob$thet_mo_means)
   
   loglik1a<- prev1* log((pred1a)+0.00001)+(1-prev1)*log(1-((pred1a)-0.00001))
   -sum(loglik1a,  na.rm=T)
@@ -624,8 +647,8 @@ gom.binom<-function(p.vec){
   b<-p.vec[2]
   c<-p.vec[3]
   
-  pred1a<- (a * exp (b * exp(c * datprob$parasitemiaAll)))  
-  prev1<-datprob$thet_mosq_means
+  pred1a<- (a * exp (b * exp(c * c(0,datprob$parasitemiaAll))))  
+  prev1<-c(0,datprob$thet_mo_means)
   
   loglik1a<- prev1* log((pred1a)+0.00001)+(1-prev1)*log(1-((pred1a)-0.00001))
   -sum(loglik1a,  na.rm=T)

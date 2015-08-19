@@ -38,6 +38,7 @@ ProbInfTtomosq<-sum(data[,300:315])/(500*16)
 ProbInfTtomosq<-c(sum(data[,300:303])/(500*4),sum(data[,304:307])/(500*4),
                   sum(data[,308:311])/(500*4),sum(data[,312:315])/(500*4))##mosquito (from model outputs for total model1)
 
+b2
 
 C0_8<-expand.grid(seq(1:length(b)))
 
@@ -48,7 +49,7 @@ for (i in 1:4){
 }
 
 plot(c(C0_8[,1])~c(1,2,3,4),xlim=c(0,4),ylim=c(0,3),cex.lab=1.4,
-     ylab="Vectorial Capacity", xlab="Generation")
+     ylab="Vectorial Capacity", xlab="Generation",bty="n")
 lines(c(C0_8[,1])~c(1,2,3,4),col="red",lwd=2)
 lines(c(C0_8[,2])~c(1,2,3,4),col="green",lwd=2)
 lines(c(C0_8[,3])~c(1,2,3,4),col="blue",lwd=2)
@@ -73,6 +74,17 @@ legend(0,3,legend=c("a (daily rate host is bitten = 0.8)","p (daily mosquito sur
                     col=c("","","","","red","green","blue","black","black","black"),
                     lty=c(NA,NA,NA,NA,1,1,1,1,1,2),bty="n",lwd=2,cex=1.4)
                     
+##This is just vector competence..
+par(mar=c(5,5,2,2))
+plot(b~c(2,3,4,5),bty="n",xaxt="n",
+     ylim=c(0,0.5),xlab="Mean per generation",cex.lab=2,ylab="Vector competence")
+axis(1,par(las=1),at=c(2:5),labels=c(2,3,4,5))
+lines(b~c(2,3,4,5))
+lines(b2~c(2,3,4,5),lty=2)
+
+((b-b2)/b)*100
+
+
 
 ##what happens for increasing a's?
 C_m2<-expand.grid(seq(1:length(a_test)))
@@ -174,7 +186,11 @@ for(j in 1:4){
   for (i in 1:length(b)){
     Tbeta[i,j] <- ##the lifetime transmission potential of a mosquito
       ((a^2) * b2[i] * ProbInfTtomosq[j] * X2[j] * exp(-g * n))/(g * (g + a * ProbInfTtomosq[j] * X2[j]))
+
   }}
+
+RelDiffBeta<-(Cbeta-Tbeta)/Cbeta
+
 
 ## Cbeta increases with more mosquitos present
 plot(c(0,Cbeta[,1])~c(0,m),xlim=c(0,5),ylim=c(0,0.6),ylab="Lifetime transmission potential per mosquito", 
@@ -189,6 +205,24 @@ lines(c(0,Tbeta[,2])~c(0,m),col="green",lty=2,lwd=2)
 lines(c(0,Tbeta[,3])~c(0,m),col="blue",lty=2,lwd=2)
 lines(c(0,Tbeta[,4])~c(0,m),col="black",lty=2,lwd=2)
 
+plot(RelDiffBeta[,1]~m,ylim=c(-0.7,1),
+     xlab="Ratio of mosquitoes per host",xlim=c(2,5),xaxt="n",
+     ylab="Relative difference in lifetime transmission potential",
+     cex.lab=1.4)
+points(c(RelDiffBeta[,1])~c(m),col="red",pch=20,lwd=2,cex=2)
+points(c(RelDiffBeta[,2])~c(m),col="green",pch=20,lwd=2,cex=2)
+points(c(RelDiffBeta[,3])~c(m),col="blue",pch=20,lwd=2,cex=2)
+points(c(RelDiffBeta[,4])~c(m),col="black",pch=20,lwd=2,cex=2)
+
+lines(c(RelDiffBeta[,1])~c(m),col="red",lty=2,lwd=2,cex=2)
+lines(c(RelDiffBeta[,2])~c(m),col="green",lty=2,lwd=2,cex=2)
+lines(c(RelDiffBeta[,3])~c(m),col="blue",lty=2,lwd=2,cex=2)
+lines(c(RelDiffBeta[,4])~c(m),col="black",lty=2,lwd=2,cex=2)
+
+abline(a=0,b=0,col="grey",lty=2)
+axis(1,at=c(2,3,4,5),labels=c(2,3,4,5))
+text(2.42,0.07,"Higher for controls",cex=2)
+text(2.50,-0.07,"Higher for treatments",cex=2)
 
 ##
 ###
@@ -234,6 +268,20 @@ lines(c(0,R0_C)~c(0,m),lwd=2)
 lines(c(0,R0_T)~c(0,m),lty=20,lwd=2)
 
 legend(0,0.20,legend=c("control","ATV-32%","c = Probability of transmission mouse to mosquito","g = ln(p)"),
+       lty=c(1,2,NA,NA),bty="n",cex=1.2)
+
+RelR01=(R0_C-R0_T)/R0_C
+
+((mean(b) * mean(ProbInfCtomosq))-(mean(b2) * mean(ProbInfTtomosq)))/(mean(b) * mean(ProbInfCtomosq))
+
+plot(RelR01~m,ylim=c(-1,1), cex.lab=1.4,pch=20,xaxt="n",cex=4,
+     ylab="Relative difference in R0",xlab="Ratio of mosquitoes per host")
+lines(RelR01~m,lwd=2)
+abline(a=0,b=0,col="grey",lty=2)
+axis(1,at=c(2,3,4,5),labels=c(2,3,4,5))
+text(2.42,0.07,"Higher for controls",cex=2)
+text(2.50,-0.07,"Higher for treatments",cex=2)
+egend(0,0.20,legend=c("control","ATV-32%","c = Probability of transmission mouse to mosquito","g = ln(p)"),
        lty=c(1,2,NA,NA),bty="n",cex=1.2)
 
 ##
@@ -313,6 +361,22 @@ lines(C2[13:16,1]~c(1,2,3,4),col="black",lty=2)
 g = -log(p)
 X = PREVorigMean[1:16]## proportion of hosts that are infected
 X2 <- PREVorigMean[17:32]
+
+boxplot(b[1:4],b2[1:4],
+         b[5:8],b2[5:8],
+         b[9:12],b2[9:12],
+         b[13:16],b2[13:16],ylab="Vector competence",xlab="Mosquito to mouse ratio",
+        col=c("dark red","red","dark green","green","dark blue","blue","grey15","grey67"),bty="",cex.lab=1.5)
+axis(1,at=c(1.5,3.5,5.5,7.5),labels=c("2","3","4","5"))
+legend(1,0.8,legend=c("Controls","ATV-32%"),
+       pch=15,col=c("grey15","grey67"),bty="n",cex=2)
+
+
+100*c((mean(b[1:4])-mean(b2[1:4]))/mean(b[1:4]),
+(mean(b[5:8])-mean(b2[5:8]))/mean(b[5:8]),
+(mean(b[9:12])-mean(b2[9:12]))/mean(b[9:12]),
+(mean(b[13:16])-mean(b2[13:16]))/mean(b[13:16]))
+
 
 ##
 ###

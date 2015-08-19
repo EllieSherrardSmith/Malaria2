@@ -107,6 +107,8 @@ prevoocTgens<-c(sum(prevoocT[1:24])/24,sum(prevoocT[25:48])/24,sum(prevoocT[49:7
 
 EffOoc<-(prevooc1-prevoocT)/prevooc1
 
+EfficacyChurcher2012<-((mean(prevooc1)/mean(meanoocysts[1:16]))-(mean(prevoocT)/mean(meanoocysts[17:32])))/
+  (mean(prevooc1)/mean(meanoocysts[1:16]))
 #freqoocT<-numeric(length(unique(oocystsT)))
 #oocystsT2<-sort(unique(oocystsT))
 #for (i in 1:length(oocystsT2)){ 
