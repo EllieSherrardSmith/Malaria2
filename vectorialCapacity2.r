@@ -172,58 +172,33 @@ X = c(sum(PREVorigMean[1:4])/4,sum(PREVorigMean[5:8])/4,
 X2 <- c(sum(PREVorigMean[17:20])/4,sum(PREVorigMean[21:24])/4,
         sum(PREVorigMean[25:28])/4,sum(PREVorigMean[29:32])/4)
 
-Cbeta<-expand.grid(seq(1:length(b)))
+Cbeta<-Tbeta<-as.numeric(4)
 
-for(j in 1:4){
-  for (i in 1:length(b)){
-Cbeta[i,j] <- ##the lifetime transmission potential of a mosquito
-  ((a^2) * b[i] * ProbInfCtomosq[j] * X[j] * exp(-g * n))/(g * (g + a * ProbInfCtomosq[j] * X[j]))
-}}
+for(i in 1:4){
+ Cbeta[i] <- ##the lifetime transmission potential of a mosquito
+  ((a^2) * b[i] * ProbInfCtomosq[i] * X[i] * exp(-g * n))/(g * (g + a * ProbInfCtomosq[i] * X[i]))
 
-Tbeta<-expand.grid(seq(1:length(b)))
-
-for(j in 1:4){
-  for (i in 1:length(b)){
-    Tbeta[i,j] <- ##the lifetime transmission potential of a mosquito
-      ((a^2) * b2[i] * ProbInfTtomosq[j] * X2[j] * exp(-g * n))/(g * (g + a * ProbInfTtomosq[j] * X2[j]))
-
-  }}
+ Tbeta[i] <- ##the lifetime transmission potential of a mosquito
+   ((a^2) * b2[i] * ProbInfTtomosq[i] * X2[i] * exp(-g * n))/(g * (g + a * ProbInfTtomosq[i] * X2[i]))
+ }
 
 RelDiffBeta<-(Cbeta-Tbeta)/Cbeta
 
 
-## Cbeta increases with more mosquitos present
-plot(c(0,Cbeta[,1])~c(0,m),xlim=c(0,5),ylim=c(0,0.6),ylab="Lifetime transmission potential per mosquito", 
-     xlab="Ratio of mosquitoes per host",cex.lab=1.4)
-lines(c(0,Cbeta[,1])~c(0,m),col="red",lty=1,lwd=2)
-lines(c(0,Cbeta[,2])~c(0,m),col="green",lty=1,lwd=2)
-lines(c(0,Cbeta[,3])~c(0,m),col="blue",lty=1,lwd=2)
-lines(c(0,Cbeta[,4])~c(0,m),col="black",lty=1,lwd=2)
-
-lines(c(0,Tbeta[,1])~c(0,m),col="red",lty=2,lwd=2)
-lines(c(0,Tbeta[,2])~c(0,m),col="green",lty=2,lwd=2)
-lines(c(0,Tbeta[,3])~c(0,m),col="blue",lty=2,lwd=2)
-lines(c(0,Tbeta[,4])~c(0,m),col="black",lty=2,lwd=2)
-
-plot(RelDiffBeta[,1]~m,ylim=c(-0.7,1),
+## RELATIVE DIFFERENCES: Cbeta increases with more mosquitos present
+par(mfrow=c(1,1))
+plot(RelDiffBeta~m,ylim=c(-1,1),
      xlab="Ratio of mosquitoes per host",xlim=c(2,5),xaxt="n",
-     ylab="Relative difference in lifetime transmission potential",
+     ylab="Relative difference",bty="n",
      cex.lab=1.4)
-points(c(RelDiffBeta[,1])~c(m),col="red",pch=20,lwd=2,cex=2)
-points(c(RelDiffBeta[,2])~c(m),col="green",pch=20,lwd=2,cex=2)
-points(c(RelDiffBeta[,3])~c(m),col="blue",pch=20,lwd=2,cex=2)
-points(c(RelDiffBeta[,4])~c(m),col="black",pch=20,lwd=2,cex=2)
-
-lines(c(RelDiffBeta[,1])~c(m),col="red",lty=2,lwd=2,cex=2)
-lines(c(RelDiffBeta[,2])~c(m),col="green",lty=2,lwd=2,cex=2)
-lines(c(RelDiffBeta[,3])~c(m),col="blue",lty=2,lwd=2,cex=2)
-lines(c(RelDiffBeta[,4])~c(m),col="black",lty=2,lwd=2,cex=2)
-
 abline(a=0,b=0,col="grey",lty=2)
+lines(RelDiffBeta~m,col="purple",lty=2,lwd=2)
 axis(1,at=c(2,3,4,5),labels=c(2,3,4,5))
-text(2.42,0.07,"Higher for controls",cex=2)
+text(2.46,0.07,"Higher for controls",cex=2)
 text(2.50,-0.07,"Higher for treatments",cex=2)
-
+legend(3.5,1,legend=c("lifetime transmission potential","Individual vectorial capacity",
+                    "Entomolgocial inoculation Rate","Ro"),
+       lty=2,lwd=2,col=c("purple","orange","aquamarine","black"),cex=1.5,bty="n")
 ##
 ###
 #### Individual vector capacity - Smith & McKenzie 2004
@@ -233,6 +208,8 @@ text(2.50,-0.07,"Higher for treatments",cex=2)
 IC_Con = (a * ProbInfCtomosq * exp(-g * n))/g
 IC_Treat = (a * ProbInfTtomosq * exp(-g * n))/g
 
+reldiffIC<-(IC_Con-IC_Treat)/IC_Con
+lines(reldiffIC~m,col="orange",lty=2,lwd=2)
 
 ##
 ###
@@ -246,9 +223,8 @@ EIR_c <- (m * a^2 * ProbInfCtomosq * X * exp(-g * n)) / (g + a * ProbInfCtomosq 
 
 EIR_T <- (m * a^2 * ProbInfTtomosq * X2 * exp(-g * n)) / (g + a * ProbInfTtomosq * X2)
 
-plot(c(0,EIR_c)~c(0,m),lty=3,lwd=4)
-lines(c(0,EIR_c)~c(0,m),lty=3,lwd=4)
-lines(c(0,EIR_T)~c(0,m),lty=3,lwd=4,col="red")
+relEIR<-(EIR_c-EIR_T)/EIR_c
+lines(relEIR~m,lty=2,lwd=2,col="aquamarine")
 
 ##
 ###
@@ -261,8 +237,8 @@ r = 10 ## number of days that the mouse is infectious in our expt
 R0_C <- (m * a^2 * b * ProbInfCtomosq * exp(-g * n))/(g * r)
 
 R0_T <- (m * a^2 * b2 * ProbInfTtomosq * exp(-g * n))/(g * r)
-
-plot(c(0,R0_C)~c(0,m),ylim=c(0,0.2), cex.lab=1.4,
+par(mfrow=c(1,1))
+plot(c(0,R0_C)~c(0,m),ylim=c(0,0.5), cex.lab=1.4,
      ylab="R0",xlab="Ratio of mosquitoes per host")
 lines(c(0,R0_C)~c(0,m),lwd=2)
 lines(c(0,R0_T)~c(0,m),lty=20,lwd=2)
@@ -276,13 +252,13 @@ RelR01=(R0_C-R0_T)/R0_C
 
 plot(RelR01~m,ylim=c(-1,1), cex.lab=1.4,pch=20,xaxt="n",cex=4,
      ylab="Relative difference in R0",xlab="Ratio of mosquitoes per host")
-lines(RelR01~m,lwd=2)
+lines(RelR01~m,lwd=2,lty=2,col="black")
 abline(a=0,b=0,col="grey",lty=2)
 axis(1,at=c(2,3,4,5),labels=c(2,3,4,5))
 text(2.42,0.07,"Higher for controls",cex=2)
 text(2.50,-0.07,"Higher for treatments",cex=2)
-egend(0,0.20,legend=c("control","ATV-32%","c = Probability of transmission mouse to mosquito","g = ln(p)"),
-       lty=c(1,2,NA,NA),bty="n",cex=1.2)
+#legend(0,0.20,legend=c("control","ATV-32%","c = Probability of transmission mouse to mosquito","g = ln(p)"),
+#       lty=c(1,2,NA,NA),bty="n",cex=1.2)
 
 ##
 ###
@@ -292,6 +268,7 @@ egend(0,0.20,legend=c("control","ATV-32%","c = Probability of transmission mouse
 
 r = 10 ## number of days that the mouse is infectious in our expt
 mu = 0.1
+m<-c(2,3,4,5)
 R0_C <- (m * a^2 * b * exp(-mu * n))/(mu * r)
 
 R0_T <- (m * a^2 * b2 * exp(-mu * n))/(mu * r)
@@ -362,12 +339,15 @@ g = -log(p)
 X = PREVorigMean[1:16]## proportion of hosts that are infected
 X2 <- PREVorigMean[17:32]
 
+par(mfrow=c(1,2))
 boxplot(b[1:4],b2[1:4],
          b[5:8],b2[5:8],
          b[9:12],b2[9:12],
          b[13:16],b2[13:16],ylab="Vector competence",xlab="Mosquito to mouse ratio",
-        col=c("dark red","red","dark green","green","dark blue","blue","grey15","grey67"),bty="",cex.lab=1.5)
-axis(1,at=c(1.5,3.5,5.5,7.5),labels=c("2","3","4","5"))
+        #col=c("dark red","red","dark green","green","dark blue","blue","grey15","grey67"),
+        col=c("grey15","grey67"),
+        frame=F,cex.lab=1.5,xaxt="n")
+axis(1,at=c(0.5,1.5,3.5,5.5,7.5,8.5),labels=c("","2","3","4","5",""))
 legend(1,0.8,legend=c("Controls","ATV-32%"),
        pch=15,col=c("grey15","grey67"),bty="n",cex=2)
 

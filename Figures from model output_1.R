@@ -20,6 +20,364 @@ data<-read.csv("C:\\Users\\Ellie\\Documents\\Data Malaria\\MODEL OUTPUT\\DataFro
 names(data) 
 data<-data[501:1000,]##dropping burn in so keeping the appropriate data
 
+par(mfrow=c(1,3));hist(data[,61],breaks=20,main="Simulated oocysts (Con, 2 Bites, Round 2)",
+                       xlab="",ylab="Frequency",cex.lab=2,cex=2,col="aquamarine")
+                  hist(data[,66],breaks=20,main="Simulated oocysts (Con, 3 Bites, Round 3)",
+                       xlab="Oocyst counts per mosquito",ylab="",cex.lab=2,col="aquamarine")
+                  hist(data[,88],breaks=20,main="Simulated oocysts (Treat, 4 Bites, Round 2)",
+                       xlab="",ylab="",cex.lab=2,col="aquamarine")
+
+###########################
+##
+##
+## Sporozoite data
+##
+par(mfrow=c(2,2))
+boxplot(data$"sim_s_count_C.1.1",data$"sim_s_count_T.1.1",
+        data$"sim_s_count_C.1.2",data$"sim_s_count_T.1.2",
+        data$"sim_s_count_C.1.3",data$"sim_s_count_T.1.3",
+        data$"sim_s_count_C.1.4",data$"sim_s_count_T.1.4",
+        data$"sim_s_count_C.1.5",data$"sim_s_count_T.1.5",
+        xaxt="n",ylab="Simulated sporozoite counts",main= "Bite 2, Round 1",
+        col=c("aquamarine","blueviolet"),frame=F,cex.lab=1.5)
+axis(1,at=c(1.5,3.5,5.5,7.5,9.5),labels=c("0","1-10","11-100","101-1000","1001+"),cex.lab=2)
+points(spors_C[1,]~c(1,3,5,7,9),col="red",pch=20,cex=2)
+points(spors_T[1,]~c(2,4,6,8,10),col="orange",pch=20,cex=2)
+
+boxplot(data$"sim_s_count_C.2.1",data$"sim_s_count_T.2.1",
+        data$"sim_s_count_C.2.2",data$"sim_s_count_T.2.2",
+        data$"sim_s_count_C.2.3",data$"sim_s_count_T.2.3",
+        data$"sim_s_count_C.2.4",data$"sim_s_count_T.2.4",
+        data$"sim_s_count_C.2.5",data$"sim_s_count_T.2.5",
+        xaxt="n",ylab="Simulated sporozoite counts",main= "Bite 2, Round 2",
+        col=c("aquamarine","blueviolet"),frame=F,cex.lab=1.5)
+axis(1,at=c(1.5,3.5,5.5,7.5,9.5),labels=c("0","1-10","11-100","101-1000","1001+"),cex.lab=2)
+points(spors_C[2,]~c(1,3,5,7,9),col="red",pch=20,cex=2)
+points(spors_T[2,]~c(2,4,6,8,10),col="orange",pch=20,cex=2)
+
+boxplot(data$"sim_s_count_C.3.1",data$"sim_s_count_T.3.1",
+        data$"sim_s_count_C.3.2",data$"sim_s_count_T.3.2",
+        data$"sim_s_count_C.3.3",data$"sim_s_count_T.3.3",
+        data$"sim_s_count_C.3.4",data$"sim_s_count_T.3.4",
+        data$"sim_s_count_C.3.5",data$"sim_s_count_T.3.5",
+        xaxt="n",ylab="Simulated sporozoite counts",main= "Bite 2, Round 3",
+        col=c("aquamarine","blueviolet"),frame=F,cex.lab=1.5)
+axis(1,at=c(1.5,3.5,5.5,7.5,9.5),labels=c("0","1-10","11-100","101-1000","1001+"),cex=2)
+points(spors_C[3,]~c(1,3,5,7,9),col="red",pch=20,cex=2)
+points(spors_T[3,]~c(2,4,6,8,10),col="orange",pch=20,cex=2)
+
+boxplot(data$"sim_s_count_C.4.1",data$"sim_s_count_T.4.1",
+        data$"sim_s_count_C.4.2",data$"sim_s_count_T.4.2",
+        data$"sim_s_count_C.4.3",data$"sim_s_count_T.4.3",
+        data$"sim_s_count_C.4.4",data$"sim_s_count_T.4.4",
+        data$"sim_s_count_C.4.5",data$"sim_s_count_T.4.5",
+        xaxt="n",ylab="Simulated sporozoite counts",main= "Bite 2, Round 4",
+        col=c("aquamarine","blueviolet"),frame=F,cex.lab=1.5)
+axis(1,at=c(1.5,3.5,5.5,7.5,9.5),labels=c("0","1-10","11-100","101-1000","1001+"),cex.lab=2)
+points(spors_C[4,]~c(1,3,5,7,9),col="red",pch=20,cex=2)
+points(spors_T[4,]~c(2,4,6,8,10),col="orange",pch=20,cex=2)
+
+
+par(mfrow=c(2,2))
+boxplot(data$"sim_s_count_C.9.1",data$"sim_s_count_T.9.1",
+        data$"sim_s_count_C.9.2",data$"sim_s_count_T.9.2",
+        data$"sim_s_count_C.9.3",data$"sim_s_count_T.9.3",
+        data$"sim_s_count_C.9.4",data$"sim_s_count_T.9.4",
+        data$"sim_s_count_C.9.5",data$"sim_s_count_T.9.5",
+        xaxt="n",ylab="Simulated sporozoite counts",main= "Bite 4, Round 1",
+        col=c("aquamarine","blueviolet"),frame=F,cex.lab=1.5)
+axis(1,at=c(1.5,3.5,5.5,7.5,9.5),labels=c("0","1-10","11-100","101-1000","1001+"),cex.lab=2)
+points(spors_C[9,]~c(1,3,5,7,9),col="red",pch=20,cex=2)
+points(spors_T[9,]~c(2,4,6,8,10),col="orange",pch=20,cex=2)
+
+boxplot(data$"sim_s_count_C.10.1",data$"sim_s_count_T.10.1",
+        data$"sim_s_count_C.10.2",data$"sim_s_count_T.10.2",
+        data$"sim_s_count_C.10.3",data$"sim_s_count_T.10.3",
+        data$"sim_s_count_C.10.4",data$"sim_s_count_T.10.4",
+        data$"sim_s_count_C.10.5",data$"sim_s_count_T.10.5",
+        xaxt="n",ylab="Simulated sporozoite counts",main= "Bite 4, Round 2",
+        col=c("aquamarine","blueviolet"),frame=F,cex.lab=1.5)
+axis(1,at=c(1.5,3.5,5.5,7.5,9.5),labels=c("0","1-10","11-100","101-1000","1001+"),cex.lab=2)
+points(spors_C[10,]~c(1,3,5,7,9),col="red",pch=20,cex=2)
+points(spors_T[10,]~c(2,4,6,8,10),col="orange",pch=20,cex=2)
+
+boxplot(data$"sim_s_count_C.11.1",data$"sim_s_count_T.11.1",
+        data$"sim_s_count_C.11.2",data$"sim_s_count_T.11.2",
+        data$"sim_s_count_C.11.3",data$"sim_s_count_T.11.3",
+        data$"sim_s_count_C.11.4",data$"sim_s_count_T.11.4",
+        data$"sim_s_count_C.11.5",data$"sim_s_count_T.11.5",
+        xaxt="n",ylab="Simulated sporozoite counts",main= "Bite 4, Round 3",
+        col=c("aquamarine","blueviolet"),frame=F,cex.lab=1.5)
+axis(1,at=c(1.5,3.5,5.5,7.5,9.5),labels=c("0","1-10","11-100","101-1000","1001+"),cex=2)
+points(spors_C[11,]~c(1,3,5,7,9),col="red",pch=20,cex=2)
+points(spors_T[11,]~c(2,4,6,8,10),col="orange",pch=20,cex=2)
+
+boxplot(data$"sim_s_count_C.12.1",data$"sim_s_count_T.12.1",
+        data$"sim_s_count_C.12.2",data$"sim_s_count_T.12.2",
+        data$"sim_s_count_C.12.3",data$"sim_s_count_T.12.3",
+        data$"sim_s_count_C.12.4",data$"sim_s_count_T.12.4",
+        data$"sim_s_count_C.12.5",data$"sim_s_count_T.12.5",
+        xaxt="n",ylab="Simulated sporozoite counts",main= "Bite 4, Round 4",
+        col=c("aquamarine","blueviolet"),frame=F,cex.lab=1.5)
+axis(1,at=c(1.5,3.5,5.5,7.5,9.5),labels=c("0","1-10","11-100","101-1000","1001+"),cex.lab=2)
+points(spors_C[12,]~c(1,3,5,7,9),col="red",pch=20,cex=2)
+points(spors_T[12,]~c(2,4,6,8,10),col="orange",pch=20,cex=2)
+
+
+###########################
+##
+##
+## Oocyst data
+##
+oocreal1<-oocysts$oocystsbites2control[oocysts$round=="day41"][1:24]
+oocsim1<-data$"sim_ooc_count_C.1"
+oocreal2<-oocysts$oocystsbites2control[oocysts$round=="day72"][1:24]
+oocsim2<-data$"sim_ooc_count_C.2"
+oocreal3<-oocysts$oocystsbites2control[oocysts$round=="day103"][1:24]
+oocsim3<-data$"sim_ooc_count_C.3"
+oocreal4<-oocysts$oocystsbites2control[oocysts$round=="day134"][1:24]
+oocsim4<-data$"sim_ooc_count_C.4"
+
+length(oocreal);length(oocsim)
+Oocysts.Bite2<-c(sort(oocreal1),sort(oocsim1),sort(oocreal2),sort(oocsim2),
+                 sort(oocreal3),sort(oocsim3),sort(oocreal4),sort(oocsim4))
+Data<-c(rep("Observed",24),rep("Simulated",500),
+         rep("Observed",24),rep("Simulated",500),
+         rep("Observed",24),rep("Simulated",500),
+         rep("Observed",24),rep("Simulated",500))
+dataEx2<-data.frame(Oocysts.Bite2,Data)
+
+b2<- ggplot(dataEx2, aes(Oocysts.Bite2, fill = Data)) + 
+  geom_histogram(alpha = 0.2, aes(y = ..density..), position = 'identity')
+
+oocreal5<-oocysts$oocystsbites3control[oocysts$round=="day41"][1:24]
+oocsim5<-data$"sim_ooc_count_C.5"
+oocreal6<-oocysts$oocystsbites3control[oocysts$round=="day72"][1:24]
+oocsim6<-data$"sim_ooc_count_C.6"
+oocreal7<-oocysts$oocystsbites3control[oocysts$round=="day103"][1:24]
+oocsim7<-data$"sim_ooc_count_C.7"
+oocreal8<-oocysts$oocystsbites3control[oocysts$round=="day134"][1:24]
+oocsim8<-data$"sim_ooc_count_C.8"
+
+Oocysts.Bite3<-c(sort(oocreal5),sort(oocsim5),sort(oocreal6),sort(oocsim6),
+                 sort(oocreal7),sort(oocsim7),sort(oocreal8),sort(oocsim8))
+dataEx3<-data.frame(Oocysts.Bite2,Data)
+
+b3<- ggplot(dataEx3, aes(Oocysts.Bite3, fill = Data)) + 
+  geom_histogram(alpha = 0.2, aes(y = ..density..), position = 'identity')
+
+oocreal9<-oocysts$oocystsbites4control[oocysts$round=="day41"][1:24]
+oocsim9<-data$"sim_ooc_count_C.9"
+oocreal10<-oocysts$oocystsbites4control[oocysts$round=="day72"][1:24]
+oocsim10<-data$"sim_ooc_count_C.10"
+oocreal11<-oocysts$oocystsbites4control[oocysts$round=="day103"][1:24]
+oocsim11<-data$"sim_ooc_count_C.11"
+oocreal12<-oocysts$oocystsbites4control[oocysts$round=="day134"][1:24]
+oocsim12<-data$"sim_ooc_count_C.12"
+
+Oocysts.Bite4<-c(sort(oocreal9),sort(oocsim9),sort(oocreal10),sort(oocsim10),
+                 sort(oocreal11),sort(oocsim11),sort(oocreal12),sort(oocsim12))
+dataEx4<-data.frame(Oocysts.Bite4,Data)
+
+b4<- ggplot(dataEx4, aes(Oocysts.Bite4, fill = Data)) + 
+  geom_histogram(alpha = 0.2, aes(y = ..density..), position = 'identity')
+
+oocreal13<-oocysts$oocystsbites5control[oocysts$round=="day41"][1:24]
+oocsim13<-data$"sim_ooc_count_C.13"
+oocreal14<-oocysts$oocystsbites5control[oocysts$round=="day72"][1:24]
+oocsim14<-data$"sim_ooc_count_C.14"
+oocreal15<-oocysts$oocystsbites5control[oocysts$round=="day103"][1:24]
+oocsim15<-data$"sim_ooc_count_C.15"
+oocreal16<-oocysts$oocystsbites5control[oocysts$round=="day134"][1:24]
+oocsim16<-data$"sim_ooc_count_C.16"
+
+Oocysts.Bite5<-c(sort(oocreal13),sort(oocsim13),sort(oocreal14),sort(oocsim14),
+                 sort(oocreal15),sort(oocsim15),sort(oocreal16),sort(oocsim16))
+dataEx5<-data.frame(Oocysts.Bite5,Data)
+
+b5<- ggplot(dataEx5, aes(Oocysts.Bite5, fill = Data)) + 
+  geom_histogram(alpha = 0.2, aes(y = ..density..), position = 'identity')
+
+multiplot(b2,b4,b3,b5,cols=2)
+
+###########################
+##
+##
+## Prevalence data
+##
+par(mfrow=c(1,2))
+plot(c(mean(data$"sim_prev_C.1"),mean(data$"sim_prev_C.2"),
+       mean(data$"sim_prev_C.3"),mean(data$"sim_prev_C.4"),
+       mean(data$"sim_prev_C.5"),mean(data$"sim_prev_C.6"),
+       mean(data$"sim_prev_C.7"),mean(data$"sim_prev_C.8"),
+       mean(data$"sim_prev_C.9"),mean(data$"sim_prev_C.10"),
+       mean(data$"sim_prev_C.11"),mean(data$"sim_prev_C.12"),
+       mean(data$"sim_prev_C.13"),mean(data$"sim_prev_C.14"),
+       mean(data$"sim_prev_C.15"),mean(data$"sim_prev_C.16"))~
+       seq(1,16,1),ylim=c(0,5),xaxt="n",bty="n",cex.lab=1.4,
+     ylab="Number of mice infected",main="Control group",
+     xlab="Mosquito biting ratio (4 generations)")
+polygon(c(c(0.55,1.5), rev(c(0.55,1.5))),
+        c(c(quantile(data$"sim_prev_C.1",0.25),quantile(data$"sim_prev_C.1",0.25)),
+                     rev(c(quantile(data$"sim_prev_C.1",0.75),quantile(data$"sim_prev_C.1",0.75)))),
+                         border=NA, col=transp("aquamarine1",alpha=0.2))
+polygon(c(c(1.5,2.5), rev(c(1.5,2.5))),
+        c(c(quantile(data$"sim_prev_C.2",0.25),quantile(data$"sim_prev_C.2",0.25)),
+          rev(c(quantile(data$"sim_prev_C.2",0.75),quantile(data$"sim_prev_C.2",0.75)))),
+        border=NA, col=transp("aquamarine1",alpha=0.2))
+polygon(c(c(2.5,3.5), rev(c(2.5,3.5))),
+        c(c(quantile(data$"sim_prev_C.3",0.25),quantile(data$"sim_prev_C.3",0.25)),
+          rev(c(quantile(data$"sim_prev_C.3",0.75),quantile(data$"sim_prev_C.3",0.75)))),
+        border=NA, col=transp("aquamarine1",alpha=0.2))
+polygon(c(c(3.5,4.45), rev(c(3.5,4.45))),
+        c(c(quantile(data$"sim_prev_C.4",0.25),quantile(data$"sim_prev_C.4",0.25)),
+          rev(c(quantile(data$"sim_prev_C.4",0.75),quantile(data$"sim_prev_C.4",0.75)))),
+        border=NA, col=transp("aquamarine1",alpha=0.2))
+
+polygon(c(c(4.55,5.5), rev(c(4.55,5.5))),
+        c(c(quantile(data$"sim_prev_C.5",0.25),quantile(data$"sim_prev_C.5",0.25)),
+          rev(c(quantile(data$"sim_prev_C.5",0.75),quantile(data$"sim_prev_C.5",0.75)))),
+        border=NA, col=transp("blueviolet",alpha=0.2))
+polygon(c(c(5.5,6.5), rev(c(5.5,6.5))),
+        c(c(quantile(data$"sim_prev_C.6",0.25),quantile(data$"sim_prev_C.6",0.25)),
+          rev(c(quantile(data$"sim_prev_C.6",0.75),quantile(data$"sim_prev_C.6",0.75)))),
+        border=NA, col=transp("blueviolet",alpha=0.2))
+polygon(c(c(6.5,7.5), rev(c(6.5,7.5))),
+        c(c(quantile(data$"sim_prev_C.7",0.25),quantile(data$"sim_prev_C.7",0.25)),
+          rev(c(quantile(data$"sim_prev_C.7",0.75),quantile(data$"sim_prev_C.7",0.75)))),
+        border=NA, col=transp("blueviolet",alpha=0.2))
+polygon(c(c(7.5,8.45), rev(c(7.5,8.45))),
+        c(c(quantile(data$"sim_prev_C.8",0.25),quantile(data$"sim_prev_C.8",0.25)),
+          rev(c(quantile(data$"sim_prev_C.8",0.75),quantile(data$"sim_prev_C.8",0.75)))),
+        border=NA, col=transp("blueviolet",alpha=0.2))
+
+polygon(c(c(8.55,9.5), rev(c(8.55,9.5))),
+        c(c(quantile(data$"sim_prev_C.9",0.25),quantile(data$"sim_prev_C.9",0.25)),
+          rev(c(quantile(data$"sim_prev_C.9",0.75),quantile(data$"sim_prev_C.9",0.75)))),
+        border=NA, col=transp("blue2",alpha=0.2))
+polygon(c(c(9.5,10.5), rev(c(9.5,10.5))),
+        c(c(quantile(data$"sim_prev_C.10",0.25),quantile(data$"sim_prev_C.10",0.25)),
+          rev(c(quantile(data$"sim_prev_C.10",0.75),quantile(data$"sim_prev_C.10",0.75)))),
+        border=NA, col=transp("blue2",alpha=0.2))
+polygon(c(c(10.5,11.5), rev(c(10.5,11.5))),
+        c(c(quantile(data$"sim_prev_C.11",0.25),quantile(data$"sim_prev_C.11",0.25)),
+          rev(c(quantile(data$"sim_prev_C.11",0.75),quantile(data$"sim_prev_C.11",0.75)))),
+        border=NA, col=transp("blue2",alpha=0.2))
+polygon(c(c(11.5,12.45), rev(c(11.5,12.45))),
+        c(c(quantile(data$"sim_prev_C.12",0.25),quantile(data$"sim_prev_C.12",0.25)),
+          rev(c(quantile(data$"sim_prev_C.12",0.75),quantile(data$"sim_prev_C.12",0.75)))),
+        border=NA, col=transp("blue2",alpha=0.2))
+
+polygon(c(c(12.55,13.5), rev(c(12.55,13.5))),
+        c(c(quantile(data$"sim_prev_C.13",0.25),quantile(data$"sim_prev_C.13",0.25)),
+          rev(c(quantile(data$"sim_prev_C.13",0.75),quantile(data$"sim_prev_C.13",0.75)))),
+        border=NA, col=transp("brown4",alpha=0.2))
+polygon(c(c(13.5,14.5), rev(c(13.5,14.5))),
+        c(c(quantile(data$"sim_prev_C.14",0.25),quantile(data$"sim_prev_C.14",0.25)),
+          rev(c(quantile(data$"sim_prev_C.14",0.75),quantile(data$"sim_prev_C.14",0.75)))),
+        border=NA, col=transp("brown4",alpha=0.2))
+polygon(c(c(14.5,15.5), rev(c(14.5,15.5))),
+        c(c(quantile(data$"sim_prev_C.15",0.25),quantile(data$"sim_prev_C.15",0.25)),
+          rev(c(quantile(data$"sim_prev_C.15",0.75),quantile(data$"sim_prev_C.15",0.75)))),
+        border=NA, col=transp("brown4",alpha=0.2))
+polygon(c(c(15.5,16.45), rev(c(15.5,16.45))),
+        c(c(quantile(data$"sim_prev_C.16",0.25),quantile(data$"sim_prev_C.16",0.25)),
+          rev(c(quantile(data$"sim_prev_C.16",0.75),quantile(data$"sim_prev_C.16",0.75)))),
+        border=NA, col=transp("brown4",alpha=0.2))
+
+points(c(sum(PREV_C[,1]),sum(PREV_C[,2]),sum(PREV_C[,3]),sum(PREV_C[,4]),
+         sum(PREV_C[,5]),sum(PREV_C[,6]),sum(PREV_C[,7]),sum(PREV_C[,8]),
+         sum(PREV_C[,9]),sum(PREV_C[,10]),sum(PREV_C[,11]),sum(PREV_C[,12]),
+         sum(PREV_C[,13]),sum(PREV_C[,14]),sum(PREV_C[,15]),sum(PREV_C[,16])),pch=20,cex=2,col="red")
+
+axis(1,at=seq(2.5,14.5,4),labels=c(2,3,4,5))
+
+plot(c(mean(data$"sim_prev_T.1"),mean(data$"sim_prev_T.2"),
+       mean(data$"sim_prev_T.3"),mean(data$"sim_prev_T.4"),
+       mean(data$"sim_prev_T.5"),mean(data$"sim_prev_T.6"),
+       mean(data$"sim_prev_T.7"),mean(data$"sim_prev_T.8"),
+       mean(data$"sim_prev_T.9"),mean(data$"sim_prev_T.10"),
+       mean(data$"sim_prev_T.11"),mean(data$"sim_prev_T.12"),
+       mean(data$"sim_prev_T.13"),mean(data$"sim_prev_T.14"),
+       mean(data$"sim_prev_T.15"),mean(data$"sim_prev_T.16"))~
+       seq(1,16,1),ylim=c(0,5),xaxt="n",bty="n",cex.lab=1.4,
+     ylab="Number of mice infected",main="Treatment group",
+     xlab="Mosquito biting ratio (4 generations)")
+polygon(c(c(0.55,1.5), rev(c(0.55,1.5))),
+        c(c(quantile(data$"sim_prev_T.1",0.25),quantile(data$"sim_prev_T.1",0.25)),
+          rev(c(quantile(data$"sim_prev_T.1",0.75),quantile(data$"sim_prev_T.1",0.75)))),
+        border=NA, col=transp("aquamarine1",alpha=0.2))
+polygon(c(c(1.5,2.5), rev(c(1.5,2.5))),
+        c(c(quantile(data$"sim_prev_T.2",0.25),quantile(data$"sim_prev_T.2",0.25)),
+          rev(c(quantile(data$"sim_prev_T.2",0.75),quantile(data$"sim_prev_T.2",0.75)))),
+        border=NA, col=transp("aquamarine1",alpha=0.2))
+polygon(c(c(2.5,3.5), rev(c(2.5,3.5))),
+        c(c(quantile(data$"sim_prev_T.3",0.25),quantile(data$"sim_prev_T.3",0.25)),
+          rev(c(quantile(data$"sim_prev_T.3",0.75),quantile(data$"sim_prev_T.3",0.75)))),
+        border=NA, col=transp("aquamarine1",alpha=0.2))
+polygon(c(c(3.5,4.45), rev(c(3.5,4.45))),
+        c(c(quantile(data$"sim_prev_T.4",0.25),quantile(data$"sim_prev_T.4",0.25)),
+          rev(c(quantile(data$"sim_prev_T.4",0.75),quantile(data$"sim_prev_T.4",0.75)))),
+        border=NA, col=transp("aquamarine1",alpha=0.2))
+
+polygon(c(c(4.55,5.5), rev(c(4.55,5.5))),
+        c(c(quantile(data$"sim_prev_T.5",0.25),quantile(data$"sim_prev_T.5",0.25)),
+          rev(c(quantile(data$"sim_prev_T.5",0.75),quantile(data$"sim_prev_T.5",0.75)))),
+        border=NA, col=transp("blueviolet",alpha=0.2))
+polygon(c(c(5.5,6.5), rev(c(5.5,6.5))),
+        c(c(quantile(data$"sim_prev_T.6",0.25),quantile(data$"sim_prev_T.6",0.25)),
+          rev(c(quantile(data$"sim_prev_T.6",0.75),quantile(data$"sim_prev_T.6",0.75)))),
+        border=NA, col=transp("blueviolet",alpha=0.2))
+polygon(c(c(6.5,7.5), rev(c(6.5,7.5))),
+        c(c(quantile(data$"sim_prev_T.7",0.25),quantile(data$"sim_prev_T.7",0.25)),
+          rev(c(quantile(data$"sim_prev_T.7",0.75),quantile(data$"sim_prev_T.7",0.75)))),
+        border=NA, col=transp("blueviolet",alpha=0.2))
+polygon(c(c(7.5,8.45), rev(c(7.5,8.45))),
+        c(c(quantile(data$"sim_prev_T.8",0.25),quantile(data$"sim_prev_T.8",0.25)),
+          rev(c(quantile(data$"sim_prev_T.8",0.75),quantile(data$"sim_prev_T.8",0.75)))),
+        border=NA, col=transp("blueviolet",alpha=0.2))
+
+polygon(c(c(8.55,9.5), rev(c(8.55,9.5))),
+        c(c(quantile(data$"sim_prev_T.9",0.25),quantile(data$"sim_prev_T.9",0.25)),
+          rev(c(quantile(data$"sim_prev_T.9",0.75),quantile(data$"sim_prev_T.9",0.75)))),
+        border=NA, col=transp("blue2",alpha=0.2))
+polygon(c(c(9.5,10.5), rev(c(9.5,10.5))),
+        c(c(quantile(data$"sim_prev_T.10",0.25),quantile(data$"sim_prev_T.10",0.25)),
+          rev(c(quantile(data$"sim_prev_T.10",0.75),quantile(data$"sim_prev_T.10",0.75)))),
+        border=NA, col=transp("blue2",alpha=0.2))
+polygon(c(c(10.5,11.5), rev(c(10.5,11.5))),
+        c(c(quantile(data$"sim_prev_T.11",0.25),quantile(data$"sim_prev_T.11",0.25)),
+          rev(c(quantile(data$"sim_prev_T.11",0.75),quantile(data$"sim_prev_T.11",0.75)))),
+        border=NA, col=transp("blue2",alpha=0.2))
+polygon(c(c(11.5,12.45), rev(c(11.5,12.45))),
+        c(c(quantile(data$"sim_prev_T.12",0.25),quantile(data$"sim_prev_T.12",0.25)),
+          rev(c(quantile(data$"sim_prev_T.12",0.75),quantile(data$"sim_prev_T.12",0.75)))),
+        border=NA, col=transp("blue2",alpha=0.2))
+
+polygon(c(c(12.55,13.5), rev(c(12.55,13.5))),
+        c(c(quantile(data$"sim_prev_T.13",0.25),quantile(data$"sim_prev_T.13",0.25)),
+          rev(c(quantile(data$"sim_prev_T.13",0.75),quantile(data$"sim_prev_T.13",0.75)))),
+        border=NA, col=transp("brown4",alpha=0.2))
+polygon(c(c(13.5,14.5), rev(c(13.5,14.5))),
+        c(c(quantile(data$"sim_prev_T.14",0.25),quantile(data$"sim_prev_T.14",0.25)),
+          rev(c(quantile(data$"sim_prev_T.14",0.75),quantile(data$"sim_prev_T.14",0.75)))),
+        border=NA, col=transp("brown4",alpha=0.2))
+polygon(c(c(14.5,15.5), rev(c(14.5,15.5))),
+        c(c(quantile(data$"sim_prev_T.15",0.25),quantile(data$"sim_prev_T.15",0.25)),
+          rev(c(quantile(data$"sim_prev_T.15",0.75),quantile(data$"sim_prev_T.15",0.75)))),
+        border=NA, col=transp("brown4",alpha=0.2))
+polygon(c(c(15.5,16.45), rev(c(15.5,16.45))),
+        c(c(quantile(data$"sim_prev_T.16",0.25),quantile(data$"sim_prev_T.16",0.25)),
+          rev(c(quantile(data$"sim_prev_T.16",0.75),quantile(data$"sim_prev_T.16",0.75)))),
+        border=NA, col=transp("brown4",alpha=0.2))
+
+points(c(sum(PREV_T[,1]),sum(PREV_T[,2]),sum(PREV_T[,3]),sum(PREV_T[,4]),
+         sum(PREV_T[,5]),sum(PREV_T[,6]),sum(PREV_T[,7]),sum(PREV_T[,8]),
+         sum(PREV_T[,9]),sum(PREV_T[,10]),sum(PREV_T[,11]),sum(PREV_T[,12]),
+         sum(PREV_T[,13]),sum(PREV_T[,14]),sum(PREV_T[,15]),sum(PREV_T[,16])),pch=20,cex=2,col="red")
+
+axis(1,at=seq(2.5,14.5,4),labels=c(2,3,4,5))
+
 ####################################
 ##
 ## Mean data for the model estimates
@@ -31,13 +389,28 @@ data<-data[501:1000,]##dropping burn in so keeping the appropriate data
 sum(data[,252:267])/(500*16) ##mouse
 sum(data[,284:299])/(500*16) ##mosquito
 
+avec<-bvec<-numeric(10000)
+vec1<-stack(data[,252:267]);vec2<-stack(data[,284:299])
+for(i in 1:10000)  avec[i]<-mean(sample(vec1$values,replace=T),na.rm=T)
+quantile(avec,c(0.025,0.975));thet_mouseCL <- 0.6697934;thet_mouseCU <- 0.6742318
+for(i in 1:10000)  bvec[i]<-mean(sample(vec2$values,replace=T),na.rm=T)
+quantile(bvec,c(0.025,0.975));thet_mosqCL <- 0.5112327;thet_mosqCU <- 0.5168620
+
+
 #Treatment
 sum(data[,268:283])/(500*16)
 sum(data[,300:315])/(500*16)
 
+cvec<-dvec<-numeric(10000)
+vec3<-stack(data[,268:283]);vec4<-stack(data[,300:315])
+for(i in 1:10000)  cvec[i]<-mean(sample(vec3$values,replace=T),na.rm=T)
+quantile(cvec,c(0.025,0.975));thet_mouseTL <- 0.5626823;thet_mouseTU <- 0.5747212
+for(i in 1:10000)  dvec[i]<-mean(sample(vec4$values,replace=T),na.rm=T)
+quantile(dvec,c(0.025,0.975));thet_mosqTL <- 0.4664724;thet_mosqTU <- 0.4797919
+
+
 #Efficacy on mosquito infection
 (sum(data[,284:299])/(500*16)-sum(data[,300:315])/(500*16))/sum(data[,284:299])/(500*16)
-
 
 dateffCI<-matrix(nrow=500,ncol=16)
 dateffCI<-(data[,284:299]-data[,300:315])/data[,284:299]
@@ -62,6 +435,9 @@ sum(data[,268:283])/(500*16)
 (((sum(data[,284:299])/(500*16))-(sum(data[,300:315])/(500*16)))+
   ((sum(data[,252:267])/(500*16))-(sum(data[,268:283])/(500*16))))/
   ((sum(data[,284:299])/(500*16))+(sum(data[,252:267])/(500*16)))
+
+((thet_mouseCL-thet_mouseTL)+(thet_mosqCL-thet_mosqTL))/(thet_mouseCL+thet_mosqCL)
+((thet_mouseCU-thet_mouseTU)+(thet_mosqCU-thet_mosqTU))/(thet_mouseCU+thet_mosqCU)
 
 
 ##2 bites effect size
@@ -659,3 +1035,255 @@ gommod
 nc<-seq(0,20,0.01)
 pred2<-(gommod$par[1] * exp (gommod$par[2] * exp(gommod$par[3] * nc)))
 lines(nc,pred2,lwd=2,lty=2,col="black")
+
+
+####################
+## Contour Plots
+log_mu_ooc_TMeanBites2 <-   data$rho__log_mean_ooc_T + 
+  data$tau_bite__log_mean_ooc_T * data$rho_bite__log_mean_ooc_T.1 + 
+  data$tau_round__log_mean_ooc_T * data$rho_round__log_mean_ooc_T.1
+
+log_mu_ooc_TMeanBites3 <-   data$rho__log_mean_ooc_T + 
+  data$tau_bite__log_mean_ooc_T * data$rho_bite__log_mean_ooc_T.2 + 
+  data$tau_round__log_mean_ooc_T * data$rho_round__log_mean_ooc_T.2
+
+log_mu_ooc_TMeanBites4 <-   data$rho__log_mean_ooc_T + 
+  data$tau_bite__log_mean_ooc_T * data$rho_bite__log_mean_ooc_T.3 + 
+  data$tau_round__log_mean_ooc_T * data$rho_round__log_mean_ooc_T.3
+
+log_mu_ooc_TMeanBites5 <-   data$rho__log_mean_ooc_T + 
+  data$tau_bite__log_mean_ooc_T * data$rho_bite__log_mean_ooc_T.4 + 
+  data$tau_round__log_mean_ooc_T * data$rho_round__log_mean_ooc_T.4
+
+log_phi_ooc_TMeanB2 <-  data$rho__log_od_ooc_T + 
+  data$tau_bite__log_od_ooc_T * data$rho_bite__log_od_ooc_T.1 + 
+  data$tau_round__log_od_ooc_T * data$rho_round__log_od_ooc_T.1
+
+log_phi_ooc_TMeanB3 <-  data$rho__log_od_ooc_T + 
+  data$tau_bite__log_od_ooc_T * data$rho_bite__log_od_ooc_T.2 + 
+  data$tau_round__log_od_ooc_T * data$rho_round__log_od_ooc_T.2
+
+log_phi_ooc_TMeanB4 <-  data$rho__log_od_ooc_T + 
+  data$tau_bite__log_od_ooc_T * data$rho_bite__log_od_ooc_T.3 + 
+  data$tau_round__log_od_ooc_T * data$rho_round__log_od_ooc_T.3
+
+log_phi_ooc_TMeanB5 <-  data$rho__log_od_ooc_T + 
+  data$tau_bite__log_od_ooc_T * data$rho_bite__log_od_ooc_T.4 + 
+  data$tau_round__log_od_ooc_T * data$rho_round__log_od_ooc_T.4
+
+log_muB2 <-  data$beta_mu.1 * log_mu_ooc_TMeanBites2 + 
+  data$beta_mu.2 * log_phi_ooc_TMeanB2 + data$alpha_mu + 4
+log_phiB2 <-  data$beta_phi.1 * log_mu_ooc_TMeanBites2 +
+  data$beta_phi.2 * log_phi_ooc_TMeanB2 + data$alpha_phi + 4
+#plot(log_muB2~log_phiB2,col="red",ylim=c(-10,10),xlim=c(-4,10))
+
+log_muB3 <-  data$beta_mu.1 * log_mu_ooc_TMeanBites3 + 
+  data$beta_mu.2 * log_phi_ooc_TMeanB3 + data$alpha_mu + 4
+log_phiB3 <-  data$beta_phi.1 * log_mu_ooc_TMeanBites3 +
+  data$beta_phi.2 * log_phi_ooc_TMeanB3 + data$alpha_phi + 4
+#points(log_muB3~log_phiB3,col="green")
+
+log_muB4 <-  data$beta_mu.1 * log_mu_ooc_TMeanBites4 + 
+  data$beta_mu.2 * log_phi_ooc_TMeanB4 + data$alpha_mu + 4
+log_phiB4 <-  data$beta_phi.1 * log_mu_ooc_TMeanBites4 +
+  data$beta_phi.2 * log_phi_ooc_TMeanB4 + data$alpha_phi + 4
+#points(log_muB4~log_phiB4,col="blue")
+
+log_muB5 <-  data$beta_mu.1 * log_mu_ooc_TMeanBites5 + 
+  data$beta_mu.2 * log_phi_ooc_TMeanB5 + data$alpha_mu + 4
+log_phiB5 <-  data$beta_phi.1 * log_mu_ooc_TMeanBites5 +
+  data$beta_phi.2 * log_phi_ooc_TMeanB5 + data$alpha_phi + 4
+#points(log_muB5~log_phiB5,col="black")
+
+#logit_theta_T2 <-    data$beta_theta.1 * log_muB2 +
+ # data$beta_theta.2 * log_phiB2 + data$alpha_theta
+
+#logit_theta_T3 <-    data$beta_theta.1 * log_muB3 +
+ # data$beta_theta.2 * log_phiB3 + data$alpha_theta
+
+#logit_theta_T4 <-    data$beta_theta.1 * log_muB4 +
+ # data$beta_theta.2 * log_phiB4 + data$alpha_theta
+
+#logit_theta_T5 <-    data$beta_theta.1 * log_muB5 +
+ # data$beta_theta.2 * log_phiB5 + data$alpha_theta
+
+x = log_muB2
+y = log_phiB2; bites <- rep(2,length(x))
+ztemp =(data$theta_T.1+data$theta_T.2+data$theta_T.3+data$theta_T.4)/4
+zBtemp =(data$theta_T_mosquito.1+data$theta_T_mosquito.2+data$theta_T_mosquito.3+data$theta_T_mosquito.4)/4
+dattr2<-data.frame(log_mu_ooc_TMeanBites2,log_phi_ooc_TMeanB2,x,y,ztemp,zBtemp,bites)
+
+x = log_muB3
+y = log_phiB3; bites <- rep(3,length(x))
+ztemp =(data$theta_T.5+data$theta_T.6+data$theta_T.7+data$theta_T.8)/4
+zBtemp =(data$theta_T_mosquito.5+data$theta_T_mosquito.6+data$theta_T_mosquito.7+data$theta_T_mosquito.8)/4
+dattr3<-data.frame(log_mu_ooc_TMeanBites3,log_phi_ooc_TMeanB3,x,y,ztemp,zBtemp,bites)
+
+x = log_muB4
+y = log_phiB4; bites <- rep(4,length(x))
+ztemp =(data$theta_T.9+data$theta_T.10+data$theta_T.11+data$theta_T.12)/4
+zBtemp =(data$theta_T_mosquito.9+data$theta_T_mosquito.10+data$theta_T_mosquito.11+data$theta_T_mosquito.12)/4
+dattr4<-data.frame(log_mu_ooc_TMeanBites4,log_phi_ooc_TMeanB4,x,y,ztemp,zBtemp,bites)
+
+x = log_muB5
+y = log_phiB5; bites <- rep(5,length(x))
+ztemp =(data$theta_T.13+data$theta_T.14+data$theta_T.15+data$theta_T.16)/4
+zBtemp =(data$theta_T_mosquito.13+data$theta_T_mosquito.14+data$theta_T_mosquito.15+data$theta_T_mosquito.16)/4
+dattr5<-data.frame(log_mu_ooc_TMeanBites5,log_phi_ooc_TMeanB5,x,y,ztemp,zBtemp,bites)
+
+#dattrTEST <-rbind(dattr2,dattr3,dattr4,dattr5)
+#dattrT <- as.data.frame(dattrTEST)
+
+#contour(interp(dattr$x, dattr$y, dattr$ztemp),color.palette = cm.colors,duplicate=FALSE)
+
+library(akima)
+par(mar=c(5,5,2,2))
+#par(mfrow=c(2,4))
+my.heat.colors <- function(x) { rev(heat.colors(x, alpha=1)) }
+my.terrain.colors <- function(x) { rev(terrain.colors(x, alpha=1)) }
+my.cm.colors <- function(x) { rev(cm.colors(x, alpha=1)) }
+my.topo.colors <- function(x) { rev(topo.colors(x, alpha=1)) }
+
+my.matrix1  <- interp(dattr2$x, dattr2$y, dattr2$ztemp)
+my.matrix2  <- interp(dattr3$x, dattr3$y, dattr3$ztemp)
+my.matrix3  <- interp(dattr4$x, dattr4$y, dattr4$ztemp)
+my.matrix4  <- interp(dattr5$x, dattr5$y, dattr5$ztemp)
+
+par(mar=c(5,5,5,5))
+filled.contour(my.matrix1, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu",ylab="phi",main="Treatment Bites 2")
+filled.contour(my.matrix2, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu",ylab="phi",main="Treatment Bites 3")
+filled.contour(my.matrix3, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu",ylab="phi",main="Treatment Bites 4")
+filled.contour(my.matrix4, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu",ylab="phi",main="Treatment Bites 5")
+
+my.matrix1B  <- interp(dattr2$x, dattr2$y, dattr2$zBtemp)
+my.matrix2B  <- interp(dattr3$x, dattr3$y, dattr3$zBtemp)
+my.matrix3B  <- interp(dattr4$x, dattr4$y, dattr4$zBtemp)
+my.matrix4B  <- interp(dattr5$x, dattr5$y, dattr5$zBtemp)
+filled.contour(my.matrix1B, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0,0.9),xlab="mu",ylab="phi",main="Treatment Bites 2")
+filled.contour(my.matrix2B, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0,0.9),xlab="mu",ylab="phi",main="Treatment Bites 3")
+filled.contour(my.matrix3B, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0,0.9),xlab="mu",ylab="phi",main="Treatment Bites 4")
+filled.contour(my.matrix4B, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0,0.9),xlab="mu",ylab="phi",main="Treatment Bites 5")
+
+my.matrix1D  <- interp(dattr2$log_mu_ooc_TMeanBites2, dattr2$log_phi_ooc_TMeanB2, dattr2$ztemp)
+my.matrix2D  <- interp(dattr3$log_mu_ooc_TMeanBites3, dattr3$log_phi_ooc_TMeanB3, dattr3$ztemp)
+my.matrix3D  <- interp(dattr4$log_mu_ooc_TMeanBites4, dattr4$log_phi_ooc_TMeanB4, dattr4$ztemp)
+my.matrix4D  <- interp(dattr5$log_mu_ooc_TMeanBites5, dattr5$log_phi_ooc_TMeanB5, dattr5$ztemp)
+filled.contour(my.matrix1D, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0,0.9),xlab="mu",ylab="phi",main="Treatment Bites 2")
+filled.contour(my.matrix2D, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0,0.9),xlab="mu",ylab="phi",main="Treatment Bites 3")
+filled.contour(my.matrix3D, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0,0.9),xlab="mu",ylab="phi",main="Treatment Bites 4")
+filled.contour(my.matrix4D, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0,0.9),xlab="mu",ylab="phi",main="Treatment Bites 5")
+
+
+my.matT <- interp(dattrT$x,dattrT$y,dattrT$bites)
+filled.contour(my.matT,nlevels=4,color=my.heat.colors)
+##############################
+## Repeat for controls
+log_mu_ooc_CMeanBites2 <-   data$rho__log_mean_ooc_C + 
+  data$tau_bite__log_mean_ooc_C * data$rho_bite__log_mean_ooc_C.1,na.rm=T + 
+  data$tau_round__log_mean_ooc_C * data$rho_round__log_mean_ooc_C.1
+
+log_mu_ooc_CMeanBites3 <-   data$rho__log_mean_ooc_C + 
+  data$tau_bite__log_mean_ooc_C * data$rho_bite__log_mean_ooc_C.2,na.rm=T + 
+  data$tau_round__log_mean_ooc_C * data$rho_round__log_mean_ooc_C.2
+
+log_mu_ooc_CMeanBites4 <-   data$rho__log_mean_ooc_C + 
+  data$tau_bite__log_mean_ooc_C * data$rho_bite__log_mean_ooc_C.3,na.rm=T + 
+  data$tau_round__log_mean_ooc_C * data$rho_round__log_mean_ooc_C.3
+
+log_mu_ooc_CMeanBites5 <-   data$rho__log_mean_ooc_C + 
+  data$tau_bite__log_mean_ooc_C * data$rho_bite__log_mean_ooc_C.4,na.rm=T + 
+  data$tau_round__log_mean_ooc_C * data$rho_round__log_mean_ooc_C.4
+
+log_phi_ooc_CMeanB2 <-  data$rho__log_od_ooc_C + 
+  data$tau_bite__log_od_ooc_C * data$rho_bite__log_od_ooc_C.1 + 
+  data$tau_round__log_od_ooc_C * data$rho_round__log_od_ooc_C.1
+
+log_phi_ooc_CMeanB3 <-  data$rho__log_od_ooc_C + 
+  data$tau_bite__log_od_ooc_C * data$rho_bite__log_od_ooc_C.2 + 
+  data$tau_round__log_od_ooc_C * data$rho_round__log_od_ooc_C.2
+
+log_phi_ooc_CMeanB4 <-  data$rho__log_od_ooc_C + 
+  data$tau_bite__log_od_ooc_C * data$rho_bite__log_od_ooc_C.3 + 
+  data$tau_round__log_od_ooc_C * data$rho_round__log_od_ooc_C.3
+
+log_phi_ooc_CMeanB5 <-  data$rho__log_od_ooc_C + 
+  data$tau_bite__log_od_ooc_C * data$rho_bite__log_od_ooc_C.4 + 
+  data$tau_round__log_od_ooc_C * data$rho_round__log_od_ooc_C.4
+
+log_muB2 <-  data$beta_mu.1 * log_mu_ooc_CMeanBites2 + 
+  data$beta_mu.2 * log_phi_ooc_CMeanB2 + data$alpha_mu + 4
+log_phiB2 <-  data$beta_phi.1 * log_mu_ooc_CMeanBites2 +
+  data$beta_phi.2 * log_phi_ooc_CMeanB2 + data$alpha_phi + 4
+#plot(log_muB2~log_phiB2,col="red",ylim=c(-10,10),xlim=c(-4,10))
+
+log_muB3 <-  data$beta_mu.1 * log_mu_ooc_CMeanBites3 + 
+  data$beta_mu.2 * log_phi_ooc_CMeanB3 + data$alpha_mu + 4
+log_phiB3 <-  data$beta_phi.1 * log_mu_ooc_CMeanBites3 +
+  data$beta_phi.2 * log_phi_ooc_CMeanB3 + data$alpha_phi + 4
+#points(log_muB3~log_phiB3,col="green")
+
+log_muB4 <-  data$beta_mu.1 * log_mu_ooc_CMeanBites4 + 
+  data$beta_mu.2 * log_phi_ooc_CMeanB4 + data$alpha_mu + 4
+log_phiB4 <-  data$beta_phi.1 * log_mu_ooc_CMeanBites4 +
+  data$beta_phi.2 * log_phi_ooc_CMeanB4 + data$alpha_phi + 4
+#points(log_muB4~log_phiB4,col="blue")
+
+log_muB5 <-  data$beta_mu.1 * log_mu_ooc_CMeanBites5 + 
+  data$beta_mu.2 * log_phi_ooc_CMeanB5 + data$alpha_mu + 4
+log_phiB5 <-  data$beta_phi.1 * log_mu_ooc_CMeanBites5 +
+  data$beta_phi.2 * log_phi_ooc_CMeanB5 + data$alpha_phi + 4
+#points(log_muB5~log_phiB5,col="black")
+
+x = log_muB2
+y = log_phiB2; bites <- rep(2,length(x))
+ztemp =(data$theta_C.1+data$theta_C.2+data$theta_C.3+data$theta_C.4)/4
+zBtemp =(data$theta_C_mosquito.1+data$theta_C_mosquito.2+data$theta_C_mosquito.3+data$theta_C_mosquito.4)/4
+dattr2<-data.frame(x,y,ztemp,zBtemp,bites)
+
+x = log_muB3
+y = log_phiB3; bites <- rep(3,length(x))
+ztemp =(data$theta_C.5+data$theta_C.6+data$theta_C.7+data$theta_C.8)/4
+zBtemp =(data$theta_C_mosquito.5+data$theta_C_mosquito.6+data$theta_C_mosquito.7+data$theta_C_mosquito.8)/4
+dattr3<-data.frame(x,y,ztemp,zBtemp,bites)
+
+x = log_muB4
+y = log_phiB4; bites <- rep(4,length(x))
+ztemp =(data$theta_C.9+data$theta_C.10+data$theta_C.11+data$theta_C.12)/4
+zBtemp =(data$theta_C_mosquito.9+data$theta_C_mosquito.10+data$theta_C_mosquito.11+data$theta_C_mosquito.12)/4
+dattr4<-data.frame(x,y,ztemp,zBtemp,bites)
+
+x = log_muB5
+y = log_phiB5; bites <- rep(5,length(x))
+ztemp =(data$theta_C.13+data$theta_C.14+data$theta_C.15+data$theta_C.16)/4
+zBtemp =(data$theta_C_mosquito.13+data$theta_C_mosquito.14+data$theta_C_mosquito.15+data$theta_C_mosquito.16)/4
+dattr5<-data.frame(x,y,ztemp,zBtemp,bites)
+
+dattrTEST <-rbind(dattr2,dattr3,dattr4,dattr5)
+dattr <- as.data.frame(dattrTEST)
+
+#contour(interp(dattr$x, dattr$y, dattr$ztemp),color.palette = cm.colors,duplicate=FALSE)
+
+my.matrix5  <- interp(dattr2$x, dattr2$y, dattr2$ztemp)
+my.matrix6  <- interp(dattr3$x, dattr3$y, dattr3$ztemp)
+my.matrix7  <- interp(dattr4$x, dattr4$y, dattr4$ztemp)
+my.matrix8  <- interp(dattr5$x, dattr5$y, dattr5$ztemp)
+
+my.matrix5B  <- interp(dattr2$x, dattr2$y, dattr2$zBtemp)
+my.matrix6B <- interp(dattr3$x, dattr3$y, dattr3$zBtemp)
+my.matrix7B  <- interp(dattr4$x, dattr4$y, dattr4$zBtemp)
+my.matrix8B  <- interp(dattr5$x, dattr5$y, dattr5$zBtemp)
+
+filled.contour(my.matrix5, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu",ylab="phi",main="Controls Bites 2")
+filled.contour(my.matrix6, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu",ylab="phi",main="Controls Bites 3")
+filled.contour(my.matrix7, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu",ylab="phi",main="Controls Bites 4")
+filled.contour(my.matrix8, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu",ylab="phi",main="Controls Bites 5")
+
+filled.contour(my.matrix5B, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu",ylab="phi",main="Controls Bites 2")
+filled.contour(my.matrix6B, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu",ylab="phi",main="Controls Bites 3")
+filled.contour(my.matrix7B, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu",ylab="phi",main="Controls Bites 4")
+filled.contour(my.matrix8B, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu",ylab="phi",main="Controls Bites 5")
+
+my.matC  <- interp(dattr$x, dattr$y, dattr$bites)
+filled.contour(my.matC, nlevels=5, color=my.heat.colors,xlab="mu",ylab="phi",xlim=c(-14,6),ylim=c(-5,1),zlim=c(2:5))
+filled.contour(my.matT,nlevels=5,color=my.heat.colors,xlab="mu",ylab="phi",xlim=c(-14,6),ylim=c(-5,1),zlim=c(2,3,4,5),
+               key.title = title(main = "Bites"))

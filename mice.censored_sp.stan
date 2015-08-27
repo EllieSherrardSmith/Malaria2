@@ -260,10 +260,7 @@ generated quantities {
 
   real<lower=0, upper=1> theta_C[N_C];
   real<lower=0, upper=1> theta_T[N_T];
-
-  real<lower=0, upper=1> theta_C_mosquito[N_C];
-  real<lower=0, upper=1> theta_T_mosquito[N_T];
-
+  
   int<lower=0, upper=N_mice> sim_prev_C[N_C];
   int<lower=0, upper=N_mice> sim_prev_T[N_T];
 
@@ -292,8 +289,6 @@ generated quantities {
       
       sim_ooc_count_C[g]
         <- neg_binomial_2_log_rng(log_mu_ooc, exp(log_phi_ooc));
-
-      theta_C_mosquito[g] <- 1.0 - neg_binomial_2_cdf(0, exp(log_mu_ooc), exp(log_phi_ooc));
       
       // Simulate sporozoite count measurement
       log_mu_s <-  beta_mu[1] * log_mu_ooc
@@ -346,8 +341,6 @@ generated quantities {
       
       sim_ooc_count_T[g]
         <- neg_binomial_2_log_rng(log_mu_ooc, exp(log_phi_ooc));
-
-      theta_T_mosquito[g] <- 1.0 - neg_binomial_2_cdf(0, exp(log_mu_ooc), exp(log_phi_ooc));
       
       // Simulate sporozoite count measurement
       log_mu_s <-  beta_mu[1] * log_mu_ooc

@@ -227,6 +227,19 @@ Summary_data3<-list(N=77,
 #params = extract(test3);names(params)
 
 plot(sumdat$PARASITEMIA~sumdat$OOCYSTS,xlab="Mean oocysts",ylab="Mean parasitemia in mice",cex.lab=2)
+points(sumdat$PARASITEMIA[sumdat$drugtype=="controlA"]~sumdat$OOCYSTS[sumdat$drugtype=="controlA"],
+       col="grey16",pch=15,cex=1.5)
+points(sumdat$PARASITEMIA[sumdat$drugtype=="controlB"]~sumdat$OOCYSTS[sumdat$drugtype=="controlB"],
+       col="grey65",pch=15,cex=1.5)
+
+points(sumdat$PARASITEMIA[sumdat$drugtype=="ATV32" | sumdat$drugtype=="ATV25" | sumdat$drugtype=="ATV50"]~
+         sumdat$OOCYSTS[sumdat$drugtype=="ATV32" | sumdat$drugtype=="ATV25" | sumdat$drugtype=="ATV50"],
+       col="aquamarine",pch=20,cex=1.7)
+
+
+points(sumdat$PARASITEMIA[sumdat$drugtype=="ATV32"]~
+         sumdat$OOCYSTS[sumdat$drugtype=="ATV32"],
+       col="red",pch=20,cex=1.7)
 
 #pred3<-(mean(params$alpha[501:1000]) * nc^mean(params$sigma[501:1000]))/
 #  (mean(params$delta[501:1000]) + mean(params$beta[501:1000]) * nc^mean(params$sigma[501:1000]))
