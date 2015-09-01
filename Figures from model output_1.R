@@ -77,6 +77,50 @@ axis(1,at=c(1.5,3.5,5.5,7.5,9.5),labels=c("0","1-10","11-100","101-1000","1001+"
 points(spors_C[4,]~c(1,3,5,7,9),col="red",pch=20,cex=2)
 points(spors_T[4,]~c(2,4,6,8,10),col="orange",pch=20,cex=2)
 
+par(mfrow=c(2,2))
+boxplot(data$"sim_s_count_C.5.1",data$"sim_s_count_T.5.1",
+        data$"sim_s_count_C.5.2",data$"sim_s_count_T.5.2",
+        data$"sim_s_count_C.5.3",data$"sim_s_count_T.5.3",
+        data$"sim_s_count_C.5.4",data$"sim_s_count_T.5.4",
+        data$"sim_s_count_C.5.5",data$"sim_s_count_T.5.5",
+        xaxt="n",ylab="Simulated sporozoite counts",main= "Bite 3, Round 1",
+        col=c("aquamarine","blueviolet"),frame=F,cex.lab=1.5)
+axis(1,at=c(1.5,3.5,5.5,7.5,9.5),labels=c("0","1-10","11-100","101-1000","1001+"),cex.lab=2)
+points(spors_C[5,]~c(1,3,5,7,9),col="red",pch=20,cex=2)
+points(spors_T[5,]~c(2,4,6,8,10),col="orange",pch=20,cex=2)
+
+boxplot(data$"sim_s_count_C.6.1",data$"sim_s_count_T.6.1",
+        data$"sim_s_count_C.6.2",data$"sim_s_count_T.6.2",
+        data$"sim_s_count_C.6.3",data$"sim_s_count_T.6.3",
+        data$"sim_s_count_C.6.4",data$"sim_s_count_T.6.4",
+        data$"sim_s_count_C.6.5",data$"sim_s_count_T.6.5",
+        xaxt="n",ylab="Simulated sporozoite counts",main= "Bite 3, Round 2",
+        col=c("aquamarine","blueviolet"),frame=F,cex.lab=1.5)
+axis(1,at=c(1.5,3.5,5.5,7.5,9.5),labels=c("0","1-10","11-100","101-1000","1001+"),cex.lab=2)
+points(spors_C[6,]~c(1,3,5,7,9),col="red",pch=20,cex=2)
+points(spors_T[6,]~c(2,4,6,8,10),col="orange",pch=20,cex=2)
+
+boxplot(data$"sim_s_count_C.7.1",data$"sim_s_count_T.7.1",
+        data$"sim_s_count_C.7.2",data$"sim_s_count_T.7.2",
+        data$"sim_s_count_C.7.3",data$"sim_s_count_T.7.3",
+        data$"sim_s_count_C.7.4",data$"sim_s_count_T.7.4",
+        data$"sim_s_count_C.7.5",data$"sim_s_count_T.7.5",
+        xaxt="n",ylab="Simulated sporozoite counts",main= "Bite 3, Round 3",
+        col=c("aquamarine","blueviolet"),frame=F,cex.lab=1.5)
+axis(1,at=c(1.5,3.5,5.5,7.5,9.5),labels=c("0","1-10","11-100","101-1000","1001+"),cex=2)
+points(spors_C[7,]~c(1,3,5,7,9),col="red",pch=20,cex=2)
+points(spors_T[7,]~c(2,4,6,8,10),col="orange",pch=20,cex=2)
+
+boxplot(data$"sim_s_count_C.8.1",data$"sim_s_count_T.8.1",
+        data$"sim_s_count_C.8.2",data$"sim_s_count_T.8.2",
+        data$"sim_s_count_C.8.3",data$"sim_s_count_T.8.3",
+        data$"sim_s_count_C.8.4",data$"sim_s_count_T.8.4",
+        data$"sim_s_count_C.8.5",data$"sim_s_count_T.8.5",
+        xaxt="n",ylab="Simulated sporozoite counts",main= "Bite 3, Round 4",
+        col=c("aquamarine","blueviolet"),frame=F,cex.lab=1.5)
+axis(1,at=c(1.5,3.5,5.5,7.5,9.5),labels=c("0","1-10","11-100","101-1000","1001+"),cex.lab=2)
+points(spors_C[8,]~c(1,3,5,7,9),col="red",pch=20,cex=2)
+points(spors_T[8,]~c(2,4,6,8,10),col="orange",pch=20,cex=2)
 
 par(mfrow=c(2,2))
 boxplot(data$"sim_s_count_C.9.1",data$"sim_s_count_T.9.1",
@@ -123,6 +167,50 @@ axis(1,at=c(1.5,3.5,5.5,7.5,9.5),labels=c("0","1-10","11-100","101-1000","1001+"
 points(spors_C[12,]~c(1,3,5,7,9),col="red",pch=20,cex=2)
 points(spors_T[12,]~c(2,4,6,8,10),col="orange",pch=20,cex=2)
 
+par(mfrow=c(2,2))
+boxplot(data$"sim_s_count_C.13.1",data$"sim_s_count_T.13.1",
+        data$"sim_s_count_C.13.2",data$"sim_s_count_T.13.2",
+        data$"sim_s_count_C.13.3",data$"sim_s_count_T.13.3",
+        data$"sim_s_count_C.13.4",data$"sim_s_count_T.13.4",
+        data$"sim_s_count_C.13.5",data$"sim_s_count_T.13.5",
+        xaxt="n",ylab="Simulated sporozoite counts",main= "Bite 5, Round 1",
+        col=c("aquamarine","blueviolet"),frame=F,cex.lab=1.5)
+axis(1,at=c(1.5,3.5,5.5,7.5,9.5),labels=c("0","1-10","11-100","101-1000","1001+"),cex.lab=2)
+points(spors_C[13,]~c(1,3,5,7,9),col="red",pch=20,cex=2)
+points(spors_T[13,]~c(2,4,6,8,10),col="orange",pch=20,cex=2)
+
+boxplot(data$"sim_s_count_C.14.1",data$"sim_s_count_T.14.1",
+        data$"sim_s_count_C.14.2",data$"sim_s_count_T.14.2",
+        data$"sim_s_count_C.14.3",data$"sim_s_count_T.14.3",
+        data$"sim_s_count_C.14.4",data$"sim_s_count_T.14.4",
+        data$"sim_s_count_C.14.5",data$"sim_s_count_T.14.5",
+        xaxt="n",ylab="Simulated sporozoite counts",main= "Bite 5, Round 2",
+        col=c("aquamarine","blueviolet"),frame=F,cex.lab=1.5)
+axis(1,at=c(1.5,3.5,5.5,7.5,9.5),labels=c("0","1-10","11-100","101-1000","1001+"),cex.lab=2)
+points(spors_C[14,]~c(1,3,5,7,9),col="red",pch=20,cex=2)
+points(spors_T[14,]~c(2,4,6,8,10),col="orange",pch=20,cex=2)
+
+boxplot(data$"sim_s_count_C.15.1",data$"sim_s_count_T.15.1",
+        data$"sim_s_count_C.15.2",data$"sim_s_count_T.15.2",
+        data$"sim_s_count_C.15.3",data$"sim_s_count_T.15.3",
+        data$"sim_s_count_C.15.4",data$"sim_s_count_T.15.4",
+        data$"sim_s_count_C.15.5",data$"sim_s_count_T.15.5",
+        xaxt="n",ylab="Simulated sporozoite counts",main= "Bite 5, Round 3",
+        col=c("aquamarine","blueviolet"),frame=F,cex.lab=1.5)
+axis(1,at=c(1.5,3.5,5.5,7.5,9.5),labels=c("0","1-10","11-100","101-1000","1001+"),cex=2)
+points(spors_C[15,]~c(1,3,5,7,9),col="red",pch=20,cex=2)
+points(spors_T[15,]~c(2,4,6,8,10),col="orange",pch=20,cex=2)
+
+boxplot(data$"sim_s_count_C.16.1",data$"sim_s_count_T.16.1",
+        data$"sim_s_count_C.16.2",data$"sim_s_count_T.16.2",
+        data$"sim_s_count_C.16.3",data$"sim_s_count_T.16.3",
+        data$"sim_s_count_C.16.4",data$"sim_s_count_T.16.4",
+        data$"sim_s_count_C.16.5",data$"sim_s_count_T.16.5",
+        xaxt="n",ylab="Simulated sporozoite counts",main= "Bite 5, Round 4",
+        col=c("aquamarine","blueviolet"),frame=F,cex.lab=1.5)
+axis(1,at=c(1.5,3.5,5.5,7.5,9.5),labels=c("0","1-10","11-100","101-1000","1001+"),cex.lab=2)
+points(spors_C[16,]~c(1,3,5,7,9),col="red",pch=20,cex=2)
+points(spors_T[16,]~c(2,4,6,8,10),col="orange",pch=20,cex=2)
 
 ###########################
 ##
@@ -1111,28 +1199,28 @@ x = log_muB2
 y = log_phiB2; bites <- rep(2,length(x))
 ztemp =(data$theta_T.1+data$theta_T.2+data$theta_T.3+data$theta_T.4)/4
 zBtemp =(data$theta_T_mosquito.1+data$theta_T_mosquito.2+data$theta_T_mosquito.3+data$theta_T_mosquito.4)/4
-dattr2<-data.frame(log_mu_ooc_TMeanBites2,log_phi_ooc_TMeanB2,x,y,ztemp,zBtemp,bites)
+dattrT2<-data.frame(log_mu_ooc_TMeanBites2,log_phi_ooc_TMeanB2,x,y,ztemp,zBtemp,bites)
 
 x = log_muB3
 y = log_phiB3; bites <- rep(3,length(x))
 ztemp =(data$theta_T.5+data$theta_T.6+data$theta_T.7+data$theta_T.8)/4
 zBtemp =(data$theta_T_mosquito.5+data$theta_T_mosquito.6+data$theta_T_mosquito.7+data$theta_T_mosquito.8)/4
-dattr3<-data.frame(log_mu_ooc_TMeanBites3,log_phi_ooc_TMeanB3,x,y,ztemp,zBtemp,bites)
+dattrT3<-data.frame(log_mu_ooc_TMeanBites3,log_phi_ooc_TMeanB3,x,y,ztemp,zBtemp,bites)
 
 x = log_muB4
 y = log_phiB4; bites <- rep(4,length(x))
 ztemp =(data$theta_T.9+data$theta_T.10+data$theta_T.11+data$theta_T.12)/4
 zBtemp =(data$theta_T_mosquito.9+data$theta_T_mosquito.10+data$theta_T_mosquito.11+data$theta_T_mosquito.12)/4
-dattr4<-data.frame(log_mu_ooc_TMeanBites4,log_phi_ooc_TMeanB4,x,y,ztemp,zBtemp,bites)
+dattrT4<-data.frame(log_mu_ooc_TMeanBites4,log_phi_ooc_TMeanB4,x,y,ztemp,zBtemp,bites)
 
 x = log_muB5
 y = log_phiB5; bites <- rep(5,length(x))
 ztemp =(data$theta_T.13+data$theta_T.14+data$theta_T.15+data$theta_T.16)/4
 zBtemp =(data$theta_T_mosquito.13+data$theta_T_mosquito.14+data$theta_T_mosquito.15+data$theta_T_mosquito.16)/4
-dattr5<-data.frame(log_mu_ooc_TMeanBites5,log_phi_ooc_TMeanB5,x,y,ztemp,zBtemp,bites)
+dattrT5<-data.frame(log_mu_ooc_TMeanBites5,log_phi_ooc_TMeanB5,x,y,ztemp,zBtemp,bites)
 
-#dattrTEST <-rbind(dattr2,dattr3,dattr4,dattr5)
-#dattrT <- as.data.frame(dattrTEST)
+dattrTEST <-rbind(dattrT2,dattrT3,dattrT4,dattrT5)
+dattrT <- as.data.frame(dattrTEST)
 
 #contour(interp(dattr$x, dattr$y, dattr$ztemp),color.palette = cm.colors,duplicate=FALSE)
 
@@ -1144,54 +1232,62 @@ my.terrain.colors <- function(x) { rev(terrain.colors(x, alpha=1)) }
 my.cm.colors <- function(x) { rev(cm.colors(x, alpha=1)) }
 my.topo.colors <- function(x) { rev(topo.colors(x, alpha=1)) }
 
-my.matrix1  <- interp(dattr2$x, dattr2$y, dattr2$ztemp)
-my.matrix2  <- interp(dattr3$x, dattr3$y, dattr3$ztemp)
-my.matrix3  <- interp(dattr4$x, dattr4$y, dattr4$ztemp)
-my.matrix4  <- interp(dattr5$x, dattr5$y, dattr5$ztemp)
+my.matrix1  <- interp(dattrT2$x, dattrT2$y, dattrT2$ztemp)
+my.matrix2  <- interp(dattrT3$x, dattrT3$y, dattrT3$ztemp)
+my.matrix3  <- interp(dattrT4$x, dattrT4$y, dattrT4$ztemp)
+my.matrix4  <- interp(dattrT5$x, dattrT5$y, dattrT5$ztemp)
 
 par(mar=c(5,5,5,5))
-filled.contour(my.matrix1, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu",ylab="phi",main="Treatment Bites 2")
-filled.contour(my.matrix2, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu",ylab="phi",main="Treatment Bites 3")
-filled.contour(my.matrix3, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu",ylab="phi",main="Treatment Bites 4")
-filled.contour(my.matrix4, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu",ylab="phi",main="Treatment Bites 5")
+filled.contour(my.matrix1, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu_sporozoites",ylab="phi_sporozoites",main="Treatment Bites 2 (Theta_mouse)")
+filled.contour(my.matrix2, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu_sporozoites",ylab="phi_sporozoites",main="Treatment Bites 3 (Theta_mouse)")
+filled.contour(my.matrix3, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu_sporozoites",ylab="phi_sporozoites",main="Treatment Bites 4 (Theta_mouse)")
+filled.contour(my.matrix4, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu_sporozoites",ylab="phi_sporozoites",main="Treatment Bites 5 (Theta_mouse)")
 
-my.matrix1B  <- interp(dattr2$x, dattr2$y, dattr2$zBtemp)
-my.matrix2B  <- interp(dattr3$x, dattr3$y, dattr3$zBtemp)
-my.matrix3B  <- interp(dattr4$x, dattr4$y, dattr4$zBtemp)
-my.matrix4B  <- interp(dattr5$x, dattr5$y, dattr5$zBtemp)
-filled.contour(my.matrix1B, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0,0.9),xlab="mu",ylab="phi",main="Treatment Bites 2")
-filled.contour(my.matrix2B, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0,0.9),xlab="mu",ylab="phi",main="Treatment Bites 3")
-filled.contour(my.matrix3B, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0,0.9),xlab="mu",ylab="phi",main="Treatment Bites 4")
-filled.contour(my.matrix4B, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0,0.9),xlab="mu",ylab="phi",main="Treatment Bites 5")
+my.matrix1B  <- interp(dattrT2$x, dattrT2$y, dattrT2$zBtemp)
+my.matrix2B  <- interp(dattrT3$x, dattrT3$y, dattrT3$zBtemp)
+my.matrix3B  <- interp(dattrT4$x, dattrT4$y, dattrT4$zBtemp)
+my.matrix4B  <- interp(dattrT5$x, dattrT5$y, dattrT5$zBtemp)
+filled.contour(my.matrix1B, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0,0.9),xlab="mu_sporozoites",ylab="phi_sporozoites",main="Treatment Bites 2 (Theta_mosquito)")
+filled.contour(my.matrix2B, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0,0.9),xlab="mu_sporozoites",ylab="phi_sporozoites",main="Treatment Bites 3 (Theta_mosquito)")
+filled.contour(my.matrix3B, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0,0.9),xlab="mu_sporozoites",ylab="phi_sporozoites",main="Treatment Bites 4 (Theta_mosquito)")
+filled.contour(my.matrix4B, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0,0.9),xlab="mu_sporozoites",ylab="phi_sporozoites",main="Treatment Bites 5 (Theta_mosquito)")
 
-my.matrix1D  <- interp(dattr2$log_mu_ooc_TMeanBites2, dattr2$log_phi_ooc_TMeanB2, dattr2$ztemp)
-my.matrix2D  <- interp(dattr3$log_mu_ooc_TMeanBites3, dattr3$log_phi_ooc_TMeanB3, dattr3$ztemp)
-my.matrix3D  <- interp(dattr4$log_mu_ooc_TMeanBites4, dattr4$log_phi_ooc_TMeanB4, dattr4$ztemp)
-my.matrix4D  <- interp(dattr5$log_mu_ooc_TMeanBites5, dattr5$log_phi_ooc_TMeanB5, dattr5$ztemp)
-filled.contour(my.matrix1D, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0,0.9),xlab="mu",ylab="phi",main="Treatment Bites 2")
-filled.contour(my.matrix2D, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0,0.9),xlab="mu",ylab="phi",main="Treatment Bites 3")
-filled.contour(my.matrix3D, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0,0.9),xlab="mu",ylab="phi",main="Treatment Bites 4")
-filled.contour(my.matrix4D, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0,0.9),xlab="mu",ylab="phi",main="Treatment Bites 5")
+my.matrix1C  <- interp(dattrT2$log_mu_ooc_TMeanBites2, dattrT2$log_phi_ooc_TMeanB2, dattrT2$ztemp)
+my.matrix2C  <- interp(dattrT3$log_mu_ooc_TMeanBites3, dattrT3$log_phi_ooc_TMeanB3, dattrT3$ztemp)
+my.matrix3C  <- interp(dattrT4$log_mu_ooc_TMeanBites4, dattrT4$log_phi_ooc_TMeanB4, dattrT4$ztemp)
+my.matrix4C  <- interp(dattrT5$log_mu_ooc_TMeanBites5, dattrT5$log_phi_ooc_TMeanB5, dattrT5$ztemp)
+filled.contour(my.matrix1C, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0,0.9),xlab="mu_oocysts",ylab="phi_oocysts",main="Treatment Bites 2 (Theta_mouse)")
+filled.contour(my.matrix2C, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0,0.9),xlab="mu_oocysts",ylab="phi_oocysts",main="Treatment Bites 3 (Theta_mouse)")
+filled.contour(my.matrix3C, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0,0.9),xlab="mu_oocysts",ylab="phi_oocysts",main="Treatment Bites 4 (Theta_mouse)")
+filled.contour(my.matrix4C, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0,0.9),xlab="mu_oocysts",ylab="phi_oocysts",main="Treatment Bites 5 (Theta_mouse)")
 
+my.matrix1D  <- interp(dattrT2$log_mu_ooc_TMeanBites2, dattrT2$log_phi_ooc_TMeanB2, dattrT2$zBtemp)
+my.matrix2D  <- interp(dattrT3$log_mu_ooc_TMeanBites3, dattrT3$log_phi_ooc_TMeanB3, dattrT3$zBtemp)
+my.matrix3D  <- interp(dattrT4$log_mu_ooc_TMeanBites4, dattrT4$log_phi_ooc_TMeanB4, dattrT4$zBtemp)
+my.matrix4D  <- interp(dattrT5$log_mu_ooc_TMeanBites5, dattrT5$log_phi_ooc_TMeanB5, dattrT5$zBtemp)
+filled.contour(my.matrix1D, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-6,1),zlim=c(0,0.9),xlab="mu_oocysts",ylab="phi_oocysts",main="Treatment Bites 2 (Theta_mosquito)")
+filled.contour(my.matrix2D, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-6,1),zlim=c(0,0.9),xlab="mu_oocysts",ylab="phi_oocysts",main="Treatment Bites 3 (Theta_mosquito)")
+filled.contour(my.matrix3D, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-6,1),zlim=c(0,0.9),xlab="mu_oocysts",ylab="phi_oocysts",main="Treatment Bites 4 (Theta_mosquito)")
+filled.contour(my.matrix4D, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-6,1),zlim=c(0,0.9),xlab="mu_oocysts",ylab="phi_oocysts",main="Treatment Bites 5 (Theta_mosquito)")
 
-my.matT <- interp(dattrT$x,dattrT$y,dattrT$bites)
+my.matT <- interp(dattrT$x,dattrT$y,dattrT$bites) ##JUST CHANGE NAMES TO RBIND THE DATA
 filled.contour(my.matT,nlevels=4,color=my.heat.colors)
 ##############################
 ## Repeat for controls
 log_mu_ooc_CMeanBites2 <-   data$rho__log_mean_ooc_C + 
-  data$tau_bite__log_mean_ooc_C * data$rho_bite__log_mean_ooc_C.1,na.rm=T + 
+  data$tau_bite__log_mean_ooc_C * data$rho_bite__log_mean_ooc_C.1 + 
   data$tau_round__log_mean_ooc_C * data$rho_round__log_mean_ooc_C.1
 
 log_mu_ooc_CMeanBites3 <-   data$rho__log_mean_ooc_C + 
-  data$tau_bite__log_mean_ooc_C * data$rho_bite__log_mean_ooc_C.2,na.rm=T + 
+  data$tau_bite__log_mean_ooc_C * data$rho_bite__log_mean_ooc_C.2 + 
   data$tau_round__log_mean_ooc_C * data$rho_round__log_mean_ooc_C.2
 
 log_mu_ooc_CMeanBites4 <-   data$rho__log_mean_ooc_C + 
-  data$tau_bite__log_mean_ooc_C * data$rho_bite__log_mean_ooc_C.3,na.rm=T + 
+  data$tau_bite__log_mean_ooc_C * data$rho_bite__log_mean_ooc_C.3 + 
   data$tau_round__log_mean_ooc_C * data$rho_round__log_mean_ooc_C.3
 
 log_mu_ooc_CMeanBites5 <-   data$rho__log_mean_ooc_C + 
-  data$tau_bite__log_mean_ooc_C * data$rho_bite__log_mean_ooc_C.4,na.rm=T + 
+  data$tau_bite__log_mean_ooc_C * data$rho_bite__log_mean_ooc_C.4 + 
   data$tau_round__log_mean_ooc_C * data$rho_round__log_mean_ooc_C.4
 
 log_phi_ooc_CMeanB2 <-  data$rho__log_od_ooc_C + 
@@ -1238,25 +1334,25 @@ x = log_muB2
 y = log_phiB2; bites <- rep(2,length(x))
 ztemp =(data$theta_C.1+data$theta_C.2+data$theta_C.3+data$theta_C.4)/4
 zBtemp =(data$theta_C_mosquito.1+data$theta_C_mosquito.2+data$theta_C_mosquito.3+data$theta_C_mosquito.4)/4
-dattr2<-data.frame(x,y,ztemp,zBtemp,bites)
+dattr2<-data.frame(x,y,log_mu_ooc_CMeanBites2,log_phi_ooc_CMeanB2,ztemp,zBtemp,bites)
 
 x = log_muB3
 y = log_phiB3; bites <- rep(3,length(x))
 ztemp =(data$theta_C.5+data$theta_C.6+data$theta_C.7+data$theta_C.8)/4
 zBtemp =(data$theta_C_mosquito.5+data$theta_C_mosquito.6+data$theta_C_mosquito.7+data$theta_C_mosquito.8)/4
-dattr3<-data.frame(x,y,ztemp,zBtemp,bites)
+dattr3<-data.frame(x,y,log_mu_ooc_CMeanBites3,log_phi_ooc_CMeanB3,ztemp,zBtemp,bites)
 
 x = log_muB4
 y = log_phiB4; bites <- rep(4,length(x))
 ztemp =(data$theta_C.9+data$theta_C.10+data$theta_C.11+data$theta_C.12)/4
 zBtemp =(data$theta_C_mosquito.9+data$theta_C_mosquito.10+data$theta_C_mosquito.11+data$theta_C_mosquito.12)/4
-dattr4<-data.frame(x,y,ztemp,zBtemp,bites)
+dattr4<-data.frame(x,y,log_mu_ooc_CMeanBites4,log_phi_ooc_CMeanB4,ztemp,zBtemp,bites)
 
 x = log_muB5
 y = log_phiB5; bites <- rep(5,length(x))
 ztemp =(data$theta_C.13+data$theta_C.14+data$theta_C.15+data$theta_C.16)/4
 zBtemp =(data$theta_C_mosquito.13+data$theta_C_mosquito.14+data$theta_C_mosquito.15+data$theta_C_mosquito.16)/4
-dattr5<-data.frame(x,y,ztemp,zBtemp,bites)
+dattr5<-data.frame(x,y,log_mu_ooc_CMeanBites5,log_phi_ooc_CMeanB5,ztemp,zBtemp,bites)
 
 dattrTEST <-rbind(dattr2,dattr3,dattr4,dattr5)
 dattr <- as.data.frame(dattrTEST)
@@ -1269,21 +1365,41 @@ my.matrix7  <- interp(dattr4$x, dattr4$y, dattr4$ztemp)
 my.matrix8  <- interp(dattr5$x, dattr5$y, dattr5$ztemp)
 
 my.matrix5B  <- interp(dattr2$x, dattr2$y, dattr2$zBtemp)
-my.matrix6B <- interp(dattr3$x, dattr3$y, dattr3$zBtemp)
+my.matrix6B  <- interp(dattr3$x, dattr3$y, dattr3$zBtemp)
 my.matrix7B  <- interp(dattr4$x, dattr4$y, dattr4$zBtemp)
 my.matrix8B  <- interp(dattr5$x, dattr5$y, dattr5$zBtemp)
 
-filled.contour(my.matrix5, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu",ylab="phi",main="Controls Bites 2")
-filled.contour(my.matrix6, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu",ylab="phi",main="Controls Bites 3")
-filled.contour(my.matrix7, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu",ylab="phi",main="Controls Bites 4")
-filled.contour(my.matrix8, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu",ylab="phi",main="Controls Bites 5")
+my.matrix5C  <- interp(dattr2$log_mu_ooc_CMeanBites2, dattr2$log_phi_ooc_CMeanB2, dattr2$ztemp)
+my.matrix6C  <- interp(dattr3$log_mu_ooc_CMeanBites3, dattr3$log_phi_ooc_CMeanB3, dattr3$ztemp)
+my.matrix7C  <- interp(dattr4$log_mu_ooc_CMeanBites4, dattr4$log_phi_ooc_CMeanB4, dattr4$ztemp)
+my.matrix8C  <- interp(dattr5$log_mu_ooc_CMeanBites5, dattr5$log_phi_ooc_CMeanB5, dattr5$ztemp)
 
-filled.contour(my.matrix5B, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu",ylab="phi",main="Controls Bites 2")
-filled.contour(my.matrix6B, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu",ylab="phi",main="Controls Bites 3")
-filled.contour(my.matrix7B, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu",ylab="phi",main="Controls Bites 4")
-filled.contour(my.matrix8B, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu",ylab="phi",main="Controls Bites 5")
+my.matrix5D  <- interp(dattr2$log_mu_ooc_CMeanBites2, dattr2$log_phi_ooc_CMeanB2, dattr2$zBtemp)
+my.matrix6D  <- interp(dattr3$log_mu_ooc_CMeanBites3, dattr3$log_phi_ooc_CMeanB3, dattr3$zBtemp)
+my.matrix7D  <- interp(dattr4$log_mu_ooc_CMeanBites4, dattr4$log_phi_ooc_CMeanB4, dattr4$zBtemp)
+my.matrix8D  <- interp(dattr5$log_mu_ooc_CMeanBites5, dattr5$log_phi_ooc_CMeanB5, dattr5$zBtemp)
 
-my.matC  <- interp(dattr$x, dattr$y, dattr$bites)
-filled.contour(my.matC, nlevels=5, color=my.heat.colors,xlab="mu",ylab="phi",xlim=c(-14,6),ylim=c(-5,1),zlim=c(2:5))
-filled.contour(my.matT,nlevels=5,color=my.heat.colors,xlab="mu",ylab="phi",xlim=c(-14,6),ylim=c(-5,1),zlim=c(2,3,4,5),
-               key.title = title(main = "Bites"))
+filled.contour(my.matrix5, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu_sporozoites",ylab="phi_sporozoites",main="Controls Bites 2 (Theta mouse)")
+filled.contour(my.matrix6, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu_sporozoites",ylab="phi_sporozoites",main="Controls Bites 3 (Theta mouse)")
+filled.contour(my.matrix7, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu_sporozoites",ylab="phi_sporozoites",main="Controls Bites 4 (Theta mouse)")
+filled.contour(my.matrix8, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu_sporozoites",ylab="phi_sporozoites",main="Controls Bites 5 (Theta mouse)")
+
+filled.contour(my.matrix5B, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu_sporozoites",ylab="phi_sporozoites",main="Controls Bites 2 (Theta mosquito)")
+filled.contour(my.matrix6B, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu_sporozoites",ylab="phi_sporozoites",main="Controls Bites 3 (Theta mosquito)")
+filled.contour(my.matrix7B, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu_sporozoites",ylab="phi_sporozoites",main="Controls Bites 4 (Theta mosquito)")
+filled.contour(my.matrix8B, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu_sporozoites",ylab="phi_sporozoites",main="Controls Bites 5 (Theta mosquito)")
+
+filled.contour(my.matrix5C, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu_oocysts",ylab="phi_oocysts",main="Controls Bites 2 (Theta mouse)")
+filled.contour(my.matrix6C, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu_oocysts",ylab="phi_oocysts",main="Controls Bites 3 (Theta mouse)")
+filled.contour(my.matrix7C, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu_oocysts",ylab="phi_oocysts",main="Controls Bites 4 (Theta mouse)")
+filled.contour(my.matrix8C, nlevels=12, color=my.heat.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu_oocysts",ylab="phi_oocysts",main="Controls Bites 5 (Theta mouse)")
+
+filled.contour(my.matrix5D, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu_oocysts",ylab="phi_oocysts",main="Controls Bites 2 (Theta mosquito)")
+filled.contour(my.matrix6D, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu_oocysts",ylab="phi_oocysts",main="Controls Bites 3 (Theta mosquito)")
+filled.contour(my.matrix7D, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu_oocysts",ylab="phi_oocysts",main="Controls Bites 4 (Theta mosquito)")
+filled.contour(my.matrix8D, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=c(-5,1),zlim=c(0.1,0.9),xlab="mu_oocysts",ylab="phi_oocysts",main="Controls Bites 5 (Theta mosquito)")
+
+#my.matC  <- interp(dattr$x, dattr$y, dattr$bites)
+#filled.contour(my.matC, nlevels=5, color=my.heat.colors,xlab="mu",ylab="phi",xlim=c(-14,6),ylim=c(-5,1),zlim=c(2:5))
+#filled.contour(my.matT,nlevels=5,color=my.heat.colors,xlab="mu",ylab="phi",xlim=c(-14,6),ylim=c(-5,1),zlim=c(2,3,4,5),
+ #              key.title = title(main = "Bites"))

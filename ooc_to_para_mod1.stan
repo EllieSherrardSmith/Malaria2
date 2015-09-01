@@ -1,7 +1,7 @@
 data {
 int<lower=0> N;
-vector[N] ooc_mean;
-vector[N] para_mean;
+vector[N] x;
+vector[N] y;
 }
 parameters {
 real<lower=0, upper=1> alpha;
@@ -12,8 +12,12 @@ real<lower=0> eps;
 }
 model {
 for (n in 1:N)
-para_mean[n] ~ normal((alpha * pow(ooc_mean[n],sigma))/(delta + beta * pow(ooc_mean[n],sigma)), eps);
+y[n] ~ normal((alpha * pow(x[n],sigma))/(delta + beta * pow(x[n],sigma)), eps);
+increment_log_prob(-log(eps));     //log prior for p(eps) proportion to 1/eps
 }
-
-
-
+generated quantities {
+  vector[N] log_lik;
+  for (n in 1:N){
+    log_lik[n] <- normal_log(y[n], (alpha * pow(x[n],sigma))/(delta + beta * pow(x[n],sigma)), eps);
+  }
+}

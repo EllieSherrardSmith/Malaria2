@@ -7,9 +7,11 @@ SPOROS<-c(MEANsporig,tempSPORS)
 PARASITEMIA<-c(parasitORIGmean,parasitATV32mean,tempPARA)
 GAMETE<-c(gametORIGmean,tempGAMET)
 PREVALENCE<-c(PREVorigMean,tempPREV)
-group_names<-c("ConB2G1","ConB2G2","ConB2G3","ConB2G4","ConB3G1","ConB3G2","ConB3G3","ConB3G4",
+group_names<-c("ConB1G1","ConB1G2","ConB1G3","ConB1G4","ConB2G1","ConB2G2","ConB2G3","ConB2G4",
+               "ConB3G1","ConB3G2","ConB3G3","ConB3G4",
                 "ConB4G1","ConB4G2","ConB4G3","ConB4G4","ConB5G1","ConB5G2","ConB5G3","ConB5G4",
-                "ATV32B2G1","ATV32B2G2","ATV32B2G3","ATV32B2G4","ATV32B3G1","ATV32B3G2","ATV32B3G3","ATV32B3G4",
+               "ATV32B1G1","ATV32B1G2","ATV32B1G3","ATV32B1G4",
+               "ATV32B2G1","ATV32B2G2","ATV32B2G3","ATV32B2G4","ATV32B3G1","ATV32B3G2","ATV32B3G3","ATV32B3G4",
                 "ATV32B4G1","ATV32B4G2","ATV32B4G3","ATV32B4G4","ATV32B5G1","ATV32B5G2","ATV32B5G3","ATV32B5G4",
                 "ConB1G1b","ConB1G2b","ConB1G3b","ConB2G1b","ConB2G2b","ConB2G3b",
                 "ConB5G1b","ConB5G2b","ConB5G3b",
@@ -19,16 +21,17 @@ group_names<-c("ConB2G1","ConB2G2","ConB2G3","ConB2G4","ConB3G1","ConB3G2","ConB
                "ATV50B5G1","ATV50B5G2","ATV50B5G3","ATV50B10G1","ATV50B10G2","ATV50B10G3",
                "T3d11B1G1","T3d11B1G2","T3d11B1G3","T3d11B2G1","T3d11B2G2","T3d11B2G3",
                "T3d11B5G1","T3d11B5G2","T3d11B5G3","T3d11B10G1","T3d11B10G2","T3d11B10G3")
-bitetypes<-c(2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,
+bitetypes<-c(1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,
+             1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,
              1,1,1,2,2,2,5,5,5,1,1,1,2,2,2,5,5,5,10,10,10,1,1,1,2,2,2,5,5,5,10,10,10,
              1,1,1,2,2,2,5,5,5,10,10,10)
-generationtypes<-c(1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4,
-                   1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4,
+generationtypes<-c(1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4,
+                   1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4,
                    1,2,3,1,2,3,1,2,3,
                    1,2,3,1,2,3,1,2,3,1,2,3,
                    1,2,3,1,2,3,1,2,3,1,2,3,
                    1,2,3,1,2,3,1,2,3,1,2,3)
-drugtype<-c(rep("controlA",16),rep("ATV32",16),rep("controlB",9),rep("ATV25",12),rep("ATV50",12),rep("T3d11",12))
+drugtype<-c(rep("controlA",20),rep("ATV32",20),rep("controlB",9),rep("ATV25",12),rep("ATV50",12),rep("T3d11",12))
 sumdat<-data.frame(group_names,OOCYSTS,SPOROS,PARASITEMIA,GAMETE,PREVALENCE,bitetypes,generationtypes,drugtype)
 head(sumdat)
 
@@ -50,53 +53,84 @@ par(mfrow=c(2,2))
 ###
 ##
 
-Summary_data1<-list(N=77,
-                    ooc_mean = c(OOCYSTS),
-                    spor_mean = c(SPOROS))
+Summary_data1<-list(N=85,
+                    x = c(OOCYSTS),
+                    y = c(SPOROS))
 
-              test1 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\ooc_to_spors_mod1.stan", data=Summary_data1,
+              testA <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\ooc_to_para_mod1.stan", data=Summary_data1,
               iter=1000, chains=4)
 
-    print(test1)
-    params = extract(test1);names(params)
-  
+    print(testA)
+    params = extract(testA);names(params)
+print(waic(testA))
 plot(sumdat$SPOROS~sumdat$OOCYSTS,xlab="Mean oocysts",ylab="Mean sporozoite scores",ylim=c(0,4),cex.lab=2)
 
     nc<-seq(0,max(OOCYSTS),1)
     pred<-(mean(params$alpha[501:1000]) * nc^mean(params$sigma[501:1000]))/
           (mean(params$delta[501:1000]) + mean(params$beta[501:1000]) * nc^mean(params$sigma[501:1000])) 
 
+e <- extract(test1, pars = c("alpha", "beta", "sigma","delta","eps"))
+
+x = seq(0,max(OOCYSTS),0.5)
+
+for(i in seq_along(e[[1]])) {
+  lines(x, (e[[1]][i] * x^e[[3]][i]) / (e[[4]][i] + e[[2]][i] * x^e[[3]][i]), col = "#00000002")
+}
 lines(nc,pred,lwd=2,lty=2,col="red")
 
 
 ##
 ### Now look at the individual treatments independently
 ##
-group_dataA <- list(N=16,
-                    ooc_mean = c(OOCYSTS[1:16]),
-                    spor_mean = c(SPOROS[1:16]))
-testA <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\ooc_to_spors_mod1.stan", data=group_dataA,
+par(mfrow=c(1,1));par(mar=c(5,5,5,5))
+group_dataA <- list(N=20,
+                    x = c(OOCYSTS[1:20]),
+                    y = c(SPOROS[1:20]))
+testA1 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\ooc_to_para_mod1.stan", data=group_dataA,
               iter=1000, chains=2)
-print(testA)
-params = extract(testA);names(params)
+print(testA1);print(waic(testA1))
+params = extract(testA1);names(params)
 
-points(sumdat$SPOROS[1:16]~sumdat$OOCYSTS[1:16],pch=20)
+plot(sumdat$SPOROS[1:40]~sumdat$OOCYSTS[1:40],
+     xlab="Mean oocysts",ylab="Mean sporozoite scores",
+     ylim=c(0,4),xaxt="n",bty="n",cex.lab=1.5)
+par(las=1);axis(1,at=seq(0,60,10),labels=seq(0,60,10))
+points(sumdat$SPOROS[1:20]~sumdat$OOCYSTS[1:20],pch=19)
 
 nc<-seq(0,max(OOCYSTS),1)
 pred<-(mean(params$alpha[501:1000]) * nc^mean(params$sigma[501:1000]))/
   (mean(params$delta[501:1000]) + mean(params$beta[501:1000]) * nc^mean(params$sigma[501:1000])) 
-lines(nc,pred,lwd=2,lty=2,col="grey")
 
-group_dataA <- list(N=16,
-                    ooc_mean = c(OOCYSTS[17:32]),
-                    spor_mean = c(SPOROS[17:32]))
-testB <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\ooc_to_spors_mod1.stan", data=group_dataA,
+e <- extract(testA1, pars = c("alpha", "beta", "sigma","delta","eps"))
+
+x = seq(0,max(OOCYSTS),1)
+
+for(i in seq_along(e[[1]])) {
+  lines(x, (e[[1]][i] * x^e[[3]][i]) / (e[[4]][i] + e[[2]][i] * x^e[[3]][i]), col = "#00000002")
+}
+lines(nc,pred,lwd=2,lty=2,col="black")
+
+
+group_dataA <- list(N=20,
+                    x = c(OOCYSTS[21:40]),
+                    y = c(SPOROS[21:40]))
+testB <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\ooc_to_para_mod1.stan", data=group_dataA,
               iter=1000, chains=2)
-print(testB)
+print(testB);print(waic(testB))
 params = extract(testB);names(params)
 pred<-(mean(params$alpha[501:1000]) * nc^mean(params$sigma[501:1000]))/
   (mean(params$delta[501:1000]) + mean(params$beta[501:1000]) * nc^mean(params$sigma[501:1000])) 
-lines(nc,pred,lwd=2,lty=2,col="blue")
+e <- extract(testB, pars = c("alpha", "beta", "sigma","delta","eps"))
+
+x = seq(0,max(OOCYSTS),1)
+
+for(i in seq_along(e[[1]])) {
+  lines(x, (e[[1]][i] * x^e[[3]][i]) / (e[[4]][i] + e[[2]][i] * x^e[[3]][i]), col = "#00000008")
+}
+lines(nc,pred,lwd=2,lty=3,col="grey")
+
+legend(0,4,legend=c("Control","Treatment"),cex=2,
+       lty=c(2,3),col=c("black","grey"),bty="n",pch=c(19,1))
 
 group_dataA <- list(N=9,
                     ooc_mean = c(OOCYSTS[33:41]),
