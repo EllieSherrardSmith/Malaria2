@@ -20,7 +20,7 @@ data<-read.csv("C:\\Users\\Ellie\\Documents\\Data Malaria\\MODEL OUTPUT\\DataFro
 names(data) 
 data<-data[501:1000,]##dropping burn in so keeping the appropriate data
 
-par(mfrow=c(1,3));hist(data[,61],breaks=20,main="Simulated oocysts (Con, 2 Bites, Round 2)",
+par(mfrow=c(1,3));hist(data[,61],breaks=20,main="Simulated oocysts (Con, 1 Bites, Round 1)",
                        xlab="",ylab="Frequency",cex.lab=2,cex=2,col="aquamarine")
                   hist(data[,66],breaks=20,main="Simulated oocysts (Con, 3 Bites, Round 3)",
                        xlab="Oocyst counts per mosquito",ylab="",cex.lab=2,col="aquamarine")
@@ -206,6 +206,50 @@ boxplot(data$"sim_s_count_C.16.1",data$"sim_s_count_T.16.1",
         data$"sim_s_count_C.16.3",data$"sim_s_count_T.16.3",
         data$"sim_s_count_C.16.4",data$"sim_s_count_T.16.4",
         data$"sim_s_count_C.16.5",data$"sim_s_count_T.16.5",
+        xaxt="n",ylab="Simulated sporozoite counts",main= "Bite 5, Round 4",
+        col=c("aquamarine","blueviolet"),frame=F,cex.lab=1.5)
+axis(1,at=c(1.5,3.5,5.5,7.5,9.5),labels=c("0","1-10","11-100","101-1000","1001+"),cex.lab=2)
+points(spors_C[16,]~c(1,3,5,7,9),col="red",pch=20,cex=2)
+points(spors_T[16,]~c(2,4,6,8,10),col="orange",pch=20,cex=2)
+
+boxplot(data$"sim_s_count_C.17.1",data$"sim_s_count_T.17.1",
+        data$"sim_s_count_C.17.2",data$"sim_s_count_T.17.2",
+        data$"sim_s_count_C.17.3",data$"sim_s_count_T.17.3",
+        data$"sim_s_count_C.17.4",data$"sim_s_count_T.17.4",
+        data$"sim_s_count_C.17.5",data$"sim_s_count_T.17.5",
+        xaxt="n",ylab="Simulated sporozoite counts",main= "Bite 5, Round 4",
+        col=c("aquamarine","blueviolet"),frame=F,cex.lab=1.5)
+axis(1,at=c(1.5,3.5,5.5,7.5,9.5),labels=c("0","1-10","11-100","101-1000","1001+"),cex.lab=2)
+points(spors_C[16,]~c(1,3,5,7,9),col="red",pch=20,cex=2)
+points(spors_T[16,]~c(2,4,6,8,10),col="orange",pch=20,cex=2)
+
+boxplot(data$"sim_s_count_C.18.1",data$"sim_s_count_T.18.1",
+        data$"sim_s_count_C.18.2",data$"sim_s_count_T.18.2",
+        data$"sim_s_count_C.18.3",data$"sim_s_count_T.18.3",
+        data$"sim_s_count_C.18.4",data$"sim_s_count_T.18.4",
+        data$"sim_s_count_C.18.5",data$"sim_s_count_T.18.5",
+        xaxt="n",ylab="Simulated sporozoite counts",main= "Bite 5, Round 4",
+        col=c("aquamarine","blueviolet"),frame=F,cex.lab=1.5)
+axis(1,at=c(1.5,3.5,5.5,7.5,9.5),labels=c("0","1-10","11-100","101-1000","1001+"),cex.lab=2)
+points(spors_C[16,]~c(1,3,5,7,9),col="red",pch=20,cex=2)
+points(spors_T[16,]~c(2,4,6,8,10),col="orange",pch=20,cex=2)
+
+boxplot(data$"sim_s_count_C.19.1",data$"sim_s_count_T.19.1",
+        data$"sim_s_count_C.19.2",data$"sim_s_count_T.19.2",
+        data$"sim_s_count_C.19.3",data$"sim_s_count_T.19.3",
+        data$"sim_s_count_C.19.4",data$"sim_s_count_T.19.4",
+        data$"sim_s_count_C.19.5",data$"sim_s_count_T.19.5",
+        xaxt="n",ylab="Simulated sporozoite counts",main= "Bite 5, Round 4",
+        col=c("aquamarine","blueviolet"),frame=F,cex.lab=1.5)
+axis(1,at=c(1.5,3.5,5.5,7.5,9.5),labels=c("0","1-10","11-100","101-1000","1001+"),cex.lab=2)
+points(spors_C[16,]~c(1,3,5,7,9),col="red",pch=20,cex=2)
+points(spors_T[16,]~c(2,4,6,8,10),col="orange",pch=20,cex=2)
+
+boxplot(data$"sim_s_count_C.20.1",data$"sim_s_count_T.20.1",
+        data$"sim_s_count_C.20.2",data$"sim_s_count_T.20.2",
+        data$"sim_s_count_C.20.3",data$"sim_s_count_T.20.3",
+        data$"sim_s_count_C.20.4",data$"sim_s_count_T.20.4",
+        data$"sim_s_count_C.20.5",data$"sim_s_count_T.20.5",
         xaxt="n",ylab="Simulated sporozoite counts",main= "Bite 5, Round 4",
         col=c("aquamarine","blueviolet"),frame=F,cex.lab=1.5)
 axis(1,at=c(1.5,3.5,5.5,7.5,9.5),labels=c("0","1-10","11-100","101-1000","1001+"),cex.lab=2)
@@ -516,7 +560,7 @@ sum(data[,252:267])/(500*16)
 sum(data[,268:283])/(500*16)
 
 #Efficacy on mouse infection
-((sum(data[,252:267])/(500*16))-(sum(data[,268:283])/(500*16)))/(sum(data[,252:267])/(500*16))
+100*((sum(data[,252:267])/(500*16))-(sum(data[,268:283])/(500*16)))/(sum(data[,252:267])/(500*16))
 
 
 ##Overall efficacy
@@ -1053,13 +1097,13 @@ abline(h=0,lty=2,col="grey")
 
 parasitemiaAll<-c(parasitORIGmean,parasitATV32mean)
 gametocytemiaAll<-c(gametORIGmean)
-type<-c(rep("Control",16),rep("Treated",16))
+type<-c(rep("Control",20),rep("Treated",20))
 
-glma <- glm(parasitemiaAll~gametocytemiaAll+type)
-glmb <- glm(parasitemiaAll~gametocytemiaAll)
+glma <- glm(gametocytemiaAll~parasitemiaAll+type)
+glmb <- glm(gametocytemiaAll~parasitemiaAll)
 anova(glma,glmb,test="Chi")
 summary.lm(glmb)
-plot(glmb)
+plot(gametocytemiaAll~parasitemiaAll)
 
 
 
@@ -1403,3 +1447,20 @@ filled.contour(my.matrix8D, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=
 #filled.contour(my.matC, nlevels=5, color=my.heat.colors,xlab="mu",ylab="phi",xlim=c(-14,6),ylim=c(-5,1),zlim=c(2:5))
 #filled.contour(my.matT,nlevels=5,color=my.heat.colors,xlab="mu",ylab="phi",xlim=c(-14,6),ylim=c(-5,1),zlim=c(2,3,4,5),
  #              key.title = title(main = "Bites"))
+
+
+#######################################################
+##
+## Probability of infection
+##
+###################################################
+plot(thet_mosq_means~thet_mo_means)
+points(thet_mosq_means[1:4]~thet_mo_means[1:4],col="orange",pch=19)
+points(thet_mosq_means[5:8]~thet_mo_means[5:8],col="red",pch=19)
+points(thet_mosq_means[9:12]~thet_mo_means[9:12],col="purple",pch=19)
+points(thet_mosq_means[13:16]~thet_mo_means[13:16],col="blue",pch=19)
+
+points(thet_mosq_means[17:20]~thet_mo_means[17:20],col="orange",pch=20,cex=2)
+points(thet_mosq_means[21:24]~thet_mo_means[21:24],col="red",pch=20,cex=2)
+points(thet_mosq_means[25:28]~thet_mo_means[25:28],col="purple",pch=20,cex=2)
+points(thet_mosq_means[29:32]~thet_mo_means[29:32],col="blue",pch=20,cex=2)

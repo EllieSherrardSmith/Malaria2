@@ -671,6 +671,28 @@ prevmbrT<-c(sum(prevtreat[1:4])/4,
             sum(prevtreat[13:16])/4,
             sum(prevtreat[17:20])/4)
 meanprevpergroup<-(prevcon+prevtreat)/2
+
+
+### Run Figures from model output_1.R FOR "data" ###
+E = c(2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5)
+c0 = numeric(32); for (i in 284:315) { c0[i-283]<- mean(data[,i])}
+b0 = numeric(32); for (i in 252:283) { b0[i-251]<- mean(data[,i])}
+x0 = c(prevcon[5:20],prevtreat[5:20])
+R0 = numeric(32)
+for (i in 1:32){
+R0[i] <- E[i] * c0[i] * b0[i] * ((1+x0[i])/x0[i])
+}
+plot(R0[1:4]~c(1,2,3,4),ylim=c(0,10))
+lines(R0[1:4]~c(1,2,3,4))
+lines(R0[5:8]~c(1,2,3,4))
+lines(R0[9:12]~c(1,2,3,4))
+lines(R0[13:16]~c(1,2,3,4))
+
+lines(R0[17:20]~c(1,2,3,4),lty=2)
+lines(R0[21:24]~c(1,2,3,4),lty=2)
+lines(R0[25:28]~c(1,2,3,4),lty=2)
+lines(R0[29:32]~c(1,2,3,4),lty=2)
+
 ##########################################################################
 ##
 ## 2. Exploring the relationship between parasitemia and sporozoites
