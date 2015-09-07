@@ -10,7 +10,8 @@ parameters {
 }
 model {
   y ~ normal(alpha + beta * x, sigma); //data model
-  increment_log_prob(-log(sigma));     //log prior for p(sigma) proportion to 1/sigma
+  //increment_log_prob(-log(sigma));     //log prior for p(sigma) proportion to 1/sigma
+  sigma ~ cauchy(0, 5);
 }
 generated quantities {
   vector[N] log_lik;

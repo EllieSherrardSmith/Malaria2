@@ -925,6 +925,31 @@ fit1 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\mice.
 
 ##########################################################################
 ##
+## 4. Fit the distributions of the data and estimate the prevalence 
+##    with and without treatment to get the difference in the probaility of transmission
+##    for the simple model
+##
+###########################################################################
+oocyC <- ifelse(oocystsC < 1, 0, 1)
+oocyT <- ifelse(oocystsT < 1, 0, 1)
+
+data2<-list(N_C=16,
+            N_T=16,
+            N_mosq=24,
+            N_mice=5,
+            ooc_prev_C = structure(.Data = c(oocyC[97:480]),
+                                    .Dim=c(24,16)),
+            ooc_prev_T = structure(.Data = c(oocyT[97:480]),
+                                    .Dim=c(24,16)),
+            prev_C = structure(.Data =PREV_C[,5:20],.Dim=c(5,16)),
+            prev_T = structure(.Data =PREV_T[,5:20],.Dim=c(5,16))
+            )
+
+fit1 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\mice.censored_sp_prevalence only04092015.stan", data=data2,
+             iter=1000, chains=1)
+
+##########################################################################
+##
 ## 5. Figure 1: The experiemental set up
 ##  
 ##

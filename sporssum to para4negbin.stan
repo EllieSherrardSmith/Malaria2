@@ -19,3 +19,9 @@ model {
   // data model:
   y ~ neg_binomial_2_log(b0 + b1 * x, phi);
 }
+generated quantities {
+  vector[N] log_lik;
+  for (n in 1:N){
+    log_lik[n] <- neg_binomial_2_log_log(y[n], b0 + b1 * x[n], phi);
+  }
+}

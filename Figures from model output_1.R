@@ -1464,3 +1464,402 @@ points(thet_mosq_means[17:20]~thet_mo_means[17:20],col="orange",pch=20,cex=2)
 points(thet_mosq_means[21:24]~thet_mo_means[21:24],col="red",pch=20,cex=2)
 points(thet_mosq_means[25:28]~thet_mo_means[25:28],col="purple",pch=20,cex=2)
 points(thet_mosq_means[29:32]~thet_mo_means[29:32],col="blue",pch=20,cex=2)
+
+((mean(thet_mosq_means[1:4])-mean(thet_mosq_means[17:20]))/mean(thet_mosq_means[1:4]))
+((mean(thet_mosq_means[5:8])-mean(thet_mosq_means[21:24]))/mean(thet_mosq_means[5:8]))
+((mean(thet_mosq_means[12:15])-mean(thet_mosq_means[25:28]))/mean(thet_mosq_means[9:12]))
+((mean(thet_mosq_means[13:16])-mean(thet_mosq_means[29:32]))/mean(thet_mosq_means[13:16]))
+
+((mean(thet_mo_means[1:4])-mean(thet_mo_means[17:20]))/mean(thet_mo_means[1:4]))
+((mean(thet_mo_means[5:8])-mean(thet_mo_means[21:24]))/mean(thet_mo_means[5:8]))
+((mean(thet_mo_means[9:12])-mean(thet_mo_means[25:28]))/mean(thet_mo_means[9:12]))
+((mean(thet_mo_means[13:16])-mean(thet_mo_means[29:32]))/mean(thet_mo_means[13:16]))
+
+effectsizeint <- c(((mean(thet_mosq_means[1:4])-mean(thet_mosq_means[17:20])) +
+   (mean(thet_mo_means[1:4])-mean(thet_mo_means[17:20])) ) /
+  (mean(thet_mosq_means[1:4]) + mean(thet_mo_means[1:4])),
+((mean(thet_mosq_means[5:8])-mean(thet_mosq_means[21:24])) +
+   (mean(thet_mo_means[5:8])-mean(thet_mo_means[21:24])) ) /
+  (mean(thet_mosq_means[5:8]) + mean(thet_mo_means[5:8])),
+((mean(thet_mosq_means[9:12])-mean(thet_mosq_means[25:28])) +
+   (mean(thet_mo_means[9:12])-mean(thet_mo_means[25:28])) ) /
+  (mean(thet_mosq_means[9:12]) + mean(thet_mo_means[9:12])),
+((mean(thet_mosq_means[13:16])-mean(thet_mosq_means[29:32])) +
+   (mean(thet_mo_means[13:16])-mean(thet_mo_means[29:32])) ) /
+  (mean(thet_mosq_means[13:16]) + mean(thet_mo_means[13:16])))
+
+##
+## OR
+allestimates <- ((thet_mosq_means[1:16] - thet_mosq_means[17:32]) +
+                   (thet_mo_means[1:16] - thet_mo_means[17:32]))/
+  (thet_mosq_means[1:16] + thet_mo_means[1:16])
+
+mean(allestimates[1:4]);max(allestimates[1:4]);min(allestimates[1:4])
+mean(allestimates[5:8]);max(allestimates[5:8]);min(allestimates[5:8])
+mean(allestimates[9:12]);max(allestimates[9:12]);min(allestimates[9:12])
+mean(allestimates[13:16]);max(allestimates[13:16]);min(allestimates[13:16])
+
+effectsizeint <- c(mean(allestimates[1:4]),mean(allestimates[5:8]),
+                   mean(allestimates[9:12]),mean(allestimates[13:16]))
+#######
+###
+##     EFFECT SIZE
+#
+##   From the Chain-binomial model we get
+####
+########
+
+plot(c(67,62.2,38.6,22.7,17.8)~c(1,2,3,4,5),
+     ylim=c(-60,100),ylab="Effect size",cex=2,
+     xlim=c(1,5.5),xlab="Number of bites",cex.lab=2)##effect size for 1,2,3,4,5 bites using chain binomial
+segments(x0=1,y0=49.5,x1=1,y1=85)
+segments(x0=2,y0=51.8,x1=2,y1=70.8)
+segments(x0=3,y0=32.6,x1=3,y1=43.2)
+segments(x0=4,y0=17.4,x1=4,y1=27.9)
+segments(x0=5,y0=12.1,x1=5,y1=22.6)
+
+###
+##
+#
+##From the intensity model we get:
+points(effectsizeint*100~c(2.1,3.1,4.1,5.1),pch=20,cex=2)
+
+segments(x0=2.1,y0=100*max(allestimates[1:4]),x1=2.1,y1=100*min(allestimates[1:4]),lty=2)
+segments(x0=3.1,y0=100*max(allestimates[5:8]),x1=3.1,y1=100*min(allestimates[5:8]),lty=2)
+segments(x0=4.1,y0=100*max(allestimates[9:12]),x1=4.1,y1=100*min(allestimates[9:12]),lty=2)
+segments(x0=5.1,y0=100*max(allestimates[13:16]),x1=5.1,y1=100*min(allestimates[13:16]),lty=2)
+
+segments(x0=0,x1=5.5,y0=0,y1=0,lty=2,col="grey")
+
+
+#######
+###
+##     Prob infection MOSQUITO TO MOUSE
+#
+##   From the Chain-binomial model we get
+####
+########
+
+plot(c(99,99,99,76.9,73.5)/100~c(1,2,3,4,5),
+     ylim=c(0,1),ylab="Per bite in probability of infection (mosq to mouse)",cex=2,
+     xlim=c(1,5.5),xlab="Number of bites",cex.lab=1.2)##effect size for 1,2,3,4,5 bites using chain binomial
+segments(x0=1,y0=0.784,x1=1,y1=1)
+segments(x0=2,y0=0.895,x1=2,y1=1)
+segments(x0=3,y0=0.89,x1=3,y1=1)
+segments(x0=4,y0=0.647,x1=4,y1=0.90)
+segments(x0=5,y0=0.647,x1=5,y1=0.837)
+
+chbin_pr_mouse <- c(99,99,99,76.9,73.5)/100
+n_bites <- c(1,2,3,4,5)
+
+lm(chbin_pr_mouse~n_bites)
+
+log.binom<-function(p.vec){
+  
+  a<-p.vec[1]
+  b<-p.vec[2]
+  
+  pred1a<- ((exp(a + b * c(1:5))) / (1 + exp(a + b * c(1:5))) ) 
+  prev1<-chbin_pr_mouse
+  
+  loglik1a<- prev1* log((pred1a)+0.00001)+(1-prev1)*log(1-((pred1a)-0.00001))
+  -sum(loglik1a,  na.rm=T)
+}
+n.param<-2
+logmod<-optim(c(0,0),log.binom,method="L-BFGS-B",lower=c(-10,-10),upper=c(100,10))
+logmod
+nc<-seq(0,5,0.01)
+pred<-((exp(logmod$par[1] + logmod$par[2] * nc)) / (1 + exp(logmod$par[1] + logmod$par[2] * nc)) )
+lines(nc,pred,lwd=2,lty=2,col="black")
+
+
+###
+##
+#
+##From the intensity model we get:
+
+probtomouseall <- c((thet_mo_means[1]+thet_mo_means[2]+thet_mo_means[3]+thet_mo_means[4]+
+                     thet_mo_means[17]+thet_mo_means[18]+thet_mo_means[19]+thet_mo_means[20])/8,
+                  (thet_mo_means[5]+thet_mo_means[6]+thet_mo_means[7]+thet_mo_means[8]+
+                     thet_mo_means[21]+thet_mo_means[22]+thet_mo_means[23]+thet_mo_means[24])/8,
+                  (thet_mo_means[9]+thet_mo_means[10]+thet_mo_means[11]+thet_mo_means[12]+
+                     thet_mo_means[25]+thet_mo_means[26]+thet_mo_means[27]+thet_mo_means[28])/8,
+                  (thet_mo_means[13]+thet_mo_means[14]+thet_mo_means[15]+thet_mo_means[16]+
+                     thet_mo_means[29]+thet_mo_means[30]+thet_mo_means[31]+thet_mo_means[31])/8)
+
+#probtomouseall <- c((thet_mo_means[17]+thet_mo_means[18]+thet_mo_means[19]+thet_mo_means[20])/4,
+#                    (thet_mo_means[21]+thet_mo_means[22]+thet_mo_means[23]+thet_mo_means[24])/4,
+#                    (thet_mo_means[25]+thet_mo_means[26]+thet_mo_means[27]+thet_mo_means[28])/4,
+#                    (thet_mo_means[29]+thet_mo_means[30]+thet_mo_means[31]+thet_mo_means[31])/4)
+
+probtomouse  <- probtomouseall/c(2,3,4,5)
+                 
+par(las=2)
+boxplot(c(thet_mo_means[1:4]/c(2,2,2,2)),
+        c(thet_mo_means[17:20]/c(2,2,2,2)),
+        c(thet_mo_means[5:8]/c(3,3,3,3)),
+        c(thet_mo_means[21:24]/c(3,3,3,3)),
+        c(thet_mo_means[9:12]/c(4,4,4,4)),
+        c(thet_mo_means[25:28]/c(4,4,4,4)),
+        c(thet_mo_means[13:16]/c(5,5,5,5)),
+        c(thet_mo_means[29:32]/c(5,5,5,5)),
+        col=c("aquamarine4","bisque4"),xaxt="n",
+        frame=F,ylab="Per bite probability of infection (mosquito to mouse)",
+        ylim=c(0,0.4))
+par(las=1)
+axis(1,at=c(1.5,3.5,5.5,7.5),labels=c(2,3,4,5))
+      
+theta_mo_controls <- c(thet_mo_means[1:4]/c(2,2,2,2),
+thet_mo_means[5:8]/c(3,3,3,3),
+thet_mo_means[9:12]/c(4,4,4,4),
+thet_mo_means[13:16]/c(5,5,5,5))
+
+theta_mo_controls <- cbind(theta_mo_controls[1:4],
+                           theta_mo_controls[5:8],
+                           theta_mo_controls[9:12],
+                           theta_mo_controls[13:16])
+t(theta_mo_controls)
+theta_mo_treats <- c(mean(thet_mo_means[17:20]/c(2,2,2,2)),
+mean(thet_mo_means[21:24]/c(3,3,3,3)),
+mean(thet_mo_means[25:28]/c(4,4,4,4)),
+mean(thet_mo_means[29:32]/c(5,5,5,5)))
+
+
+datalm <- list(N=4,
+               y=c(theta_mo_controls[3,]),
+               x=c(2,3,4,5))
+test1a <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\sporssum to paralinearfit.stan", data=datalm,
+               iter=1000, chains=4)
+
+print(test1a)
+print(waic(test1a))
+
+params2 = extract(test1a);names(params2)
+#rstan::traceplot(test2, inc_warmup = FALSE)
+
+## For sporssum to para.stan
+nc<-seq(0,5,0.1)
+pred<-(mean(params2$alpha[501:1000]) + mean(params2$beta[501:1000]) * nc) 
+par(mar=c(5,5,5,5))
+par(las=1)
+y=theta_mo_controls[3,]
+x=c(2,3,4,5)
+points(y~x,cex.lab=1.5,bty="n",xlim=c(0,5),yaxt="n",
+     ylab="Gametocytemia (%)",xlab="Parasitemia (%)",ylim=c(0,1))
+par(las=2);axis(2,at=seq(0,1,0.5),labels=c(0,0.5,1.0))
+
+lines(nc,pred,lwd=2,lty=2,col="red")
+alpha <- mean(params2$alpha)
+beta <- mean(params2$beta)
+sigma <- mean(params2$sigma)
+x <- seq(0,max(spors$Parasitemia),0.1)
+y <- pred
+
+e <- extract(test2, pars = c("alpha", "beta", "sigma"))
+
+for(i in seq_along(e[[1]])) {
+  lines(x, (e[[1]][i] + e[[2]][i] * x), col = "#00000008")
+}
+lines(nc,pred,lwd=2,lty=2,col="red")
+points(gametORIGmean[1:20]~parasORIGmean[1:20],pch=19)
+
+#######
+###
+##     Prob infection MOUSE TO MOSQUITO
+#
+##   From the Chain-binomial model we get
+####
+########
+prob_tomouse_chbin <- c(49.1,84.6,99,46.5,
+                        30.7,62.7,51.7,27.7,
+                        61.6,19.9,35.5,26.1,
+                        35.9,41.1,42.8,27.2,
+                        56.8,48.4,35,30.6)
+
+prob_tomosqu_chbin <- c(99,55.6,57.1,85.5,
+                        83.2,50.8,70.4,80.6,
+                        73.9,78.6,73.7,90.6,
+                        96.6,80.7,77.5,95.6,
+                        65.0,76.2,78.8,70)
+
+
+plot(prob_tomouse_chbin/100~c(rep(1,5),rep(2,5),rep(3,5),rep(4,5)),col="blue",
+       ylim=c(0,1),ylab="Per bite probability of infection (mouse to mosquito)",cex=1.2,
+       xlim=c(1,5.5),xlab="Number of bites",cex.lab=1.2)##effect size for 1,2,3,4,5 bites using chain binomial
+
+par(las=2)
+boxplot(prob_tomouse_chbin[1:4]/100,NA,NA,
+        prob_tomouse_chbin[5:8]/100,thet_mosq_means[1:4],thet_mosq_means[17:20],
+        prob_tomouse_chbin[9:12]/100,thet_mosq_means[5:8],thet_mosq_means[21:24],
+        prob_tomouse_chbin[13:16]/100,thet_mosq_means[9:12],thet_mosq_means[25:28],
+        prob_tomouse_chbin[17:20]/100,thet_mosq_means[13:16],thet_mosq_means[29:32],
+        col=c("red","blue","green"),
+        ylim=c(0,1),ylab="Per bite probability of infection (mouse to mosquito)",cex.lab=1.2,
+        xaxt="n",xlab="Number of bites",frame=F
+        )
+axis(1,at=c(2,5,8,11,14),labels=c(1,2,3,4,5),par(las=1))
+
+
+#plot(prob_tomosqu_chbin/100~c(rep(1,5),rep(2,5),rep(3,5),rep(4,5)),col="blue",
+#     ylim=c(0,1),ylab="Per bite probability of infection (mosquito to mouse)",cex=1.2,
+#     xlim=c(1,5.5),xlab="Number of bites",cex.lab=1.2)##effect size for 1,2,3,4,5 bites using chain binomial
+
+par(las=2)
+boxplot(prob_tomosqu_chbin[1:4]/100,NA,NA,
+        prob_tomosqu_chbin[5:8]/200,thet_mo_means[1:4]/2,thet_mo_means[17:20]/2,
+        prob_tomosqu_chbin[9:12]/300,thet_mo_means[5:8]/3,thet_mo_means[21:24]/3,
+        prob_tomosqu_chbin[13:16]/400,thet_mo_means[9:12]/4,thet_mo_means[25:28]/4,
+        prob_tomosqu_chbin[17:20]/500,thet_mo_means[13:16]/5,thet_mo_means[29:32]/5,
+        col=c("red","blue","green"),
+        ylim=c(0,1),ylab="Per bite probability of infection (mosquito to mouse)",cex.lab=1.2,
+        xaxt="n",xlab="Number of bites",frame=F
+)
+axis(1,at=c(2,5,8,11,14),labels=c(1,2,3,4,5),par(las=1))
+
+par(mfrow=c(2,1))
+par(las=2)
+boxplot(prob_tomouse_chbin[1:4]/100,NA,NA,
+        prob_tomouse_chbin[5:8]/200,stack(data[,284:287])$values/2,stack(data[,300:303])$values/2,
+        prob_tomouse_chbin[9:12]/300,stack(data[,288:291])$values/3,stack(data[,304:307])$values/3,
+        prob_tomouse_chbin[13:16]/400,stack(data[,292:295])$values/4,stack(data[,308:311])$values/4,
+        prob_tomouse_chbin[17:20]/500,stack(data[,296:299])$values/5,stack(data[,312:315])$values/5,
+        col=c("red","blue","green"),
+        ylim=c(0,1),ylab="Per bite probability of infection (mouse to mosquito)",cex.lab=1.2,
+        xaxt="n",xlab="Number of bites",frame=F
+)
+axis(1,at=c(2,5,8,11,14),labels=c(1,2,3,4,5),par(las=1))
+
+par(las=2)
+boxplot(prob_tomosqu_chbin[1:4]/100,NA,NA,
+        prob_tomosqu_chbin[5:8]/200,stack(data[,252:255])$values/2,stack(data[,268:271])$values/2,
+        prob_tomosqu_chbin[9:12]/300,stack(data[,256:259])$values/3,stack(data[,272:275])$values/3,
+        prob_tomosqu_chbin[13:16]/400,stack(data[,260:263])$values/4,stack(data[,276:279])$values/4,
+        prob_tomosqu_chbin[17:20]/500,stack(data[,264:267])$values/5,stack(data[,280:283])$values/5,
+        col=c("red","blue","green"),
+        ylim=c(0,1),ylab="Per bite probability of infection (mosquito to mouse)",cex.lab=1.2,
+        xaxt="n",xlab="Number of bites",frame=F
+)
+axis(1,at=c(2,5,8,11,14),labels=c(1,2,3,4,5),par(las=1))
+
+chbin <- c(mean(prob_tomouse_chbin[1:4]/100),mean(prob_tomouse_chbin[5:8]/200),
+           mean(prob_tomouse_chbin[9:12]/300),mean(prob_tomouse_chbin[13:16]/400),
+           mean(prob_tomouse_chbin[17:20]/500))
+yint <- c(mean(thet_mo_means[1:4]/2),mean(thet_mo_means[5:8]/3),mean(thet_mo_means[9:12]/4),
+          mean(thet_mo_means[13:16]/5))
+
+chbinmosq <- c(mean(prob_tomosqu_chbin[1:4]/100),mean(prob_tomosqu_chbin[5:8]/200),
+           mean(prob_tomosqu_chbin[9:12]/300),mean(prob_tomosqu_chbin[13:16]/400),
+           mean(prob_tomosqu_chbin[17:20]/500))
+yintmosq <- c(mean(thet_mosq_means[1:4]/2),mean(thet_mosq_means[5:8]/3),mean(thet_mosq_means[9:12]/4),
+          mean(thet_mosq_means[13:16]/5))
+
+x1 <- c(1,2,3,4,5);x2 <- c(2,3,4,5)
+
+thetadat <- list(N=5,
+                x=x1,
+                y=chbin)
+thetadat2 <- list(N=4,
+                 x=x2,
+                 y=yint)
+thetadat3 <- list(N=5,
+                  x=x1,
+                  y=chbinmosq)
+thetadat4 <- list(N=4,
+                  x=x2,
+                  y=yintmosq)
+test1 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\logisticfunction in stan.stan", data=thetadat,
+              iter=1000, chains=4)
+test2 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\logisticfunction in stan.stan", data=thetadat2,
+              iter=1000, chains=4)
+test3 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\logisticfunction in stan.stan", data=thetadat3,
+              iter=1000, chains=4)
+test4 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\sporssum to paralinearfit.stan", data=thetadat4,
+              iter=1000, chains=4)
+
+print(test1);print(test2);print(test3);print(test4)
+print(waic(test4))
+
+params = extract(test1);names(params)
+params2 = extract(test2);names(params2)
+params3 = extract(test3);names(params3)
+params4 = extract(test4);names(params4)
+
+rstan::traceplot(test1, inc_warmup = FALSE)
+rstan::traceplot(test2, inc_warmup = FALSE)
+rstan::traceplot(test3, inc_warmup = FALSE)
+rstan::traceplot(test4, inc_warmup = FALSE)
+
+nc<-seq(1,5,0.1)
+pred1<- 1/(mean(params$alpha[501:1000]) + nc * exp(-mean(params$beta[501:1000])))^ mean(params$sigma[501:1000])
+pred2<- 1/(mean(params2$alpha[501:1000]) + nc * exp(-mean(params2$beta[501:1000])))^ mean(params2$sigma[501:1000])
+#pred2b<-(mean(params2$alpha[501:1000]) + mean(params2$beta[501:1000]) * nc) 
+pred3<- 1/(mean(params3$alpha[501:1000]) + nc * exp(-mean(params3$beta[501:1000])))^ mean(params3$sigma[501:1000])
+#pred4<- 1/(mean(params4$alpha[501:1000]) + nc * exp(-mean(params4$beta[501:1000])))^ mean(params4$sigma[501:1000])
+pred4b<-(mean(params4$alpha[501:1000]) + mean(params4$beta[501:1000]) * nc) 
+
+par(mar=c(5,5,5,5))
+plot(chbin~x1,cex.lab=1,bty="n",
+     ylab="Theta to mouse chain binomial",xlab="Number of Bites",ylim=c(0,1))
+
+points(yint~x2,pch=20)
+
+lines(nc,pred1,lwd=2,lty=2,col="red")
+lines(nc,pred2,lwd=2,lty=2,col="blue")
+
+x <- seq(1,5,0.1)
+y <- pred1
+
+e <- extract(test1, pars = c("alpha", "beta", "sigma"))
+
+for(i in seq_along(e[[1]])) {
+  lines(x, 1/(e[[1]][i] + x * exp(-e[[2]][i]))^e[[3]][i], col = "#00000008")
+}
+lines(nc,pred1,lwd=2,lty=2,col="red")
+points(x1,chbin,col="red")
+
+
+x <- seq(1,5,0.1)
+y <- pred2
+
+e <- extract(test2, pars = c("alpha", "beta", "sigma"))
+
+for(i in seq_along(e[[1]])) {
+  lines(x, 1/(e[[1]][i] + x * exp(-e[[2]][i]))^e[[3]][i], col = "#00000008")
+}
+
+lines(nc,pred2,lwd=2,lty=2,col="blue")
+points(x2,yint,col="blue",pch=20)
+
+
+plot(chbinmosq~x1,cex.lab=1.2,bty="n",
+     ylab="Theta to mosquito chain binomial",xlab="Number of Bites",ylim=c(0,1))
+
+points(yintmosq~x2,pch=20)
+
+lines(nc,pred3,lwd=2,lty=2,col="red")
+lines(nc,pred4b,lwd=2,lty=2,col="blue")
+
+x <- seq(1,5,0.1)
+y <- pred3
+
+e <- extract(test3, pars = c("alpha", "beta", "sigma"))
+
+for(i in seq_along(e[[1]])) {
+  lines(x, 1/(e[[1]][i] + x * exp(-e[[2]][i]))^e[[3]][i], col = "#00000008")
+}
+lines(nc,pred3,lwd=2,lty=2,col="red")
+points(x1,chbinmosq,col="red")
+
+x <- seq(1,5,0.1)
+y <- pred4b
+
+e <- extract(test4, pars = c("alpha", "beta", "sigma"))
+
+for(i in seq_along(e[[1]])) {
+  #lines(x, 1/(e[[1]][i] + x * exp(-e[[2]][i]))^e[[3]][i], col = "#00000008")
+  lines(x, (e[[1]][i] + e[[2]][i] * x), col = "#00000003")
+}
+lines(nc,pred4b,lwd=2,lty=2,col="blue")
+points(x2,yintmosq,col="blue",pch=20)
+
+summary(lm(yintmosq~x2))
