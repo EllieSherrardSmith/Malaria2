@@ -27,6 +27,14 @@ par(mfrow=c(1,3));hist(data[,61],breaks=20,main="Simulated oocysts (Con, 1 Bites
                   hist(data[,88],breaks=20,main="Simulated oocysts (Treat, 4 Bites, Round 2)",
                        xlab="",ylab="",cex.lab=2,col="aquamarine")
 
+##################################################
+##
+###
+#### 1. Model checking
+###
+##
+###################################################
+
 ###########################
 ##
 ##
@@ -512,7 +520,7 @@ axis(1,at=seq(2.5,14.5,4),labels=c(2,3,4,5))
 
 ####################################
 ##
-## Mean data for the model estimates
+## 2. Summary data: Mean data for the model estimates
 ##
 ############################
 
@@ -543,15 +551,14 @@ quantile(dvec,c(0.025,0.975));thet_mosqTL <- 0.4664724;thet_mosqTU <- 0.4797919
 
 #Efficacy on mosquito infection
 (sum(data[,284:299])/(500*16)-sum(data[,300:315])/(500*16))/sum(data[,284:299])/(500*16)
+##or
+(sum(data[,284:287])/(2*500*4)+sum(data[,288:291])/(3*500*4)+
+   sum(data[,292:295])/(4*500*4)+sum(data[,296:299])/(3*500*4))-
+  (sum(data[,300:303])/(500*4*2)+sum(data[,304:307])/(500*4*3)+
+  sum(data[,308:311])/(500*4*4)+sum(data[,312:315])/(500*4*5))/
+  (sum(data[,284:287])/(2*500*4)+sum(data[,288:291])/(3*500*4)+
+     sum(data[,292:295])/(4*500*4)+sum(data[,296:299])/(3*500*4))
 
-dateffCI<-matrix(nrow=500,ncol=16)
-dateffCI<-(data[,284:299]-data[,300:315])/data[,284:299]
-head(dateffCI)
-EfficacyEstimate2<-sum(dateffCI)/(500*16)
-x<-stack(dateffCI)
-x2<-stack(dateffCI[,1:4])
-EfficacyEstimate2Lower<-quantile(x$values,0.05)
-EfficacyEstimate2Upper<-quantile(x$values,0.95)
 
 ##Probability of mouse infection
 #Controls
@@ -561,36 +568,57 @@ sum(data[,268:283])/(500*16)
 
 #Efficacy on mouse infection
 100*((sum(data[,252:267])/(500*16))-(sum(data[,268:283])/(500*16)))/(sum(data[,252:267])/(500*16))
+##or
+(sum(data[,252:255])/(2*500*4)+sum(data[,256:259])/(3*500*4)+
+   sum(data[,260:263])/(4*500*4)+sum(data[,264:267])/(3*500*4))-
+  (sum(data[,268:271])/(500*4*2)+sum(data[,272:275])/(500*4*3)+
+     sum(data[,276:279])/(500*4*4)+sum(data[,280:283])/(500*4*5))/
+  (sum(data[,252:255])/(2*500*4)+sum(data[,256:259])/(3*500*4)+
+     sum(data[,260:263])/(4*500*4)+sum(data[,264:267])/(3*500*4))
 
 
 ##Overall efficacy
 (((sum(data[,284:299])/(500*16))-(sum(data[,300:315])/(500*16)))+
   ((sum(data[,252:267])/(500*16))-(sum(data[,268:283])/(500*16))))/
   ((sum(data[,284:299])/(500*16))+(sum(data[,252:267])/(500*16)))
+##0r
+(((sum(data[,284:287])/(2*500*4)+sum(data[,288:291])/(3*500*4)+
+   sum(data[,292:295])/(4*500*4)+sum(data[,296:299])/(3*500*4))+
+  (sum(data[,252:255])/(2*500*4)+sum(data[,256:259])/(3*500*4)+
+     sum(data[,260:263])/(4*500*4)+sum(data[,264:267])/(3*500*4)))-
+((sum(data[,300:303])/(500*4*2)+sum(data[,304:307])/(500*4*3)+
+    sum(data[,308:311])/(500*4*4)+sum(data[,312:315])/(500*4*5))+
+   (sum(data[,268:271])/(500*4*2)+sum(data[,272:275])/(500*4*3)+
+      sum(data[,276:279])/(500*4*4)+sum(data[,280:283])/(500*4*5))))/
+((sum(data[,284:287])/(2*500*4)+sum(data[,288:291])/(3*500*4)+
+    sum(data[,292:295])/(4*500*4)+sum(data[,296:299])/(3*500*4))+
+   (sum(data[,252:255])/(2*500*4)+sum(data[,256:259])/(3*500*4)+
+    sum(data[,260:263])/(4*500*4)+sum(data[,264:267])/(3*500*4)))
+
 
 ((thet_mouseCL-thet_mouseTL)+(thet_mosqCL-thet_mosqTL))/(thet_mouseCL+thet_mosqCL)
 ((thet_mouseCU-thet_mouseTU)+(thet_mosqCU-thet_mosqTU))/(thet_mouseCU+thet_mosqCU)
 
 
 ##2 bites effect size
-(((sum(data[,284:287])/(500*4))-(sum(data[,300:303])/(500*4)))+
-   ((sum(data[,252:255])/(500*4))-(sum(data[,268:271])/(500*4))))/
-  ((sum(data[,284:287])/(500*4))+(sum(data[,252:255])/(500*4)))
+(((sum(data[,284:287])/(500*4*2))-(sum(data[,300:303])/(500*4*2)))+
+   ((sum(data[,252:255])/(500*4*2))-(sum(data[,268:271])/(500*4*2))))/
+  ((sum(data[,284:287])/(500*4)*2)+(sum(data[,252:255])/(500*4*2)))
 
 ##3 bites effect size
-(((sum(data[,288:291])/(500*4))-(sum(data[,304:307])/(500*4)))+
-   ((sum(data[,256:259])/(500*4))-(sum(data[,272:275])/(500*4))))/
-  ((sum(data[,288:291])/(500*4))+(sum(data[,256:259])/(500*4)))
+(((sum(data[,288:291])/(500*4*3))-(sum(data[,304:307])/(500*4*3)))+
+   ((sum(data[,256:259])/(500*4*3))-(sum(data[,272:275])/(500*4*3))))/
+  ((sum(data[,288:291])/(500*4*3))+(sum(data[,256:259])/(500*4*3)))
 
 ##4 bites effect size
-(((sum(data[,292:295])/(500*4))-(sum(data[,308:311])/(500*4)))+
-   ((sum(data[,260:263])/(500*4))-(sum(data[,276:279])/(500*4))))/
-  ((sum(data[,292:295])/(500*4))+(sum(data[,260:263])/(500*4)))
+(((sum(data[,292:295])/(500*4*4))-(sum(data[,308:311])/(500*4*4)))+
+   ((sum(data[,260:263])/(500*4*4))-(sum(data[,276:279])/(500*4*4))))/
+  ((sum(data[,292:295])/(500*4*4))+(sum(data[,260:263])/(500*4*4)))
 
 ##5 bites effect size
-(((sum(data[,296:299])/(500*4))-(sum(data[,312:315])/(500*4)))+
-   ((sum(data[,264:267])/(500*4))-(sum(data[,280:283])/(500*4))))/
-  ((sum(data[,296:299])/(500*4))+(sum(data[,264:267])/(500*4)))
+(((sum(data[,296:299])/(500*4*5))-(sum(data[,312:315])/(500*4*5)))+
+   ((sum(data[,264:267])/(500*4*5))-(sum(data[,280:283])/(500*4*5))))/
+  ((sum(data[,296:299])/(500*4*5))+(sum(data[,264:267])/(500*4*5)))
 
 ####################################
 ##
@@ -627,9 +655,9 @@ for(i in 60:91){
 par(mfrow=c(1,1))
 #boxplot(data[,60:91],ylim=c(0,50))
 
-ooc_count_C = structure(.Data = c(oocystsC),
+ooc_count_C = structure(.Data = c(oocystsC[97:480]),
                         .Dim=c(24,16))
-ooc_count_T = structure(.Data = c(oocystsT),
+ooc_count_T = structure(.Data = c(oocystsT[97:480]),
                         .Dim=c(24,16))
 #boxplot(ooc_count_C,ylim=c(0,50))
 
@@ -674,7 +702,7 @@ multiplot(aOocystsC, aOocystsT, aOocysts, cols=3)##run multiplot function
 ###################################
 estprev<-stack(data[,252:283])
 estpervmq<-stack(data[,284:315])
-Prev_Mice<-c(estprev[,1],prevs)
+Prev_Mice<-c(estprev[,1],prevs[5:20],prevs[25:40])
 
   prevmq<-c(sum(prevoocC[1:24])/24,sum(prevoocC[25:48])/24,sum(prevoocC[49:72])/24,sum(prevoocC[73:96])/24,
             sum(prevoocC[97:120])/24,sum(prevoocC[121:144])/24,sum(prevoocC[145:168])/24,sum(prevoocC[169:192])/24,
@@ -689,10 +717,10 @@ Prev_Mice<-c(estprev[,1],prevs)
 Prev_Mosquito<-c(estpervmq[,1],prevmq,prevmqT)
 length(Prev_Mice)
 length(Prev_Mosquito)
-data_type<-c(rep("Simulated",16000),rep("Real",32))
-datgroup<-as.factor(c(rep(seq(1,32,1),each=500),seq(1,32,1)))
-Bites<-as.factor(c(rep(rep(seq(2,5,1),each=2000),2),rep(rep(seq(2,5,1),each=4),2)))
-Generations<-as.factor(c(rep(rep(seq(1,4,1),each=500),8),rep(rep(seq(1,4,1),each=1),8)))
+data_type<-c(rep("Simulated",32000),rep("Real",32))
+datgroup<-as.factor(c(rep(seq(1,32,1),each=1000),seq(1,32,1)))
+Bites<-as.factor(c(rep(rep(seq(2,5,1),each=4000),2),rep(rep(seq(2,5,1),each=4),2)))
+Generations<-as.factor(c(rep(rep(seq(1,4,1),each=1000),8),rep(rep(seq(1,4,1),each=1),8)))
 
 datTheta<-data.frame(Prev_Mice,Prev_Mosquito,data_type,datgroup,Bites,Generations)
 
@@ -738,7 +766,7 @@ points(nc,maxoocC,pch=20)
 
 ##
 ###
-#####  Plotting the useful outcomes
+#####  3. Plotting the useful outcomes
 ###
 ##
 
@@ -747,14 +775,17 @@ points(nc,maxoocC,pch=20)
 ###################################################################
 thet_mosq_means<-numeric(32)
 for(i in 284:315){
-  thet_mosq_means[i-283]<-mean(data[,i],na.rm=T)
+  thet_mosq_means[i-283]<-mean(data[,i],na.rm=T)#/c(2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,
+                                                 #  2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5)
 }
+thet_mosq_means <- thet_mosq_means/c(2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,
+                        2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5)
 
-    a1<-stack(data[,284:287]);a2<-stack(data[,288:291]);a3<-stack(data[,292:295]);a4<-stack(data[,296:299]);
+    a1<-stack(data[,284:287]/2);a2<-stack(data[,288:291]/3);a3<-stack(data[,292:295]/4);a4<-stack(data[,296:299]/5);
     thet_mosq_bitesC<-c(mean(a1$value),mean(a2$value),mean(a3$value),mean(a4$value))
     thet_mosq_bitesC_range<-c(a1$value,a2$value,a3$value,a4$value)
 
-    B1<-stack(data[,300:303]);B2<-stack(data[,304:307]);B3<-stack(data[,308:311]);B4<-stack(data[,312:315]);
+    B1<-stack(data[,300:303]/2);B2<-stack(data[,304:307]/3);B3<-stack(data[,308:311]/4);B4<-stack(data[,312:315]/5);
     thet_mosq_bitesT<-c(mean(B1$value),mean(B2$value),mean(B3$value),mean(B4$value))
     thet_mosq_bitesT_range<-c(B1$value,B2$value,B3$value,B4$value)
 
@@ -865,13 +896,13 @@ thet_mo_means<-numeric(32)
 for(i in 252:283){
   thet_mo_means[i-251]<-mean(data[,i])
 }
+thet_mo_means <- thet_mo_means/c(2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5)
 
-
-a1<-stack(data[,252:255]);a2<-stack(data[,256:259]);a3<-stack(data[,260:263]);a4<-stack(data[,264:267]);
+a1<-stack(data[,252:255]/2);a2<-stack(data[,256:259]/3);a3<-stack(data[,260:263]/4);a4<-stack(data[,264:267]/5);
 thet_mouse_bitesC<-c(mean(a1$value),mean(a2$value),mean(a3$value),mean(a4$value))
 thet_mouse_bitesC_range<-c(a1$value,a2$value,a3$value,a4$value)
 
-B1<-stack(data[,268:271]);B2<-stack(data[,272:275]);B3<-stack(data[,276:279]);B4<-stack(data[,280:283]);
+B1<-stack(data[,268:271]/2);B2<-stack(data[,272:275]/3);B3<-stack(data[,276:279]/4);B4<-stack(data[,280:283]/5);
 thet_mouse_bitesT<-c(mean(B1$value),mean(B2$value),mean(B3$value),mean(B4$value))
 thet_mouse_bitesT_range<-c(B1$value,B2$value,B3$value,B4$value)
 
@@ -1114,16 +1145,22 @@ plot(gametocytemiaAll~parasitemiaAll)
 ##
 ##
 ####################################################
-thet_mo_means
 
-glmc <- glm(thet_mo_means~parasitemiaAll+type+0)
-glmd <- glm(thet_mo_means~parasitemiaAll+0)
+glmc <- glm(thet_mo_means~c(parasitemiaAll[5:20],parasitemiaAll[25:40])+type[5:36]+0)
+glmd <- glm(thet_mo_means~c(parasitemiaAll[5:20],parasitemiaAll[25:40])+0)
 anova(glmc,glmd,test="Chi")
-summary.lm(glmd)
-plot(glmd)
-plot(thet_mosq_means~parasitemiaAll)
+summary.lm(glmc)
+plot(glmc)
+plot(thet_mo_means~c(parasitemiaAll[5:20],parasitemiaAll[25:40]))
 
-datprob<-data.frame(thet_mo_means,thet_mosq_means,parasitemiaAll,gametocytemiaAll,type)
+datprob<-data.frame(thet_mo_means,thet_mosq_means,
+                    c(parasitemiaAll[5:20],parasitemiaAll[25:40]),
+                    c(gametocytemiaAll[5:20],gametocytemiaAll[25:40]),
+                      type[5:36])
+names(datprob)[3]<-"parasitemiaAll"
+names(datprob)[4]<-"gametocytemiaAll"
+names(datprob)[5]<-"type"
+
 datprob$thet_mo_means<-ifelse(datprob$parasitemiaAll==0,0,datprob$thet_mo_means)
 datprob$thet_mosq_means<-ifelse(datprob$parasitemiaAll==0,0,datprob$thet_mosq_means)
 
@@ -1167,6 +1204,159 @@ gommod
 nc<-seq(0,20,0.01)
 pred2<-(gommod$par[1] * exp (gommod$par[2] * exp(gommod$par[3] * nc)))
 lines(nc,pred2,lwd=2,lty=2,col="black")
+
+alpha = 0.2
+beta = 0.5
+pred3 <- (alpha * nc) / sqrt(1 + nc^(1/beta))
+lines(nc,pred3,lwd=2,lty=2,col="red")
+
+datlist <- list(N=32,
+                y=datprob$thet_mo_means,
+                x=datprob$parasitemiaAll)
+
+test <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\logisticfunction in stan2.stan", data=datlist,
+              iter=1000, chains=4)
+
+##****setting prior in logisticfunction in stan2
+#parameters {
+#real<lower=0> phi; // 
+#  real<lower=0, upper=0.6> beta;  // 
+#  real<lower=0, upper=1> alpha;
+#
+
+print(test);print(waic(test))
+params = extract(test);names(params)
+
+#rstan::traceplot(test, inc_warmup = FALSE)
+par(mar=c(5,5,5,5));par(mfrow=c(1,1))
+plot(datprob$thet_mo_means~datprob$parasitemiaAll,cex.lab=1.4,bty="n",xaxt="n",yaxt="n",
+     ylab="Per bite probability of infection",xlab="Parasitemia in mouse (%)",ylim=c(0,1))
+axis(2,par(las=2),at=c(0,0.2,0.4,0.6,0.8,1.0),line=0,labels=c(0,0.2,0.4,0.6,0.8,1.0))
+axis(1,par(las=1),at=seq(0,20,5),labels=seq(0,20,5))
+points(datprob$thet_mosq_means~datprob$parasitemiaAll,pch=20)
+nc <- seq(0,20,0.2)
+
+pred1<- (mean(params$alpha) * nc) / sqrt(1 + nc ^ (1/mean(params$beta)))
+
+lines(nc,pred1,lwd=2,lty=2,col="blue")
+
+x <- seq(0,max(datprob$parasitemiaAll),0.1)
+
+e <- extract(test, pars = c("alpha", "beta"))
+
+for(i in seq_along(e[[1]])) {
+  lines(x, (e[[1]][i] * x) / sqrt(1 + x ^ (1/e[[2]][i])), col = "#00000008")
+}
+lines(nc,pred1,lwd=2,lty=2,col="red")
+legend(1,1,legend=c("Infection probablity for mosquito to mouse","Infection probablity for mouse to mosquito"),
+       pch=c(1,20),bty="n")
+
+##############################################################
+##
+## PROBABILITY OF MOUSE INFECTION and Sporozoite scores
+##
+##
+##
+####################################################
+
+datlist <- list(N=32,
+                y=datprob$thet_mo_means,
+                x=c(MEANsporig[5:20],MEANsporig[25:40]))
+
+testb <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\logisticfunction in stan2.stan", data=datlist,
+             iter=1000, chains=4)
+
+##****setting prior in logisticfunction in stan2
+#parameters {
+#real<lower=0> phi; // 
+#  real<lower=0, upper=0.6> beta;  // 
+#  real<lower=0, upper=1> alpha;
+#
+
+print(testb);print(waic(testb))
+paramsb = extract(testb);names(paramsb)
+
+#rstan::traceplot(test, inc_warmup = FALSE)
+par(mar=c(5,5,5,5));par(mfrow=c(1,1))
+plot(datprob$thet_mo_means~c(MEANsporig[5:20],MEANsporig[25:40]),cex.lab=1.4,bty="n",xaxt="n",yaxt="n",
+     ylab="Per bite probability of infection",xlab="Mean sporozoite post bite score",ylim=c(0,1))
+axis(2,par(las=2),at=c(0,0.2,0.4,0.6,0.8,1.0),line=0,labels=c(0,0.2,0.4,0.6,0.8,1.0))
+axis(1,par(las=1),at=seq(0,max(MEANsporig),0.1),labels=seq(0,2.3,0.1))
+
+nc <- seq(0,max(MEANsporig),0.1)
+pred1<- (mean(params$alpha) * nc) / sqrt(1 + nc ^ (1/mean(params$beta)))
+
+lines(nc,pred1,lwd=2,lty=2,col="blue")
+
+x <- seq(0,max(datprob$parasitemiaAll),0.1)
+
+e <- extract(testb, pars = c("alpha", "beta"))
+
+for(i in seq_along(e[[1]])) {
+  lines(x, (e[[1]][i] * x) / sqrt(1 + x ^ (1/e[[2]][i])), col = "#00000008")
+}
+lines(nc,pred1,lwd=2,lty=2,col="red")
+
+##############################################################
+##
+## PROBABILITY OF MOUSE INFECTION and parasitemia
+##
+##
+##
+####################################################
+
+datlist <- list(N=32,
+                y=datprob$thet_mo_means,
+                x=datprob$parasitemiaAll)
+
+testb <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\parasitemiatoinfectionprobablity.stan", data=datlist,
+              iter=1000, chains=4)
+
+##****setting prior in logisticfunction in stan2
+#parameters {
+#real<lower=0> phi; // 
+#  real<lower=0, upper=0.6> beta;  // 
+#  real<lower=0, upper=1> alpha;
+#
+
+print(testb);print(waic(testb))
+paramsb = extract(testb);names(paramsb)
+
+#rstan::traceplot(test, inc_warmup = FALSE)
+par(mar=c(5,5,5,5));par(mfrow=c(1,1))
+plot(datprob$thet_mo_means~datprob$parasitemiaAll,cex.lab=1.4,bty="n",xaxt="n",yaxt="n",
+     ylab="Per bite probability of infection",xlab="Mean parasitemia (%)",ylim=c(0,1))
+axis(2,par(las=2),at=c(0,0.2,0.4,0.6,0.8,1.0),line=0,labels=c(0,0.2,0.4,0.6,0.8,1.0))
+axis(1,par(las=1),at=seq(0,max(datprob$parasitemiaAll),1),labels=seq(0,max(datprob$parasitemiaAll),1))
+
+nc <- seq(0,max(datprob$parasitemiaAll),0.1)
+
+pred1<- ( mean(paramsb$alpha3) * ((mean(paramsb$alpha2) * ((mean(paramsb$alpha1) * nc) / sqrt(1 + nc^ (1/mean(paramsb$beta1))))) /
+               
+               sqrt(1 + ((mean(paramsb$alpha1) * nc) / sqrt(1 + nc ^ (1/mean(paramsb$beta1)))) ^ (1/mean(paramsb$beta2)))) /
+              
+              sqrt(1 + ((mean(paramsb$alpha2) * ((mean(paramsb$alpha1) * nc) / sqrt(1 + nc^ (1/mean(paramsb$beta1))))) /
+                          
+                          sqrt(1 + ((mean(paramsb$alpha1) * nc) / sqrt(1 + nc ^ (1/mean(paramsb$beta1)))) ^ (1/mean(paramsb$beta2)))) ^ (1/mean(paramsb$beta3))))
+
+
+lines(nc,pred1,lwd=2,lty=2,col="blue")
+
+x <- seq(0,max(datprob$parasitemiaAll),0.1)
+
+e <- extract(testb, pars = c("alpha1", "alpha2", "alpha3", 
+                             "beta1", "beta2", "beta3"))
+
+for(i in seq_along(e[[1]])) {
+  lines(x, ( e[[3]][i] * ((e[[2]][i] * ((e[[1]][i] * x) / sqrt(1 + x ^ (1/e[[4]][i])))) /
+                                       
+                                       sqrt(1 + ((e[[1]][i] * x) / sqrt(1 + x ^ (1/e[[4]][i]))) ^ (1/e[[5]][i]))) /
+          
+          sqrt(1 + ((e[[2]][i] * ((e[[1]][i] * x) / sqrt(1 + x ^ (1/e[[4]][i])))) /
+                      
+                      sqrt(1 + ((e[[1]][i] * x) / sqrt(1 + x ^ (1/e[[4]][i]))) ^ (1/e[[5]][i]))) ^ (1/e[[6]][i]))), col = "#00000008")
+}
+lines(nc,pred1,lwd=2,lty=2,col="red")
 
 
 ####################
@@ -1451,7 +1641,7 @@ filled.contour(my.matrix8D, nlevels=12, color=my.topo.colors,xlim=c(-14,6),ylim=
 
 #######################################################
 ##
-## Probability of infection
+## 4. Probability of infection
 ##
 ###################################################
 plot(thet_mosq_means~thet_mo_means)
@@ -1503,7 +1693,8 @@ effectsizeint <- c(mean(allestimates[1:4]),mean(allestimates[5:8]),
                    mean(allestimates[9:12]),mean(allestimates[13:16]))
 #######
 ###
-##     EFFECT SIZE
+##     5. COMPARING MODELS
+##          EFFECT SIZE
 #
 ##   From the Chain-binomial model we get
 ####
@@ -1534,138 +1725,7 @@ segments(x0=0,x1=5.5,y0=0,y1=0,lty=2,col="grey")
 
 #######
 ###
-##     Prob infection MOSQUITO TO MOUSE
-#
-##   From the Chain-binomial model we get
-####
-########
-
-plot(c(99,99,99,76.9,73.5)/100~c(1,2,3,4,5),
-     ylim=c(0,1),ylab="Per bite in probability of infection (mosq to mouse)",cex=2,
-     xlim=c(1,5.5),xlab="Number of bites",cex.lab=1.2)##effect size for 1,2,3,4,5 bites using chain binomial
-segments(x0=1,y0=0.784,x1=1,y1=1)
-segments(x0=2,y0=0.895,x1=2,y1=1)
-segments(x0=3,y0=0.89,x1=3,y1=1)
-segments(x0=4,y0=0.647,x1=4,y1=0.90)
-segments(x0=5,y0=0.647,x1=5,y1=0.837)
-
-chbin_pr_mouse <- c(99,99,99,76.9,73.5)/100
-n_bites <- c(1,2,3,4,5)
-
-lm(chbin_pr_mouse~n_bites)
-
-log.binom<-function(p.vec){
-  
-  a<-p.vec[1]
-  b<-p.vec[2]
-  
-  pred1a<- ((exp(a + b * c(1:5))) / (1 + exp(a + b * c(1:5))) ) 
-  prev1<-chbin_pr_mouse
-  
-  loglik1a<- prev1* log((pred1a)+0.00001)+(1-prev1)*log(1-((pred1a)-0.00001))
-  -sum(loglik1a,  na.rm=T)
-}
-n.param<-2
-logmod<-optim(c(0,0),log.binom,method="L-BFGS-B",lower=c(-10,-10),upper=c(100,10))
-logmod
-nc<-seq(0,5,0.01)
-pred<-((exp(logmod$par[1] + logmod$par[2] * nc)) / (1 + exp(logmod$par[1] + logmod$par[2] * nc)) )
-lines(nc,pred,lwd=2,lty=2,col="black")
-
-
-###
-##
-#
-##From the intensity model we get:
-
-probtomouseall <- c((thet_mo_means[1]+thet_mo_means[2]+thet_mo_means[3]+thet_mo_means[4]+
-                     thet_mo_means[17]+thet_mo_means[18]+thet_mo_means[19]+thet_mo_means[20])/8,
-                  (thet_mo_means[5]+thet_mo_means[6]+thet_mo_means[7]+thet_mo_means[8]+
-                     thet_mo_means[21]+thet_mo_means[22]+thet_mo_means[23]+thet_mo_means[24])/8,
-                  (thet_mo_means[9]+thet_mo_means[10]+thet_mo_means[11]+thet_mo_means[12]+
-                     thet_mo_means[25]+thet_mo_means[26]+thet_mo_means[27]+thet_mo_means[28])/8,
-                  (thet_mo_means[13]+thet_mo_means[14]+thet_mo_means[15]+thet_mo_means[16]+
-                     thet_mo_means[29]+thet_mo_means[30]+thet_mo_means[31]+thet_mo_means[31])/8)
-
-#probtomouseall <- c((thet_mo_means[17]+thet_mo_means[18]+thet_mo_means[19]+thet_mo_means[20])/4,
-#                    (thet_mo_means[21]+thet_mo_means[22]+thet_mo_means[23]+thet_mo_means[24])/4,
-#                    (thet_mo_means[25]+thet_mo_means[26]+thet_mo_means[27]+thet_mo_means[28])/4,
-#                    (thet_mo_means[29]+thet_mo_means[30]+thet_mo_means[31]+thet_mo_means[31])/4)
-
-probtomouse  <- probtomouseall/c(2,3,4,5)
-                 
-par(las=2)
-boxplot(c(thet_mo_means[1:4]/c(2,2,2,2)),
-        c(thet_mo_means[17:20]/c(2,2,2,2)),
-        c(thet_mo_means[5:8]/c(3,3,3,3)),
-        c(thet_mo_means[21:24]/c(3,3,3,3)),
-        c(thet_mo_means[9:12]/c(4,4,4,4)),
-        c(thet_mo_means[25:28]/c(4,4,4,4)),
-        c(thet_mo_means[13:16]/c(5,5,5,5)),
-        c(thet_mo_means[29:32]/c(5,5,5,5)),
-        col=c("aquamarine4","bisque4"),xaxt="n",
-        frame=F,ylab="Per bite probability of infection (mosquito to mouse)",
-        ylim=c(0,0.4))
-par(las=1)
-axis(1,at=c(1.5,3.5,5.5,7.5),labels=c(2,3,4,5))
-      
-theta_mo_controls <- c(thet_mo_means[1:4]/c(2,2,2,2),
-thet_mo_means[5:8]/c(3,3,3,3),
-thet_mo_means[9:12]/c(4,4,4,4),
-thet_mo_means[13:16]/c(5,5,5,5))
-
-theta_mo_controls <- cbind(theta_mo_controls[1:4],
-                           theta_mo_controls[5:8],
-                           theta_mo_controls[9:12],
-                           theta_mo_controls[13:16])
-t(theta_mo_controls)
-theta_mo_treats <- c(mean(thet_mo_means[17:20]/c(2,2,2,2)),
-mean(thet_mo_means[21:24]/c(3,3,3,3)),
-mean(thet_mo_means[25:28]/c(4,4,4,4)),
-mean(thet_mo_means[29:32]/c(5,5,5,5)))
-
-
-datalm <- list(N=4,
-               y=c(theta_mo_controls[3,]),
-               x=c(2,3,4,5))
-test1a <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\sporssum to paralinearfit.stan", data=datalm,
-               iter=1000, chains=4)
-
-print(test1a)
-print(waic(test1a))
-
-params2 = extract(test1a);names(params2)
-#rstan::traceplot(test2, inc_warmup = FALSE)
-
-## For sporssum to para.stan
-nc<-seq(0,5,0.1)
-pred<-(mean(params2$alpha[501:1000]) + mean(params2$beta[501:1000]) * nc) 
-par(mar=c(5,5,5,5))
-par(las=1)
-y=theta_mo_controls[3,]
-x=c(2,3,4,5)
-points(y~x,cex.lab=1.5,bty="n",xlim=c(0,5),yaxt="n",
-     ylab="Gametocytemia (%)",xlab="Parasitemia (%)",ylim=c(0,1))
-par(las=2);axis(2,at=seq(0,1,0.5),labels=c(0,0.5,1.0))
-
-lines(nc,pred,lwd=2,lty=2,col="red")
-alpha <- mean(params2$alpha)
-beta <- mean(params2$beta)
-sigma <- mean(params2$sigma)
-x <- seq(0,max(spors$Parasitemia),0.1)
-y <- pred
-
-e <- extract(test2, pars = c("alpha", "beta", "sigma"))
-
-for(i in seq_along(e[[1]])) {
-  lines(x, (e[[1]][i] + e[[2]][i] * x), col = "#00000008")
-}
-lines(nc,pred,lwd=2,lty=2,col="red")
-points(gametORIGmean[1:20]~parasORIGmean[1:20],pch=19)
-
-#######
-###
-##     Prob infection MOUSE TO MOSQUITO
+##     Prob infection MOUSE TO MOSQUITO / Mosquito to mouse
 #
 ##   From the Chain-binomial model we get
 ####
@@ -1674,72 +1734,98 @@ prob_tomouse_chbin <- c(49.1,84.6,99,46.5,
                         30.7,62.7,51.7,27.7,
                         61.6,19.9,35.5,26.1,
                         35.9,41.1,42.8,27.2,
-                        56.8,48.4,35,30.6)
+                        56.8,48.4,35,30.6) ##Mosquito to mouse
 
 prob_tomosqu_chbin <- c(99,55.6,57.1,85.5,
                         83.2,50.8,70.4,80.6,
                         73.9,78.6,73.7,90.6,
                         96.6,80.7,77.5,95.6,
-                        65.0,76.2,78.8,70)
-
+                        65.0,76.2,78.8,70) ##Mouse to mosquito
 
 plot(prob_tomouse_chbin/100~c(rep(1,5),rep(2,5),rep(3,5),rep(4,5)),col="blue",
        ylim=c(0,1),ylab="Per bite probability of infection (mouse to mosquito)",cex=1.2,
        xlim=c(1,5.5),xlab="Number of bites",cex.lab=1.2)##effect size for 1,2,3,4,5 bites using chain binomial
-
-par(las=2)
-boxplot(prob_tomouse_chbin[1:4]/100,NA,NA,
-        prob_tomouse_chbin[5:8]/100,thet_mosq_means[1:4],thet_mosq_means[17:20],
-        prob_tomouse_chbin[9:12]/100,thet_mosq_means[5:8],thet_mosq_means[21:24],
-        prob_tomouse_chbin[13:16]/100,thet_mosq_means[9:12],thet_mosq_means[25:28],
-        prob_tomouse_chbin[17:20]/100,thet_mosq_means[13:16],thet_mosq_means[29:32],
-        col=c("red","blue","green"),
-        ylim=c(0,1),ylab="Per bite probability of infection (mouse to mosquito)",cex.lab=1.2,
-        xaxt="n",xlab="Number of bites",frame=F
-        )
-axis(1,at=c(2,5,8,11,14),labels=c(1,2,3,4,5),par(las=1))
-
-
-#plot(prob_tomosqu_chbin/100~c(rep(1,5),rep(2,5),rep(3,5),rep(4,5)),col="blue",
-#     ylim=c(0,1),ylab="Per bite probability of infection (mosquito to mouse)",cex=1.2,
-#     xlim=c(1,5.5),xlab="Number of bites",cex.lab=1.2)##effect size for 1,2,3,4,5 bites using chain binomial
-
+##
+###
+#### Per bite
+###
+##
+par(mar=c(5,5,2,1))
+par(mfrow=c(2,2))
 par(las=2)
 boxplot(prob_tomosqu_chbin[1:4]/100,NA,NA,
-        prob_tomosqu_chbin[5:8]/200,thet_mo_means[1:4]/2,thet_mo_means[17:20]/2,
-        prob_tomosqu_chbin[9:12]/300,thet_mo_means[5:8]/3,thet_mo_means[21:24]/3,
-        prob_tomosqu_chbin[13:16]/400,thet_mo_means[9:12]/4,thet_mo_means[25:28]/4,
-        prob_tomosqu_chbin[17:20]/500,thet_mo_means[13:16]/5,thet_mo_means[29:32]/5,
-        col=c("red","blue","green"),
-        ylim=c(0,1),ylab="Per bite probability of infection (mosquito to mouse)",cex.lab=1.2,
+        prob_tomosqu_chbin[5:8]/200,stack(data[,284:287])$values/2,stack(data[,300:303])$values/2,
+        prob_tomosqu_chbin[9:12]/300,stack(data[,288:291])$values/3,stack(data[,304:307])$values/3,
+        prob_tomosqu_chbin[13:16]/400,stack(data[,292:295])$values/4,stack(data[,308:311])$values/4,
+        prob_tomosqu_chbin[17:20]/500,stack(data[,296:299])$values/5,stack(data[,312:315])$values/5,
+        col=c("red","blue","green"),line=4,
+        ylim=c(0,1),ylab="Per bite infection probability (mouse to mosquito)",cex.lab=1.2,
         xaxt="n",xlab="Number of bites",frame=F
 )
-axis(1,at=c(2,5,8,11,14),labels=c(1,2,3,4,5),par(las=1))
+#axis(1,at=c(2,5,8,11,14),labels=c(1,2,3,4,5),par(las=1))
+axis(1,at=c(1.5,3.5,5.5,7.5,9.5),labels=c(1,2,3,4,5),par(las=1))
 
-par(mfrow=c(2,1))
+par(mar=c(5,5,2,1))
 par(las=2)
-boxplot(prob_tomouse_chbin[1:4]/100,NA,NA,
-        prob_tomouse_chbin[5:8]/200,stack(data[,284:287])$values/2,stack(data[,300:303])$values/2,
-        prob_tomouse_chbin[9:12]/300,stack(data[,288:291])$values/3,stack(data[,304:307])$values/3,
-        prob_tomouse_chbin[13:16]/400,stack(data[,292:295])$values/4,stack(data[,308:311])$values/4,
-        prob_tomouse_chbin[17:20]/500,stack(data[,296:299])$values/5,stack(data[,312:315])$values/5,
-        col=c("red","blue","green"),
-        ylim=c(0,1),ylab="Per bite probability of infection (mouse to mosquito)",cex.lab=1.2,
+boxplot(prob_tomouse_chbin[1:4]/100,NA,
+        prob_tomouse_chbin[5:8]/200,c(stack(data[,252:255])$values/2,stack(data[,268:271])$values/2),
+        prob_tomouse_chbin[9:12]/300,c(stack(data[,256:259])$values/3,stack(data[,272:275])$values/3),
+        prob_tomouse_chbin[13:16]/400,c(stack(data[,260:263])$values/4,stack(data[,276:279])$values/4),
+        prob_tomouse_chbin[17:20]/500,c(stack(data[,264:267])$values/5,stack(data[,280:283])$values/5),
+        col=c("red","blue"),line=4,
+        ylim=c(0,1),ylab="Per bite infection probability (mosquito to mouse)",cex.lab=1.2,
         xaxt="n",xlab="Number of bites",frame=F
 )
-axis(1,at=c(2,5,8,11,14),labels=c(1,2,3,4,5),par(las=1))
+points(perbiteprobC ~ c(1.5,3.5,5.5,7.5,9.5),col="grey",pch=19)##from MODELinstruction_with1bitegroup.R
+points(perbiteprobT ~ c(1.5,3.5,5.5,7.5,9.5),col="grey",pch=16)##from MODELinstruction_with1bitegroup.R
 
+#axis(1,at=c(2,5,8,11,14),labels=c(1,2,3,4,5),par(las=1))
+axis(1,at=c(1.5,3.5,5.5,7.5,9.5),labels=c(1,2,3,4,5),par(las=1))
+##
+###
+#### Per generation
+###
+##
+par(mar=c(5,5,2,1))
+#par(mfrow=c(1,2))
 par(las=2)
-boxplot(prob_tomosqu_chbin[1:4]/100,NA,NA,
-        prob_tomosqu_chbin[5:8]/200,stack(data[,252:255])$values/2,stack(data[,268:271])$values/2,
-        prob_tomosqu_chbin[9:12]/300,stack(data[,256:259])$values/3,stack(data[,272:275])$values/3,
-        prob_tomosqu_chbin[13:16]/400,stack(data[,260:263])$values/4,stack(data[,276:279])$values/4,
-        prob_tomosqu_chbin[17:20]/500,stack(data[,264:267])$values/5,stack(data[,280:283])$values/5,
-        col=c("red","blue","green"),
-        ylim=c(0,1),ylab="Per bite probability of infection (mosquito to mouse)",cex.lab=1.2,
-        xaxt="n",xlab="Number of bites",frame=F
+boxplot(c(prob_tomosqu_chbin[1]/100,prob_tomosqu_chbin[5]/200,prob_tomosqu_chbin[9]/300,prob_tomosqu_chbin[13]/400,prob_tomosqu_chbin[17]/500),
+        c(c(data[,284]/2,data[,288]/3,data[,292]/4,data[,296]/5),
+        c(data[,300]/2,data[,304]/3,data[,308]/4,data[,312]/5)),
+        c(prob_tomosqu_chbin[2]/100,prob_tomosqu_chbin[6]/200,prob_tomosqu_chbin[10]/300,prob_tomosqu_chbin[14]/400,prob_tomosqu_chbin[18]/500),
+        c(c(data[,285]/2,data[,289]/3,data[,293]/4,data[,297]/5),
+        c(data[,301]/2,data[,305]/3,data[,309]/4,data[,313]/5)),
+        c(prob_tomosqu_chbin[3]/100,prob_tomosqu_chbin[7]/200,prob_tomosqu_chbin[11]/300,prob_tomosqu_chbin[15]/400,prob_tomosqu_chbin[19]/500),
+        c(c(data[,286]/2,data[,290]/3,data[,294]/4,data[,298]/5),
+        c(data[,302]/2,data[,306]/3,data[,310]/4,data[,314]/5)),
+        c(prob_tomosqu_chbin[4]/100,prob_tomosqu_chbin[8]/200,prob_tomosqu_chbin[12]/300,prob_tomosqu_chbin[16]/400,prob_tomosqu_chbin[20]/500),
+        c(c(data[,287]/2,data[,291]/3,data[,295]/4,data[,299]/5),
+        c(data[,303]/2,data[,307]/3,data[,311]/4,data[,315]/5)),
+                col=c("red","blue"),line=4,
+        ylim=c(0,1),ylab="Per bite infection probability (mouse to mosquito)",cex.lab=1.2,
+        xaxt="n",xlab="Generations",frame=F
 )
-axis(1,at=c(2,5,8,11,14),labels=c(1,2,3,4,5),par(las=1))
+axis(1,at=c(1.5,3.5,5.5,7.5),labels=c(1,2,3,4),par(las=1))
+par(mar=c(5,5,2,1))
+par(las=2)
+boxplot(c(prob_tomouse_chbin[1]/100,prob_tomouse_chbin[5]/200,prob_tomouse_chbin[9]/300,prob_tomouse_chbin[13]/400,prob_tomouse_chbin[17]/500),
+        c(c(data[,252]/2,data[,256]/3,data[,260]/4,data[,264]/5),
+        c(data[,268]/2,data[,272]/3,data[,276]/4,data[,280]/5)),
+        c(prob_tomouse_chbin[2]/100,prob_tomouse_chbin[6]/200,prob_tomouse_chbin[10]/300,prob_tomouse_chbin[14]/400,prob_tomouse_chbin[18]/500),
+        c(c(data[,253]/2,data[,257]/3,data[,261]/4,data[,265]/5),
+        c(data[,269]/2,data[,273]/3,data[,277]/4,data[,281]/5)),
+        c(prob_tomouse_chbin[3]/100,prob_tomouse_chbin[7]/200,prob_tomouse_chbin[11]/300,prob_tomouse_chbin[15]/400,prob_tomouse_chbin[19]/500),
+        c(c(data[,254]/2,data[,258]/3,data[,262]/4,data[,266]/5),
+        c(data[,270]/2,data[,274]/3,data[,278]/4,data[,282]/5)),
+        c(prob_tomouse_chbin[4]/100,prob_tomouse_chbin[8]/200,prob_tomouse_chbin[12]/300,prob_tomouse_chbin[16]/400,prob_tomouse_chbin[20]/500),
+        c(c(data[,255]/2,data[,259]/3,data[,263]/4,data[,267]/5),
+        c(data[,271]/2,data[,275]/3,data[,279]/4,data[,283]/5)),
+        col=c("red","blue"),line=4,
+        ylim=c(0,1),ylab="Per bite infection probability (mosquito to mouse)",cex.lab=1.2,
+        xaxt="n",xlab="Generations",frame=F
+)
+axis(1,at=c(1.5,3.5,5.5,7.5),labels=c(1,2,3,4),par(las=1))
+
 
 chbin <- c(mean(prob_tomouse_chbin[1:4]/100),mean(prob_tomouse_chbin[5:8]/200),
            mean(prob_tomouse_chbin[9:12]/300),mean(prob_tomouse_chbin[13:16]/400),
@@ -1798,8 +1884,10 @@ pred3<- 1/(mean(params3$alpha[501:1000]) + nc * exp(-mean(params3$beta[501:1000]
 pred4b<-(mean(params4$alpha[501:1000]) + mean(params4$beta[501:1000]) * nc) 
 
 par(mar=c(5,5,5,5))
-plot(chbin~x1,cex.lab=1,bty="n",
-     ylab="Theta to mouse chain binomial",xlab="Number of Bites",ylim=c(0,1))
+plot(chbin~x1,cex.lab=1.4,bty="n",xaxt="n",yaxt="n",line=3,
+     ylab="Per bite probability of infection to mouse",xlab="Number of bites",ylim=c(0,1))
+axis(2,par(las=2),at=c(0,0.2,0.4,0.6,0.8,1.0),line=0,labels=c(0,0.2,0.4,0.6,0.8,1.0))
+axis(1,par(las=1),at=c(1,2,3,4,5),labels=c(1,2,3,4,5))
 
 points(yint~x2,pch=20)
 
@@ -1824,12 +1912,16 @@ y <- pred2
 e <- extract(test2, pars = c("alpha", "beta", "sigma"))
 
 for(i in seq_along(e[[1]])) {
-  lines(x, 1/(e[[1]][i] + x * exp(-e[[2]][i]))^e[[3]][i], col = "#00000008")
+  lines(x, 1/(e[[1]][i] + x * exp(-e[[2]][i]))^e[[3]][i], col = "#00000003")
 }
 
 lines(nc,pred2,lwd=2,lty=2,col="blue")
-points(x2,yint,col="blue",pch=20)
-
+points(x1,chbin,pch=20,col="red")
+points(yint~x2,pch=20,col="blue")
+points(perbiteprobC ~ c(1,2,3,4,5),col="yellow",pch=19)##from MODELinstruction_with1bitegroup.R
+points(perbiteprobT ~ c(1,2,3,4,5),col="purple",pch=16)##from MODELinstruction_with1bitegroup.R
+lines(perbiteprobC ~ c(1,2,3,4,5),col="yellow",lty=2)
+lines(perbiteprobT ~ c(1,2,3,4,5),col="purple",lty=2)
 
 plot(chbinmosq~x1,cex.lab=1.2,bty="n",
      ylab="Theta to mosquito chain binomial",xlab="Number of Bites",ylim=c(0,1))
@@ -1856,10 +1948,581 @@ y <- pred4b
 e <- extract(test4, pars = c("alpha", "beta", "sigma"))
 
 for(i in seq_along(e[[1]])) {
-  #lines(x, 1/(e[[1]][i] + x * exp(-e[[2]][i]))^e[[3]][i], col = "#00000008")
+  #lines(x, 1/(e[[1]][i] + x * exp(-e[[2]][i]))^e[[3]][i], col = "#00000003")
   lines(x, (e[[1]][i] + e[[2]][i] * x), col = "#00000003")
 }
 lines(nc,pred4b,lwd=2,lty=2,col="blue")
 points(x2,yintmosq,col="blue",pch=20)
 
 summary(lm(yintmosq~x2))
+
+####################################################################
+##
+###
+#### 5. fROM Michael White 2011 Proc B
+###
+##
+#####################################################################
+
+#######################################################
+##
+##  Probability of an infectious bite causing infection
+##  ## Based on reasoning from White et al 2011 Proc paper
+######################
+
+## From the Blagborough et al 2013 controls
+
+r = 5/12  ## 12 times only 1 mosquito in the controls had a sporozoite score of 1
+##  5 times that the mouse was infected by those mosquitoes
+
+pAnybite = 17/30  ## 30 times only 1 mosquito had sporozoites
+## 17 times a mouse was infected by these mosquitoes
+
+
+k <- c(1:50)  ##assuming that the post bite sporozoite score correlates
+##and the maximium number of sporozoites is 50
+
+pk<-numeric(length(k))
+
+for (i in 1:length(k)){
+  
+  pk[i] <- 1 - (1 - r)^k[i]  ##the probability that k sporozoites cause blood-stage infection
+  
+}
+
+plot(c(0,pk) ~ c(0,k),bty="n",ylim=c(0,1),cex.lab=1.5,
+     ylab = "Probability that k sporozoites cause bloodstage infections",
+     xlab = "Number of sporozoites") 
+## Sporozoite post feeding score of 1 corresponds to 1 sporozoite injected
+## Sporozoite post feeding score of 2 corresponds to 2 sporozoite injected
+## Sporozoite post feeding score of 3+ corresponds to 10 sporozoite injected
+lines(c(0,pk) ~ c(0,k))
+
+
+
+n <- rgeom(n=100, prob=30/44) ## 19 times that no mosquito was infected, 25 times one was infected with sporozoites
+b <- numeric(length(n))
+
+
+n2<- subset(n,n>0)
+h <- expand.grid(numeric(length(n2)))
+
+for (i in 1:length(k)){
+  for (j in 1:length(n2)){
+    h[j,i] <- ((1 - 1/n2[j])^(k[i]-1))* (1/n2[j]) ##Probability that k sporozoites are injected assuming geometric
+  }
+}
+
+n3 <- sort(n2,decreasing=TRUE)
+#plot(sort(unique(h[,1]))~unique(n3),ylim=c(0,1),cex.lab=1.5,
+#     ylab="Probability that k sporozoites are injected",xlab="Mean of the distribution of sporozoites")
+#lines(sort(unique(h[,1]))~unique(n3))
+#for (i in 1:ncol(h)){
+#  points(sort(unique(h[,i]))~unique(n3))
+#  lines(sort(unique(h[,i]))~unique(n3),col="red",lty=2)
+#}
+
+##plot(sporsCsum/300 ~ c(0,1,2,10,100))
+
+for (i in 1:length(n2)){
+  
+  b[i] <- ((n2[i] * r)/((n2[i]-1) * r + 1))
+  
+}
+
+plot(sort(unique(b)) ~ c(0,sort(unique(n2))),bty="n",cex.lab=1.5,
+     ylab="Probability that bite from infectious mosquito causes bloodstage infection",
+     xlab="Mean of the distribution of sporozoites")
+lines(sort(unique(b)) ~ c(0,sort(unique(n2))))
+##So expect a mean distribution of sporozoites of 2ish
+
+## Blagborough data distribution of sporozoites if 
+##1 corresponds to 1 sporozoite being injected
+##2 corresponds to 2 being injected
+##3+ correspond to normally distributed number injected with mean 10, sd 5
+nreal <- c(rep(0,19),rep(1,12),rep(2,8),round(rnorm(mean=10,n=10,sd=5)))
+mean(nreal)  ## = 2 Therefore prob infectious bite causes BS infection = 0.625
+## This compares to our model estimate of 0.6720324
+
+##So, if 
+n = mean(nreal)
+pk2 <- numeric(length(k))
+
+for (i in 1:length(k)){
+  pk2[i] <- ((1 - 1/n)^(k[i]-1))* (1/n)
+}
+
+plot(pk2~k,bty="n",ylim=c(0,1),cex.lab=1.5,
+     ylab = "Probabilty k sporozoites injected",
+     xlab = "Number of sporozoites")
+lines(pk2~k)
+
+sporsCsum <- numeric(5); for (i in 1:ncol(spors_C)){ sporsCsum[i] = sum(spors_C[,i])}
+sporsTsum <- numeric(5); for (i in 1:ncol(spors_T)){ sporsTsum[i] = sum(spors_T[,i])}
+b0multinom <- numeric(5)
+
+for (i in 1:5){
+  b0multinom[i] <- ((sporsCsum[i]/300 * r)/((sporsCsum[i]/300-1) * r + 1))
+}
+
+bm <- numeric(length(k))
+for (i in 1:length(k)){
+  bm[i] = -sum(((((1 - 1/n)^(k[i]-1))* (1/n))*(1 - (1 - r)^k[i]))-((n * r)/ ((n - 1) * r + 1)))
+  bmulti[i] = -sum(((((1 - 1/n)^(k[i]-1))* (1/n))*(1 - (1 - r)^k[i]))-((b0multinom[1]*19 + b0multinom[2] * 12 + b0multinom[3] * 8 + b0multinom[4] * 5 + b0multinom[5] * 5 )/49)
+}
+
+#mean(bm) ##The probability that a bite will cause blood stage malaria infection
+#text(30,1,"Prob that 1 bite causes blood stage infection",cex=1.5)
+#text(20,0.85,"Controls = 0.67",cex=1.5)
+
+##
+###
+#####
+########Probability that k sporozoites are injected assuming geometric
+#####
+###
+##
+
+
+(b0multinom[1]*19 + b0multinom[2] * 12 + b0multinom[3] * 8 + b0multinom[4] * 5 + b0multinom[5] * 5 )/49
+##############################
+##
+###
+####
+###### Repeat for treatments
+####
+###
+##
+## From the Blagborough et al 2013 controls
+
+rT = 4/12  ## 11 times only 1 mosquito in the controls had a sporozoite score of 1
+##  5 times that the mouse was infected by those mosquitoes
+
+pAnybiteT = 15/27  ## 27 times only 1 mosquito had sporozoites
+## 15 times a mouse was infected by these mosquitoes
+
+
+kT <- c(1:50)  ##assuming that the post bite sporozoite score correlates
+##and the maximium number of sporozoites is 50
+
+pkT<-numeric(length(kT))
+
+for (i in 1:length(kT)){
+  
+  pkT[i] <- 1 - (1 - rT)^kT[i]  ##the probability that k sporozoites cause blood-stage infection
+  
+}
+
+points(pkT ~ kT,pch=20,col="red",
+       ylab = "Probability that k sporozoites cause bloodstage infections",
+       xlab = "Number of sporozoites") 
+## Sporozoite post feeding score of 1 corresponds to 1 sporozoite injected
+## Sporozoite post feeding score of 2 corresponds to 2 sporozoite injected
+## Sporozoite post feeding score of 3+ corresponds to 10 sporozoite injected
+lines(pkT ~ kT,col="red",lty=2)
+
+
+
+nT <- rgeom(n=100, prob=27/69) ## 42 times that no mosquito was infected, 27 times one was infected with sporozoites
+bT <- numeric(length(nT))
+
+
+n2T<- subset(n,n>0)
+hT <- expand.grid(numeric(length(n2T)))
+
+for (i in 1:length(kT)){
+  for (j in 1:length(n2T)){
+    hT[j,i] <- ((1 - 1/n2T[j])^(kT[i]-1))* (1/n2T[j]) ##Probability that k sporozoites are injected
+  }
+}
+
+n3T <- sort(n2T,decreasing=TRUE)
+plot(sort(unique(hT[,1]))~unique(n3T),ylim=c(0,1),
+     ylab="Probability that k sporozoites are injected",xlab="Mean of the distribution of sporozoites")
+lines(sort(unique(hT[,1]))~unique(n3T))
+for (i in 1:ncol(hT)){
+  points(sort(unique(hT[,i]))~unique(n3T))
+  lines(sort(unique(hT[,i]))~unique(n3T),col="red",lty=2)
+}
+
+
+for (i in 1:length(n2T)){
+  
+  bT[i] <- ((n2T[i] * rT)/((n2T[i]-1) * rT + 1))
+  
+}
+
+points(sort(unique(bT)) ~ c(0,sort(unique(n2T))),pch=20,col="red",
+       ylab="Probability that bite from infectious mosquito causes bloodstage infection",
+       xlab="Mean of the distribution of sporozoites")
+lines(sort(unique(bT)) ~ c(0,sort(unique(n2T))),col="red",lty=2)
+
+## Blagborough data distribution of sporozoites if 
+##1 corresponds to 1 sporozoite being injected
+##2 corresponds to 2 being injected
+##3+ correspond to normally distributed number injected with mean 10, sd 5
+nrealT <- c(rep(0,42),rep(1,12),rep(2,9),rnorm(mean=10,sd=5,n=6))
+mean(nrealT)  ## = 2 Therefore prob infectious bite causes BS infection = 0.625
+## This compares to our model estimate of 0.6720324
+
+##So, if 
+nT = mean(nrealT)
+pk2T <- numeric(length(kT))
+
+for (i in 1:length(kT)){
+  pk2T[i] <- ((1 - 1/nT)^(kT[i]-1))* (1/nT)
+}
+points(pk2T~kT,col="red",pch=20,
+       ylab = "Probabilty k sporozoites injected",
+       xlab = "Number of sporozoites")
+lines(pk2T~kT,col="red",lty=2)
+bmT <- numeric(length(kT))
+for (i in 1:length(kT)){
+  bmT[i] = -sum(((((1 - 1/nT)^(kT[i]-1))* (1/nT))*(1 - (1 - rT)^kT[i]))-((nT * rT)/ ((nT - 1) * rT + 1)))
+}
+
+mean(bmT) ##The probability that 1 bite will cause blood stage malaria infection
+text(21,0.75,"Treatment = 0.33",col="red",cex=1.5)
+
+
+#######################################################
+##
+##  Probability of an infectious bite causing infection
+##  ## Based on reasoning from White et al 2011 Proc paper
+######################
+
+## From the Blagborough et al 2013 controls
+## Repeating for 2 positive mosquitoes
+
+## Blagborough data distribution of sporozoites if 
+##1 and 1 corresponds to 1-2 sporozoites being injected  This happens = 4 times (2 infected mice)
+##1 and 2 corresponds to 1-3 being injected              This happens = 7 times (4 infected mice)
+##1 and 3 corresponds to 1-10+ being injected            This happens = 5 times (4 infected mice)
+##1 and 4 corresponds to 1-10+ being injected            Never occurs
+##i.e. either the mosquito with a sporo score of 1 OR the mosq with sporo score 4 OR both infect the mouse
+##2 and 2 corresponds to 2-4 being injected              This happens = 4 times (4 infected mice)
+##2 and 3 corresponds to 2-10+ being injected            This happens = 5 times (4 infected mice)
+##2 and 4 corresponds to 2-10+ being injected            Never occurs
+##3 and 3 corresponds to 10+ being injected              This happens = 2 times (1 infected mice)
+##3 and 4 corresponds to 10+ being injected              This happens = 2 times (2 infected mice)
+##4 and 4 corresponds to 10+ being injected              Never occurs
+
+##3+ correspond to normally distributed number injected with mean 10, sd 5
+
+nreal2 <- c(rep(0,9),round(rnorm(mean=3,n=15,sd=1)),round(rnorm(mean=15,n=14,sd=5)))
+mean(nreal2)  ## = 7.1 
+
+## Blagborough data distribution of sporozoites if 
+##1 and 1 and 1 corresponds to 1-3 sporozoites being injected  This happens = 1 times (1 infected mice)
+##1 and 1 and 2 corresponds to 1-4 being injected              This happens = 1 times (1 infected mice)
+##1 and 1 and 3 corresponds to 1-10+ being injected            Never occurs
+##1 and 1 and 4 corresponds to 1-10+ being injected            Never occurs
+##i.e. either the mosquito with a sporo score of 1 OR the mosq with sporo score 4 OR both infect the mouse
+##1 and 2 and 2 corresponds to 1-5 being injected              Never occurs
+##1 and 2 and 3 corresponds to 1-10+ being injected            This happens = 1 times (1 infected mice)
+##1 and 2 and 4 corresponds to 1-10+ being injected            This happens = 2 times (2 infected mice)
+##1 and 3 and 3 corresponds to 1-10+ being injected            This happens = 1 times (1 infected mice)
+##1 and 3 and 4 corresponds to 1-10+ being injected            This happens = 4 times (2 infected mice)
+##1 and 4 and 4 corresponds to 1-10+ being injected            Never occurs
+##2 and 2 and 2 corresponds to 2-6 being injected              Never occurs
+##2 and 2 and 3 corresponds to 2-10+ being injected            This happens = 1 times (1 infected mice)
+##2 and 2 and 4 corresponds to 2-10+ being injected            Never occurs
+##2 and 3 and 3 corresponds to 2-10+ being injected            This happens = 2 times (2 infected mice)
+##2 and 3 and 4 corresponds to 2-10+ being injected            Never occurs
+##2 and 4 and 4 corresponds to 2-10+ being injected            Never occurs
+##3 and 3 and 3 corresponds to 10+ being injected              Never occurs
+##3 and 3 and 4 corresponds to 10+ being injected              Never occurs
+##3 and 4 and 4 corresponds to 10+ being injected              This happens = 3 times (3 infected mice)
+##4 and 4 and 4 corresponds to 10+ being injected              Never occurs
+
+##3+ correspond to normally distributed number injected with mean 10, sd 5
+
+nreal3 <- c(0,round(rnorm(mean=3,n=2,sd=1)),round(rnorm(mean=15,n=12,sd=5)))
+mean(nreal3)  ## = 7.1 
+
+
+##So, if 
+n = mean(nreal2)
+pk2bites2 <- numeric(length(k))
+
+for (i in 1:length(k)){
+  pk2bites2[i] <- ((1 - 1/n)^(k[i]-1))* (1/n)
+}
+
+lines(pk2bites2~k,lty=2)
+bm2bites <- numeric(length(k))
+for (i in 1:length(k)){
+  bm2bites[i] = -sum(((((1 - 1/n)^(k[i]-1))* (1/n))*(1 - (1 - r)^k[i]))-((n * r)/ ((n - 1) * r + 1)))
+}
+
+n = mean(nreal3)
+pk2bites3 <- numeric(length(k))
+
+for (i in 1:length(k)){
+  pk2bites3[i] <- ((1 - 1/n)^(k[i]-1))* (1/n)
+}
+
+lines(pk2bites3~k,lty=3)
+bm3bites <- numeric(length(k))
+for (i in 1:length(k)){
+  bm3bites[i] = -sum(((((1 - 1/n)^(k[i]-1))* (1/n))*(1 - (1 - r)^k[i]))-((n * r)/ ((n - 1) * r + 1)))
+}
+
+mean(bm) ##The probability that a single bite will cause blood stage malaria infection
+mean(bm2bites) ##The probability that 2 bites will cause blood stage malaria infection
+mean(bm3bites) ##The probability that 3 bites will cause blood stage malaria infection
+text(30,1,"Prob that 1 bite causes blood stage infection",cex=1.5)
+text(20,0.85,"Controls = 0.67",cex=1.5)
+
+boxplot(bm,bm2bites,bm3bites)
+##############################
+##
+###
+####
+###### Repeat for treatments
+####
+###
+##
+## From the Blagborough et al 2013 controls
+
+rT = 4/12  ## 11 times only 1 mosquito in the controls had a sporozoite score of 1
+##  5 times that the mouse was infected by those mosquitoes
+
+pAnybiteT = 14/27  ## 25 times only 1 mosquito had sporozoites
+## 15 times a mouse was infected by these mosquitoes
+
+
+kT <- c(1:50)  ##assuming that the post bite sporozoite score correlates
+##and the maximium number of sporozoites is 50
+
+pkT<-numeric(length(kT))
+
+for (i in 1:length(kT)){
+  
+  pkT[i] <- 1 - (1 - rT)^kT[i]  ##the probability that k sporozoites cause blood-stage infection
+  
+}
+
+points(pkT ~ kT,pch=20,col="red",
+       ylab = "Probability that k sporozoites cause bloodstage infections",
+       xlab = "Number of sporozoites") 
+## Sporozoite post feeding score of 1 corresponds to 1 sporozoite injected
+## Sporozoite post feeding score of 2 corresponds to 2 sporozoite injected
+## Sporozoite post feeding score of 3+ corresponds to 10 sporozoite injected
+lines(pkT ~ kT,col="red",lty=2)
+
+
+
+nT <- rgeom(n=100, prob=27/69) ## 42 times that no mosquito was infected, 27 times one was infected with sporozoites
+bT <- numeric(length(nT))
+
+
+n2T<- subset(n,n>0)
+hT <- expand.grid(numeric(length(n2T)))
+
+for (i in 1:length(kT)){
+  for (j in 1:length(n2T)){
+    hT[j,i] <- ((1 - 1/n2T[j])^(kT[i]-1))* (1/n2T[j]) ##Probability that k sporozoites are injected
+  }
+}
+
+n3T <- sort(n2T,decreasing=TRUE)
+plot(sort(unique(hT[,1]))~unique(n3T),ylim=c(0,1),
+     ylab="Probability that k sporozoites are injected",xlab="Mean of the distribution of sporozoites")
+lines(sort(unique(hT[,1]))~unique(n3T))
+for (i in 1:ncol(hT)){
+  points(sort(unique(hT[,i]))~unique(n3T))
+  lines(sort(unique(hT[,i]))~unique(n3T),col="red",lty=2)
+}
+
+
+for (i in 1:length(n2T)){
+  
+  bT[i] <- ((n2T[i] * rT)/((n2T[i]-1) * rT + 1))
+  
+}
+
+points(sort(unique(bT)) ~ c(0,sort(unique(n2T))),pch=20,col="red",
+       ylab="Probability that bite from infectious mosquito causes bloodstage infection",
+       xlab="Mean of the distribution of sporozoites")
+lines(sort(unique(bT)) ~ c(0,sort(unique(n2T))),col="red",lty=2)
+
+## Blagborough data distribution of sporozoites if 
+##1 corresponds to 1 sporozoite being injected
+##2 corresponds to 2 being injected
+##3+ correspond to normally distributed number injected with mean 10, sd 5
+nrealT <- c(rep(0,42),rep(1,12),rep(2,9),rnorm(mean=10,sd=5,n=6))
+mean(nrealT)  ## = 2 Therefore prob infectious bite causes BS infection = 0.625
+## This compares to our model estimate of 0.6720324
+
+##So, if 
+nT = mean(nrealT)
+pk2T <- numeric(length(kT))
+
+for (i in 1:length(kT)){
+  pk2T[i] <- ((1 - 1/nT)^(kT[i]-1))* (1/nT)
+}
+points(pk2T~kT,col="red",pch=20,
+       ylab = "Probabilty k sporozoites injected",
+       xlab = "Number of sporozoites")
+lines(pk2T~kT,col="red",lty=2)
+bmT <- numeric(length(kT))
+for (i in 1:length(kT)){
+  bmT[i] = -sum(((((1 - 1/nT)^(kT[i]-1))* (1/nT))*(1 - (1 - rT)^kT[i]))-((nT * rT)/ ((nT - 1) * rT + 1)))
+}
+
+mean(bmT) ##The probability that 1 bite will cause blood stage malaria infection
+text(21,0.75,"Treatment = 0.33",col="red",cex=1.5)
+
+
+## From the Blagborough et al 2013 controls
+## Repeating for 2 positive mosquitoes
+
+## Blagborough data distribution of sporozoites if 
+##0 - 15 times
+##1 and 1 corresponds to 1-2 sporozoites being injected  This happens = 3 times (0 infected mice)
+##1 and 2 corresponds to 1-3 being injected              This happens = 6 times (4 infected mice)
+##1 and 3 corresponds to 1-10+ being injected            Never occurs
+##1 and 4 corresponds to 1-10+ being injected            This happens = 1 times (1 infected mice)
+##i.e. either the mosquito with a sporo score of 1 OR the mosq with sporo score 4 OR both infect the mouse
+##2 and 2 corresponds to 2-4 being injected              This happens = 1 times (1 infected mice)
+##2 and 3 corresponds to 2-10+ being injected            Never occurs
+##2 and 4 corresponds to 2-10+ being injected            This happens = 1 times (1 infected mice)
+##3 and 3 corresponds to 10+ being injected              This happens = 2 times (2 infected mice)
+##3 and 4 corresponds to 10+ being injected              This happens = 1 times (1 infected mice)
+##4 and 4 corresponds to 10+ being injected              Never occurs
+
+##3+ correspond to normally distributed number injected with mean 10, sd 5
+
+nreal2T <- c(rep(0,15),round(rnorm(mean=3,n=10,sd=1)),round(rnorm(mean=15,n=5,sd=5)))
+mean(nreal2T)  ## = 7.1 
+
+## Blagborough data distribution of sporozoites if 
+##1 and 1 and 1 corresponds to 1-3 sporozoites being injected  Never occurs
+##1 and 1 and 2 corresponds to 1-4 being injected              This happens = 1 times (1 infected mice)
+##1 and 1 and 3 corresponds to 1-10+ being injected            Never occurs
+##1 and 1 and 4 corresponds to 1-10+ being injected            Never occurs
+##i.e. either the mosquito with a sporo score of 1 OR the mosq with sporo score 4 OR both infect the mouse
+##1 and 2 and 2 corresponds to 1-5 being injected              This happens = 1 times (1 infected mice)
+##1 and 2 and 3 corresponds to 1-10+ being injected            This happens = 1 times (1 infected mice)
+##1 and 2 and 4 corresponds to 1-10+ being injected            This happens = 2 times (2 infected mice)
+##1 and 3 and 3 corresponds to 1-10+ being injected            Never occurs
+##1 and 3 and 4 corresponds to 1-10+ being injected            This happens = 2 times (2 infected mice)
+##1 and 4 and 4 corresponds to 1-10+ being injected            This happens = 1 times (1 infected mice)
+##2 and 2 and 2 corresponds to 2-6 being injected              
+##2 and 2 and 3 corresponds to 2-10+ being injected            This happens = 2 times (2 infected mice)
+##2 and 2 and 4 corresponds to 2-10+ being injected            
+##2 and 3 and 3 corresponds to 2-10+ being injected            This happens = 2 times (2 infected mice)
+##2 and 3 and 4 corresponds to 2-10+ being injected            This happens = 1 times (1 infected mice)
+##2 and 4 and 4 corresponds to 2-10+ being injected            This happens = 1 times (1 infected mice)
+##3 and 3 and 3 corresponds to 10+ being injected              This happens = 1 times (1 infected mice)
+##3 and 3 and 4 corresponds to 10+ being injected              Never occurs
+##3 and 4 and 4 corresponds to 10+ being injected              This happens = 2 times (2 infected mice)
+##4 and 4 and 4 corresponds to 10+ being injected              Never occurs
+
+##3+ correspond to normally distributed number injected with mean 10, sd 5
+
+nreal3T <- c(round(rnorm(mean=3,n=2,sd=1)),round(rnorm(mean=15,n=15,sd=5)))
+mean(nreal3T)  ## = 7.1 
+
+
+##So, if 
+n = mean(nreal2T)
+pk2bites2T <- numeric(length(k))
+
+for (i in 1:length(k)){
+  pk2bites2T[i] <- ((1 - 1/n)^(k[i]-1))* (1/n)
+}
+
+lines(pk2bites2T~kT,lty=2,col="red")
+bm2bitesT <- numeric(length(k))
+for (i in 1:length(k)){
+  bm2bitesT[i] = -sum(((((1 - 1/n)^(k[i]-1))* (1/n))*(1 - (1 - r)^k[i]))-((n * r)/ ((n - 1) * r + 1)))
+}
+
+n = mean(nreal3T)
+pk2bites3T <- numeric(length(k))
+
+for (i in 1:length(k)){
+  pk2bites3T[i] <- ((1 - 1/n)^(k[i]-1))* (1/n)
+}
+
+lines(pk2bites3T~k,lty=3,col="red")
+bm3bitesT <- numeric(length(k))
+for (i in 1:length(k)){
+  bm3bitesT[i] = -sum(((((1 - 1/n)^(k[i]-1))* (1/n))*(1 - (1 - r)^k[i]))-((n * r)/ ((n - 1) * r + 1)))
+}
+
+mean(bmT) ##The probability that a single bite will cause blood stage malaria infection
+mean(bm2bitesT) ##The probability that 2 bites will cause blood stage malaria infection
+mean(bm3bitesT) ##The probability that 3 bites will cause blood stage malaria infection
+text(30,1,"Prob that 1 bite causes blood stage infection",cex=1.5)
+text(20,0.85,"Controls = 0.67",cex=1.5)
+
+par(mfrow=c(1,1))
+boxplot(NA,bm,bmT,bm2bites,bm2bitesT,bm3bites,bm3bitesT,
+        col=c("white","red"),xaxt="n",frame=F,ylim=c(0,1),
+        xlab="Number of bites received from infected mosquitoes",
+        ylab="Probability of bites causing blood stage infection")
+axis(1,at=c(2.5,4.5,6.5),labels=c(1,2,3))
+
+(mean(bm)-mean(bmT))/mean(bm)
+(mean(bm2bites)-mean(bm2bitesT))/mean(bm2bites)
+(mean(bm3bites)-mean(bm3bitesT))/mean(bm3bites)
+####
+####
+####
+#### What is going on with the sporozoites
+sporsbites1<-subset(spors,Bites==1 & Treatment==1);sporsbites1
+distsporsB1T <- c(sporsbites2[,6])
+sporsbites1<-subset(spors,Bites==1 & Treatment==0);sporsbites1
+distsporsB1C <- c(sporsbites1[,6])
+summary(distsporsB1C)
+summary(distsporsB1T)
+sporsB1check <- c(distsporsB1C,distsporsB1T);typecheck <- c(rep("con",20),rep("treat",20)) 
+summary.aov(lm(sporsB1check~typecheck))
+boxplot(sporsB1check~typecheck)
+
+
+sporsbites2<-subset(spors,Bites==2 & Treatment==1);sporsbites2
+distsporsB2T <- c(sporsbites2[,6],sporsbites2[,7])
+sporsbites2<-subset(spors,Bites==2 & Treatment==0);sporsbites2
+distsporsB2C <- c(sporsbites2[,6],sporsbites2[,7])
+summary(distsporsB2C)
+summary(distsporsB2T)
+sporsB2check <- c(distsporsB2C,distsporsB2T);typecheck <- c(rep("con",40),rep("treat",40)) 
+summary.aov(lm(sporsB2check~typecheck))
+boxplot(sporsB2check~typecheck)
+
+
+sporsbites3<-subset(spors,Bites==3 & Treatment==1);sporsbites3
+distsporsB3T <- c(sporsbites3[,6],sporsbites3[,7],sporsbites3[,8])
+sporsbites3<-subset(spors,Bites==3 & Treatment==0);sporsbites3
+distsporsB3C <- c(sporsbites3[,6],sporsbites3[,7],sporsbites3[,8])
+summary(distsporsB3C)
+summary(distsporsB3T)
+sporsB3check <- c(distsporsB3C,distsporsB3T);typecheck <- c(rep("con",60),rep("treat",60)) 
+summary.aov(lm(sporsB3check~typecheck))
+boxplot(sporsB3check~typecheck)
+
+
+sporsbites4<-subset(spors,Bites==4 & Treatment==1);sporsbites4
+distsporsB4T <- c(sporsbites4[,6],sporsbites4[,7],sporsbites4[,8],sporsbites4[,9])
+sporsbites4<-subset(spors,Bites==4 & Treatment==0);sporsbites4
+distsporsB4C <- c(sporsbites4[,6],sporsbites4[,7],sporsbites4[,8],sporsbites4[,9])
+summary(distsporsB4C)
+summary(distsporsB4T)
+sporsB4check <- c(distsporsB4C,distsporsB4T);typecheck <- c(rep("con",80),rep("treat",80)) 
+summary.aov(lm(sporsB4check~typecheck))
+boxplot(sporsB4check~typecheck)
+
+
+sporsbites5<-subset(spors,Bites==5 & Treatment==1);sporsbites5
+distsporsB5T <- c(sporsbites5[,6],sporsbites5[,7],sporsbites5[,8],sporsbites5[,9],sporsbites5[,10])
+sporsbites5<-subset(spors,Bites==5 & Treatment==0);sporsbites5
+distsporsB5C <- c(sporsbites5[,6],sporsbites5[,7],sporsbites5[,8],sporsbites5[,9],sporsbites5[,10])
+summary(distsporsB5C)
+summary(distsporsB5T)
+sporsB5check <- c(distsporsB5C,distsporsB5T);typecheck <- c(rep("con",100),rep("treat",100)) 
+summary.aov(lm(sporsB5check~typecheck))
+boxplot(sporsB5check~typecheck)

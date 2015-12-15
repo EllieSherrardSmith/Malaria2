@@ -41,6 +41,62 @@ for (i in 1:length(data$Para4)) data$sumdata[i]<-sum(data$Sporozoite1[i],data$Sp
                                                          data$Sporozoite6[i],data$Sporozoite7[i],
                                                          data$Sporozoite8[i],data$Sporozoite9[i],data$Sporozoite10[i],na.rm=T)
 
+data$prevBS<-ifelse(data$Para10 > 0 | data$Para9 > 0 | data$Para8 > 0 | data$Para7 > 0, 1, 0)
+
+
+for (i in 1:nrow(data)){
+  data$sumspors[i] <- sum(c(data[i,1],data[i,2],data[i,3],data[i,4],data[i,5],
+                            data[i,6],data[i,7],data[i,8],data[i,9],data[i,10]),na.rm=T)
+}
+
+for (i in 1:nrow(data)){
+  data$sumspors2[i] <- sum(c(ifelse(data[i,1]>0,1,data[i,1]),
+                             ifelse(data[i,2]>0,1,data[i,2]),
+                             ifelse(data[i,3]>0,1,data[i,3]),
+                             ifelse(data[i,4]>0,1,data[i,4]),
+                             ifelse(data[i,5]>0,1,data[i,5]),
+                             ifelse(data[i,6]>0,1,data[i,6]),
+                              ifelse(data[i,7]>0,1,data[i,7]),
+                              ifelse(data[i,8]>0,1,data[i,8]),
+                              ifelse(data[i,9]>0,1,data[i,9]),
+                              ifelse(data[i,10]>0,1,data[i,10])),na.rm=T)
+}
+
+mb0 = c(length(data$prevBS[data$sumspors2==0 & data$prevBS==0]),
+length(data$prevBS[data$sumspors2==1 & data$prevBS==0]),
+length(data$prevBS[data$sumspors2==2 & data$prevBS==0]),
+length(data$prevBS[data$sumspors2==3 & data$prevBS==0]),
+length(data$prevBS[data$sumspors2==4 & data$prevBS==0]),
+length(data$prevBS[data$sumspors2==5 & data$prevBS==0]),
+length(data$prevBS[data$sumspors2==6 & data$prevBS==0]),
+length(data$prevBS[data$sumspors2==7 & data$prevBS==0]),
+length(data$prevBS[data$sumspors2==8 & data$prevBS==0]),
+length(data$prevBS[data$sumspors2==9 & data$prevBS==0]))
+
+mb1 = c(length(data$prevBS[data$sumspors2==0 & data$prevBS==1]),
+length(data$prevBS[data$sumspors2==1 & data$prevBS==1]),
+length(data$prevBS[data$sumspors2==2 & data$prevBS==1]),
+length(data$prevBS[data$sumspors2==3 & data$prevBS==1]),
+length(data$prevBS[data$sumspors2==4 & data$prevBS==1]),
+length(data$prevBS[data$sumspors2==5 & data$prevBS==1]),
+length(data$prevBS[data$sumspors2==6 & data$prevBS==1]),
+length(data$prevBS[data$sumspors2==7 & data$prevBS==1]),
+length(data$prevBS[data$sumspors2==8 & data$prevBS==1]),
+length(data$prevBS[data$sumspors2==9 & data$prevBS==1]))
+
+probofinfection_if_bit_byNmosq <- mb1 / (mb0 + mb1)
+Num_inf_mosquitoes <- seq(0,9,1)
+plot(probofinfection_if_bit_byNmosq ~ Num_inf_mosquitoes)
+##regardless of the intensity of infection in the mosquito
+
+indiv_mosq <- sort(c(stack(data[,1:10])$values))
+probability_mosq_is_infected <- length(indiv_mosq[indiv_mosq != 0])/length(indiv_mosq)
+
+prob_inf_if_bitten <- probofinfection_if_bit_byNmosq * probability_mosq_is_infected
+plot(prob_inf_if_bitten ~ Num_inf_mosquitoes)
+
+
+
 
 
 mod1 <- glm.nb(data$sumdata ~ data$Para10 + 0)

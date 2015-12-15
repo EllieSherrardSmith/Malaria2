@@ -4,7 +4,7 @@ data {
   vector[N] y;
 }
 parameters {
-  real alpha;
+  real<lower=0> alpha;
   real beta;
   real<lower=0> sigma;
 }

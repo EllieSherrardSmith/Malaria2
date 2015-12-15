@@ -20,3 +20,10 @@ model {
 for (n in 1:N)
     y[n] ~ normal( (1 / pow((alpha + x[n] * exp(-beta)),sigma)), phi);
 }
+
+generated quantities {
+  vector[N] log_lik;
+  for (n in 1:N){
+    log_lik[n] <- normal_log(y[n], (1 / pow((alpha + x[n] * exp(beta)),sigma)), phi);
+  }
+}

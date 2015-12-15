@@ -165,9 +165,87 @@ meanoocysts<-c(mean(oocysts$oocystsbites1control[oocysts$round=="day41"],na.rm=T
 EfficacyChurcher2012<-((mean(prevooc1)/mean(meanoocysts[1:20]))-(mean(prevoocT)/mean(meanoocysts[21:40])))/
   (mean(prevooc1)/mean(meanoocysts[1:20]))
 
+###########################
+##
+## Sporzoites, parasitemia, gametocytemia, mouse prevalence
+##
+##
+###############################
 spors<-read.csv("C:\\Users\\Ellie\\Documents\\Data Malaria\\Blagborough data Nat Comms\\sporozoites.csv",header=TRUE)
 spors$prevBS<-ifelse(spors$Parasitemia > 0 | spors$Gametocytemia > 0, 1, 0)
 
+for (i in 1:nrow(spors)){
+   spors$sumspors[i] <- sum(c(spors[i,6],spors[i,7],spors[i,8],spors[i,9],spors[i,10]),na.rm=T)
+   }
+
+for (i in 1:nrow(spors)){
+spors$sumspors2[i] <- sum(c(ifelse(spors[i,6]>0,1,spors[i,6]),
+                           ifelse(spors[i,7]>0,1,spors[i,7]),
+                           ifelse(spors[i,8]>0,1,spors[i,8]),
+                           ifelse(spors[i,9]>0,1,spors[i,9]),
+                           ifelse(spors[i,10]>0,1,spors[i,10])),na.rm=T)
+  }
+
+mb0 = c(length(spors$prevBS[spors$sumspors2==0 & spors$prevBS==0 & spors$Treatment==0]),
+        length(spors$prevBS[spors$sumspors2==1 & spors$prevBS==0 & spors$Treatment==0]),
+        length(spors$prevBS[spors$sumspors2==2 & spors$prevBS==0 & spors$Treatment==0]),
+        length(spors$prevBS[spors$sumspors2==3 & spors$prevBS==0 & spors$Treatment==0]),
+        length(spors$prevBS[spors$sumspors2==4 & spors$prevBS==0 & spors$Treatment==0]),
+        length(spors$prevBS[spors$sumspors2==5 & spors$prevBS==0 & spors$Treatment==0]),
+        length(spors$prevBS[spors$sumspors2==0 & spors$prevBS==0 & spors$Treatment==1]),
+        length(spors$prevBS[spors$sumspors2==1 & spors$prevBS==0 & spors$Treatment==1]),
+        length(spors$prevBS[spors$sumspors2==2 & spors$prevBS==0 & spors$Treatment==1]),
+        length(spors$prevBS[spors$sumspors2==3 & spors$prevBS==0 & spors$Treatment==1]),
+        length(spors$prevBS[spors$sumspors2==4 & spors$prevBS==0 & spors$Treatment==1]),
+        length(spors$prevBS[spors$sumspors2==5 & spors$prevBS==0 & spors$Treatment==1]))
+
+mb1 = c(length(spors$prevBS[spors$sumspors2==0 & spors$prevBS==1 & spors$Treatment==0]),
+        length(spors$prevBS[spors$sumspors2==1 & spors$prevBS==1 & spors$Treatment==0]),
+        length(spors$prevBS[spors$sumspors2==2 & spors$prevBS==1 & spors$Treatment==0]),
+        length(spors$prevBS[spors$sumspors2==3 & spors$prevBS==1 & spors$Treatment==0]),
+        length(spors$prevBS[spors$sumspors2==4 & spors$prevBS==1 & spors$Treatment==0]),
+        length(spors$prevBS[spors$sumspors2==5 & spors$prevBS==1 & spors$Treatment==0]),
+        length(spors$prevBS[spors$sumspors2==0 & spors$prevBS==1 & spors$Treatment==1]),
+        length(spors$prevBS[spors$sumspors2==1 & spors$prevBS==1 & spors$Treatment==1]),
+        length(spors$prevBS[spors$sumspors2==2 & spors$prevBS==1 & spors$Treatment==1]),
+        length(spors$prevBS[spors$sumspors2==3 & spors$prevBS==1 & spors$Treatment==1]),
+        length(spors$prevBS[spors$sumspors2==4 & spors$prevBS==1 & spors$Treatment==1]),
+        length(spors$prevBS[spors$sumspors2==5 & spors$prevBS==1 & spors$Treatment==1]))
+
+
+probofinfection_if_bit_byNmosqC <- mb1[1:6] / (mb0[1:6] + mb1[1:6])
+probofinfection_if_bit_byNmosqT <- mb1[7:12] / (mb0[7:12] + mb1[7:12])
+Num_inf_mosquitoes <- seq(0,5,1)
+
+plot(probofinfection_if_bit_byNmosqC ~ Num_inf_mosquitoes)
+lines(probofinfection_if_bit_byNmosqT ~ Num_inf_mosquitoes)
+##regardless of the intensity of infection in the mosquito
+
+sporsCons <- subset(spors, Treatment == 0)
+sporstreat <- subset(spors, Treatment == 1)
+indiv_mosqC <- sort(c(stack(sporsCons[,5:10])$values))
+indiv_mosqT <- sort(c(stack(sporstreat[,5:10])$values))
+probability_mosq_is_infectedC <- length(indiv_mosqC[indiv_mosqC != 0])/length(indiv_mosqC)
+probability_mosq_is_infectedT <- length(indiv_mosqT[indiv_mosqT != 0])/length(indiv_mosqT)
+
+prob_inf_if_bittenC <- probofinfection_if_bit_byNmosqC * probability_mosq_is_infectedC
+
+prob_inf_if_bittenT <- probofinfection_if_bit_byNmosqT * probability_mosq_is_infectedT
+
+plot(prob_inf_if_bittenC ~ Num_inf_mosquitoes,
+     ylim=c(0,1),xlim=c(0,5),
+     ylab="Probability of host infection if bitten",#
+     xlab="Number of mosquitoes biting")
+points(prob_inf_if_bittenT ~ Num_inf_mosquitoes,pch=20)
+
+perbiteprobC <- prob_inf_if_bittenC[2:6] / c(1,2,3,4,5)
+perbiteprobT <- prob_inf_if_bittenT[2:6] / c(1,2,3,4,5)
+
+plot(perbiteprobC ~ c(1,2,3,4,5),
+     ylim=c(0,1),xlim=c(0,5),
+     ylab="Per bite probability of host infection if bitten",#
+     xlab="Number of mosquitoes biting")
+points(perbiteprobT ~ c(1,2,3,4,5),pch=20)
 
 ##MEAN PARASITEMIA IN MICE
 #mean(spors$Parasitemia[spors$Treatment == 0 & spors$Bites == 5])
@@ -186,22 +264,27 @@ spors$prevBS<-ifelse(spors$Parasitemia > 0 | spors$Gametocytemia > 0, 1, 0)
 
 
 parasit<-cbind(
+  c(19.5,22.4,16.8,17.1,21.8),
   spors$Parasitemia[spors$Bites==1 & spors$Treatment == 0 & spors$Round == 1],
   spors$Parasitemia[spors$Bites==1 & spors$Treatment == 0 & spors$Round == 2],
   spors$Parasitemia[spors$Bites==1 & spors$Treatment == 0 & spors$Round == 3],
   spors$Parasitemia[spors$Bites==1 & spors$Treatment == 0 & spors$Round == 4],
+  c(19.5,22.4,16.8,17.1,21.8),
   spors$Parasitemia[spors$Bites==2 & spors$Treatment == 0 & spors$Round == 1],
   spors$Parasitemia[spors$Bites==2 & spors$Treatment == 0 & spors$Round == 2],
   spors$Parasitemia[spors$Bites==2 & spors$Treatment == 0 & spors$Round == 3],
   spors$Parasitemia[spors$Bites==2 & spors$Treatment == 0 & spors$Round == 4],
+  c(19.5,22.4,16.8,17.1,21.8),
   spors$Parasitemia[spors$Bites==3 & spors$Treatment == 0 & spors$Round == 1],
   spors$Parasitemia[spors$Bites==3 & spors$Treatment == 0 & spors$Round == 2],
   spors$Parasitemia[spors$Bites==3 & spors$Treatment == 0 & spors$Round == 3],
   spors$Parasitemia[spors$Bites==3 & spors$Treatment == 0 & spors$Round == 4],
+  c(19.5,22.4,16.8,17.1,21.8),
   spors$Parasitemia[spors$Bites==4 & spors$Treatment == 0 & spors$Round == 1],
   spors$Parasitemia[spors$Bites==4 & spors$Treatment == 0 & spors$Round == 2],
   spors$Parasitemia[spors$Bites==4 & spors$Treatment == 0 & spors$Round == 3],
   spors$Parasitemia[spors$Bites==4 & spors$Treatment == 0 & spors$Round == 4],
+  c(19.5,22.4,16.8,17.1,21.8),
   spors$Parasitemia[spors$Bites==5 & spors$Treatment == 0 & spors$Round == 1],
   spors$Parasitemia[spors$Bites==5 & spors$Treatment == 0 & spors$Round == 2],
   spors$Parasitemia[spors$Bites==5 & spors$Treatment == 0 & spors$Round == 3],
@@ -242,22 +325,27 @@ parasitORIGmean<-c(
 #}
 #}
 parasitT<-cbind(
+  c(18.2,17.4,25.6,19.5,18.5),
   spors$Parasitemia[spors$Bites==1 & spors$Treatment == 1 & spors$Round == 1],
   spors$Parasitemia[spors$Bites==1 & spors$Treatment == 1 & spors$Round == 2],
   spors$Parasitemia[spors$Bites==1 & spors$Treatment == 1 & spors$Round == 3],
   spors$Parasitemia[spors$Bites==1 & spors$Treatment == 1 & spors$Round == 4],
+  c(18.2,17.4,25.6,19.5,18.5),
   spors$Parasitemia[spors$Bites==2 & spors$Treatment == 1 & spors$Round == 1],
   spors$Parasitemia[spors$Bites==2 & spors$Treatment == 1 & spors$Round == 2],
   spors$Parasitemia[spors$Bites==2 & spors$Treatment == 1 & spors$Round == 3],
   spors$Parasitemia[spors$Bites==2 & spors$Treatment == 1 & spors$Round == 4],
+  c(18.2,17.4,25.6,19.5,18.5),
   spors$Parasitemia[spors$Bites==3 & spors$Treatment == 1 & spors$Round == 1],
   spors$Parasitemia[spors$Bites==3 & spors$Treatment == 1 & spors$Round == 2],
   spors$Parasitemia[spors$Bites==3 & spors$Treatment == 1 & spors$Round == 3],
   spors$Parasitemia[spors$Bites==3 & spors$Treatment == 1 & spors$Round == 4],
+  c(18.2,17.4,25.6,19.5,18.5),
   spors$Parasitemia[spors$Bites==4 & spors$Treatment == 1 & spors$Round == 1],
   spors$Parasitemia[spors$Bites==4 & spors$Treatment == 1 & spors$Round == 2],
   spors$Parasitemia[spors$Bites==4 & spors$Treatment == 1 & spors$Round == 3],
   spors$Parasitemia[spors$Bites==4 & spors$Treatment == 1 & spors$Round == 4],
+  c(18.2,17.4,25.6,19.5,18.5),
   spors$Parasitemia[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 1],
   spors$Parasitemia[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 2],
   spors$Parasitemia[spors$Bites==5 & spors$Treatment == 1 & spors$Round == 3],
@@ -893,11 +981,123 @@ for(i in seq_along(e[[1]])) {
   lines(x, (e[[1]][i] + e[[2]][i] * x), col = "#00000008")
 }
 lines(nc,pred,lwd=2,lty=2,col="red")
+
 points(gametORIGmean[1:20]~parasORIGmean[1:20],pch=19)
+legend(1,1.5,legend=c("Control data","Treatment data"),
+       cex=1.4,bty="n",pch=c(19,1))
+##########################################################################
+##
+## 4. Exploring the relationship between parasitemia and oocysts
+##  
+##
+###########################################################################
+parasORIGmean <- c(parasitORIGmean,parasitATV32mean)
+
+spordat <- list(N=40,
+                x=parasORIGmean,
+                y=meanoocysts)
+test2 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\sporssum to paralinearfit.stan", data=spordat,
+              iter=1000, chains=4)
+
+print(test2)
+print(waic(test2))
+
+test3 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\logisticfunction in stan2.stan", data=spordat,
+              iter=1000, chains=4)
+
+##****setting for logisticfunction in stan2
+#parameters {
+#  real<lower=0> phi; // 
+#    real<lower=0, upper=2> beta;  // 
+#    real<lower=10> alpha;
+#}
+
+print(test3)
+print(waic(test3))
+
+params2 = extract(test2);names(params2)
+params3 = extract(test3);names(params3)
+#rstan::traceplot(test3, inc_warmup = FALSE)
+
+## For sporssum to para.stan
+nc<-seq(0,100,1)
+pred<-(mean(params2$alpha) + mean(params2$beta) * nc)
+pred2 <- (mean(params3$alpha) * nc) / sqrt(1 + nc^1/mean(params3$beta))
+par(mar=c(5,5,5,5))
+par(las=1)
+plot(meanoocysts~parasORIGmean,cex.lab=1.5,bty="n",xlim=c(0,25),
+     ylab="Mean oocysts",xlab="Parasitemia (%)",ylim=c(0,100))
+par(las=2);axis(2,at=seq(0,100,50),labels=seq(0,100,50))
+
+lines(nc,pred,lwd=2,lty=2,col="red")
+lines(nc,pred2,lwd=2,lty=2,col="blue")
+
+x <- seq(0,20,0.1)
+
+e <- extract(test3, pars = c("alpha", "beta"))
+
+for(i in seq_along(e[[1]])) {
+  lines(x, ((e[[1]][i] * x)/sqrt(1 + x ^ 1/e[[2]][i])), col = "#00000008")
+}
+lines(nc,pred2,lwd=2,lty=2,col="red")
 
 ##########################################################################
 ##
-## 4. Fit the distributions of the data and estimate the real sporozoite counts and prevalence 
+## 5. Exploring the relationship between sporozoites and oocysts
+##  
+##
+###########################################################################
+spordat <- list(N=40,
+                x=meanoocysts,
+                y=MEANsporig)
+test2 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\sporssum to paralinearfit.stan", data=spordat,
+              iter=1000, chains=4)
+
+print(test2)
+print(waic(test2))
+
+test3 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\logisticfunction in stan2.stan", data=spordat,
+              iter=1000, chains=4)
+##***settings for logisticfunction in stan2
+#parameters {
+#  real<lower=0> phi; // 
+#    real<lower=0.1, upper=0.3> beta;  // 
+#    real<lower=0.4, upper=0.6> alpha;
+#}
+
+print(test3)
+print(waic(test3))
+
+params2 = extract(test2);names(params2)
+params3 = extract(test3);names(params3)
+#rstan::traceplot(test2, inc_warmup = FALSE)
+
+## For sporssum to para.stan
+nc<-seq(0,100,1)
+pred<-(mean(params2$alpha) + mean(params2$beta) * nc)
+pred2 <- (mean(params3$alpha) * nc) / sqrt(1 + nc^1/mean(params3$beta))
+par(mar=c(5,5,5,5))
+par(las=1)
+plot(MEANsporig~meanoocysts,cex.lab=1.5,bty="n",xlim=c(0,60),yaxt="n",
+     xlab="Mean oocysts",ylab="Mean sporozoite post bite scores",ylim=c(0,3))
+par(las=2);axis(2,at=seq(0,3,0.5),labels=seq(0,3,0.5))
+
+#lines(nc,pred,lwd=2,lty=2,col="red")
+lines(nc,pred2,lwd=2,lty=2,col="blue")
+
+x <- seq(0,max(meanoocysts),0.1)
+
+e <- extract(test3, pars = c("alpha", "beta"))
+
+for(i in seq_along(e[[1]])) {
+  lines(x, ((e[[1]][i] * x)/sqrt(1 + x ^ 1/e[[2]][i])), col = "#00000008")
+}
+lines(nc,pred2,lwd=2,lty=2,col="red")
+
+
+##########################################################################
+##
+## 6. Fit the distributions of the data and estimate the real sporozoite counts and prevalence 
 ##    with and without treatment to get the difference in the probaility of transmission
 ##  
 ##
@@ -920,7 +1120,7 @@ data1<-list(N_C=20,
 
 stan_rdump(ls(data1), "Ellie.dataALLOriginals.R", envir=list2env(data1))
 fit1 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\mice.censored_sp.stan", data=data1,
-             iter=1000, chains=1)
+             iter=1000, chains=2)
 
 
 ##########################################################################
@@ -937,13 +1137,20 @@ data2<-list(N_C=16,
             N_T=16,
             N_mosq=24,
             N_mice=5,
-            ooc_prev_C = structure(.Data = c(oocyC[97:480]),
+            ooc_prev_C = structure(.Data = c(oocystsC[1:384]),
                                     .Dim=c(24,16)),
-            ooc_prev_T = structure(.Data = c(oocyT[97:480]),
+            ooc_prev_T = structure(.Data = c(oocystsT[1:384]),
                                     .Dim=c(24,16)),
-            prev_C = structure(.Data =PREV_C[,5:20],.Dim=c(5,16)),
-            prev_T = structure(.Data =PREV_T[,5:20],.Dim=c(5,16))
+            prev_C = structure(.Data =PREV_C[,1:16],.Dim=c(5,16)),
+            prev_T = structure(.Data =PREV_T[,1:16],.Dim=c(5,16)),
+            N_bin=5,
+            bin_edge=c(0,1,10,100,1000,1002),
+            sporo_count_C = structure(.Data=spors_C[1:16,],.Dim=c(16,5)),
+            sporo_count_T = structure(.Data=spors_T[1:16,],.Dim=c(16,5))
             )
+
+stan_rdump(ls(data2), "Ellie.databites1to4Originals.R", envir=list2env(data2))
+
 
 fit1 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\mice.censored_sp_prevalence only04092015.stan", data=data2,
              iter=1000, chains=1)
@@ -955,8 +1162,13 @@ fit1 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\mice.
 ##
 ###########################################################################
 library(adegenet)
-par(mar=c(5,2,1,1))
-par(mfrow=c(1,1))
+library(plotrix)
+#dev.off()
+#split.screen(rbind(
+#  c(0,1,0.4, 1), 
+#  c(0,1,0,0.4)))
+par(mar=c(0,0,0,0))
+#screen(1)
 x<-seq(-10,100,1);y <- seq(-50,100,length=length(x))
 plot(x,y,pch="",bty="n",xaxt="n",yaxt="n",ylab="",xlab="")
 polygon(c(c(-10,5), rev(c(-10,5))),
@@ -978,7 +1190,7 @@ polygon(c(c(20,35), rev(c(20,35))),
         c(c(70,70),
           rev(c(90,90))),
         border=NA, col=transp("aquamarine1",alpha=0.2))
-text(27.5,95,"500 niave mosquito:",col = "blue")
+text(27.5,95,"500 naive mosquito:",col = "blue")
 text(27.5,92,"feeding on",col = "blue")
 text(27.5,89,"all 5 mice",col = "blue")
 text(27.5,86,"at random",col = "blue")
@@ -1001,7 +1213,7 @@ polygon(c(c(40,50), rev(c(40,50))),
         c(c(70,70),
           rev(c(90,90))),
         border=NA, col=transp("aquamarine2",alpha=0.2))
-text(55,85,"x 5", cex=4,col="aquamarine2")
+text(55,85,"x 5", cex=2,col="aquamarine2")
 arrows(60,80, x1 = 65, y1 = 80, length = 0.25, angle = 30,
        code = 2,col="grey", lty = 1,
        lwd = 3)
@@ -1025,7 +1237,7 @@ polygon(c(c(20,35), rev(c(20,35))),
         c(c(40,40),
           rev(c(60,60))),
         border=NA, col=transp("bisque2",alpha=0.2))
-text(27.5,55,"500 niave mosquito:",col = "blue")
+text(27.5,55,"500 naive mosquito:",col = "blue")
 text(27.5,52,"feeding on",col = "blue")
 text(27.5,49,"all 5 mice",col = "blue")
 text(27.5,46,"at random",col = "blue")
@@ -1044,7 +1256,7 @@ polygon(c(c(40,50), rev(c(40,50))),
         c(c(30,30),
           rev(c(50,50))),
         border=NA, col=transp("aquamarine3",alpha=0.2))
-text(55,45,"x 5", cex=4,col="aquamarine3")
+text(55,45,"x 5", cex=2,col="aquamarine3")
 arrows(60,40, x1 = 65, y1 = 40, length = 0.25, angle = 30,
        code = 2,col="grey", lty = 1,
        lwd = 3)
@@ -1064,7 +1276,7 @@ polygon(c(c(20,35), rev(c(20,35))),
         c(c(-10,-10),
           rev(c(10,10))),
         border=NA, col=transp("aquamarine2",alpha=0.2))
-text(27.5,15,"500 niave mosquito:",col = "blue")
+text(27.5,15,"500 naive mosquito:",col = "blue")
 text(27.5,12,"feeding on",col = "blue")
 text(27.5,9,"all 5 mice",col = "blue")
 text(27.5,6,"at random",col = "blue")
@@ -1087,7 +1299,7 @@ polygon(c(c(40,50), rev(c(40,50))),
         c(c(-10,-10),
           rev(c(10,10))),
         border=NA, col=transp("aquamarine4",alpha=0.2))
-text(55,5,"x 5", cex=4,col="aquamarine4")
+text(55,5,"x 5", cex=2,col="aquamarine4")
 arrows(60,0, x1 = 65, y1 = 0, length = 0.25, angle = 30,
        code = 2,col="grey", lty = 1,
        lwd = 3)
@@ -1108,7 +1320,7 @@ polygon(c(c(20,35), rev(c(20,35))),
         c(c(-50,-50),
           rev(c(-30,-30))),
         border=NA, col=transp("aquamarine2",alpha=0.2))
-text(27.5,-25,"500 niave mosquito:",col = "blue")
+text(27.5,-25,"500 naive mosquito:",col = "blue")
 text(27.5,-28,"feeding on",col = "blue")
 text(27.5,-31,"all 5 mice",col = "blue")
 text(27.5,-34,"at random",col = "blue")
@@ -1131,7 +1343,7 @@ polygon(c(c(40,50), rev(c(40,50))),
         c(c(-50,-50),
           rev(c(-30,-30))),
         border=NA, col=transp("aquamarine4",alpha=0.2))
-text(55,-35,"x 5", cex=4,col="aquamarine4")
+text(55,-35,"x 5", cex=2,col="aquamarine4")
 arrows(60,-40, x1 = 65, y1 = -40, length = 0.25, angle = 30,
        code = 2,col="grey", lty = 1,
        lwd = 3)
@@ -1144,10 +1356,10 @@ text(72.5,-38,"% gametocytemia")
 text(72.5,-41,"% parasitemia")
 ###
 
-text(90,85,substitute(paste(italic('i')," = 1")), cex=4,col="blue")
-text(90,45,substitute(paste(italic('i')," = 2")), cex=4,col="blue")
-text(90,5,substitute(paste(italic('i')," = 3")), cex=4,col="blue")
-text(90,-35,substitute(paste(italic('i')," = 4")), cex=4,col="blue")
+text(90,85,substitute(paste(italic('i')," = 1")), cex=2,col="blue")
+text(90,45,substitute(paste(italic('i')," = 2")), cex=2,col="blue")
+text(90,5,substitute(paste(italic('i')," = 3")), cex=2,col="blue")
+text(90,-35,substitute(paste(italic('i')," = 4")), cex=2,col="blue")
 
 text(10,52,"Mice",col="red")
 text(10,49,"treated",col="red")
@@ -1171,3 +1383,320 @@ par(las=1)
 axis(1,at=c(0,10,40,65,100),
      labels=c("Day -10","Day 0","Day 21: mosquitoes infectious",
               "Day 31: Mice infectious",""),cex.axis=1.2)
+
+
+#screen(2)
+
+plot(c(0, 100), c(0, 100), type = "n",bty="n",xaxt="n",yaxt="n",
+     ylab="",xlab="")
+radius <- 2
+radius2 <- 3
+theta <- seq(20, 2 * pi, length = 200)
+#draw.ellipse(c(30,70), c(80,80), c(5,10), c(10,5))
+
+polygon(c(c(5,20), rev(c(5,20))),
+        c(c(10,10),
+          rev(c(80,80))),
+        border=NA, col=transp("aquamarine4",alpha=0.2))
+polygon(c(c(5,20), rev(c(5,20))),
+        c(c(10,10),
+          rev(c(40,40))),
+        border=NA, col=transp("aquamarine4",alpha=0.2))
+polygon(c(c(5,20), rev(c(5,20))),
+        c(c(10,10),
+          rev(c(30,30))),
+        border=NA, col=transp("aquamarine4",alpha=0.2))
+polygon(c(c(5,20), rev(c(5,20))),
+        c(c(10,10),
+          rev(c(20,20))),
+        border=NA, col=transp("aquamarine4",alpha=0.2))
+lines(x = radius2 * cos(theta)+10, y = radius * sin(theta)+30,col="red")
+lines(x = radius2 * cos(theta)+15, y = radius * sin(theta)+30,col="red")
+
+text((20+5)/2,75,"Initial parasitemia")
+text(25/2,71,"distribution" )
+text(10,30,expression(paste(mu[im], )))
+text(15,30,expression(paste(phi[im], )))
+text(12.5,25,expression(paste(italic("hierarchical"))))
+text(12.5,22,expression(paste(italic("structure"))))
+
+text(25/2,60,expression(paste(italic("~ Binomial"))))
+text(25/2+2,57, "(zero-inflated)")
+
+arrows(20,50, x1 = 25, y1 = 50, length = 0.25, angle = 30,
+       code = 2, col = "grey", lty = 1,
+       lwd = 3)
+text(22,53,expression(paste(alpha^I, )))
+text(22,47,expression(paste(beta^I, )))
+
+polygon(c(c(25,40), rev(c(25,40))),
+        c(c(10,10),
+          rev(c(80,80))),
+        border=NA, col=transp("aquamarine1",alpha=0.2))
+lines(x = radius2 * cos(theta)+30, y = radius * sin(theta)+30,col="red")
+lines(x = radius2 * cos(theta)+35, y = radius * sin(theta)+30,col="red")
+
+text((25+40)/2,75,"Oocyst distribution")
+text(30,30,expression(paste(mu[ooc], )))
+text(35,30,expression(paste(phi[ooc], )))
+text((25+40)/2,60,expression(paste(italic("~ Negative binomial"))))
+
+
+arrows(40,50, x1 = 45, y1 = 50, length = 0.25, angle = 30,
+       code = 2, col = "grey", lty = 1,
+       lwd = 3)
+text(42,53,expression(paste(alpha^II, )))
+text(42,47,expression(paste(beta^II, )))
+
+polygon(c(c(45,60), rev(c(45,60))),
+        c(c(10,10),
+          rev(c(80,80))),
+        border=NA, col=transp("aquamarine1",alpha=0.2))
+lines(x = radius2 * cos(theta)+50, y = radius * sin(theta)+30,col="red")
+lines(x = radius2 * cos(theta)+55, y = radius * sin(theta)+30,col="red")
+
+text((45+60)/2,75,"Sporozoite" )
+     text((45+60)/2,71,"(binned) distribution")
+text(50,30,expression(paste(mu[ooc], )))
+text(55,30,expression(paste(phi[ooc], )))
+text((45+60)/2,60,expression(paste(italic("~ Multinomial"))))
+
+arrows(60,50, x1 = 70, y1 = 50, length = 0.25, angle = 30,
+       code = 2, col = "grey", lty = 1,
+       lwd = 3)
+text(65,53,expression(paste(alpha^III, )))
+text(65,47,expression(paste(beta^III, )))
+
+polygon(c(c(70,100), rev(c(70,100))),
+        c(c(10,10),
+          rev(c(80,80))),
+        border=NA, col=transp("aquamarine4",alpha=0.2))
+radius3=5
+lines(x = radius3 * cos(theta)+85, y = radius * sin(theta)+30,col="red",lwd=3)
+
+text(170/2,75,"Final Parasitemia" )
+text(170/2,71,"frequency" )
+text(170/2,60,expression(paste(italic("~ Binomial"))))
+
+text(85,30,expression(paste(theta[mouse], )))
+
+
+##########################################################################
+##
+## 8. Mouse to mouse data
+##  
+##
+###########################################################################
+
+##OOCYSTS
+oocystsC_2<-c(##parasitemia mouse 1 seeding oocysts
+  oocysts$oocystsbites1control[oocysts$round=="day10"][1:24],
+  oocysts$oocystsbites1control[oocysts$round=="day41"][1:24],
+  oocysts$oocystsbites1control[oocysts$round=="day72"][1:24],
+  oocysts$oocystsbites1control[oocysts$round=="day103"][1:24],
+  oocysts$oocystsbites2control[oocysts$round=="day10"][1:24],
+  oocysts$oocystsbites2control[oocysts$round=="day41"][1:24],
+  oocysts$oocystsbites2control[oocysts$round=="day72"][1:24],
+  oocysts$oocystsbites2control[oocysts$round=="day103"][1:24],
+  oocysts$oocystsbites3control[oocysts$round=="day10"][1:24],
+  oocysts$oocystsbites3control[oocysts$round=="day41"][1:24],
+  oocysts$oocystsbites3control[oocysts$round=="day72"][1:24],
+  oocysts$oocystsbites3control[oocysts$round=="day103"][1:24],
+  oocysts$oocystsbites4control[oocysts$round=="day10"][1:24],
+  oocysts$oocystsbites4control[oocysts$round=="day41"][1:24],
+  oocysts$oocystsbites4control[oocysts$round=="day72"][1:24],
+  oocysts$oocystsbites4control[oocysts$round=="day103"][1:24],
+  oocysts$oocystsbites5control[oocysts$round=="day10"][1:24],
+  oocysts$oocystsbites5control[oocysts$round=="day41"][1:24],
+  oocysts$oocystsbites5control[oocysts$round=="day72"][1:24],
+  oocysts$oocystsbites5control[oocysts$round=="day103"][1:24])
+
+oocystsT_2<-c(oocysts$oocystsbites1atv[oocysts$round=="day10"][1:24],
+              oocysts$oocystsbites1atv[oocysts$round=="day41"][1:24],
+              oocysts$oocystsbites1atv[oocysts$round=="day72"][1:24],
+            oocysts$oocystsbites1atv[oocysts$round=="day103"][1:24],
+            oocysts$oocystsbites2atv[oocysts$round=="day10"][1:24],
+            oocysts$oocystsbites2atv[oocysts$round=="day41"][1:24],
+            oocysts$oocystsbites2atv[oocysts$round=="day72"][1:24],
+            oocysts$oocystsbites2atv[oocysts$round=="day103"][1:24],
+            oocysts$oocystsbites3atv[oocysts$round=="day10"][1:24],
+            oocysts$oocystsbites3atv[oocysts$round=="day41"][1:24],
+            oocysts$oocystsbites3atv[oocysts$round=="day72"][1:24],
+            oocysts$oocystsbites3atv[oocysts$round=="day103"][1:24],
+            oocysts$oocystsbites4atv[oocysts$round=="day10"][1:24],
+            oocysts$oocystsbites4atv[oocysts$round=="day41"][1:24],
+            oocysts$oocystsbites4atv[oocysts$round=="day72"][1:24],
+            oocysts$oocystsbites4atv[oocysts$round=="day103"][1:24],
+            oocysts$oocystsbites5atv[oocysts$round=="day10"][1:24],
+            oocysts$oocystsbites5atv[oocysts$round=="day41"][1:24],
+            oocysts$oocystsbites5atv[oocysts$round=="day72"][1:24],
+            oocysts$oocystsbites5atv[oocysts$round=="day103"][1:24])
+
+
+##############*******************Not needed now!!!############################
+###sPOROZOITES
+sporsbites1<-subset(spors,Bites==1 & Treatment==0);sporsbites1
+newb1<-sporsb1rd1<-c(sporsbites1$Sporozoite1[sporsbites1$Round==2]);
+spb1r2<-c(length(sporsb1rd1[sporsb1rd1==0]),length(sporsb1rd1[sporsb1rd1==1]),length(sporsb1rd1[sporsb1rd1==2]),length(sporsb1rd1[sporsb1rd1==3]),length(sporsb1rd1[sporsb1rd1==4]))
+newc1<-sporsb1rd1<-c(sporsbites1$Sporozoite1[sporsbites1$Round==3]);
+spb1r3<-c(length(sporsb1rd1[sporsb1rd1==0]),length(sporsb1rd1[sporsb1rd1==1]),length(sporsb1rd1[sporsb1rd1==2]),length(sporsb1rd1[sporsb1rd1==3]),length(sporsb1rd1[sporsb1rd1==4]))
+newd1<-sporsb1rd1<-c(sporsbites1$Sporozoite1[sporsbites1$Round==4]);
+spb1r4<-c(length(sporsb1rd1[sporsb1rd1==0]),length(sporsb1rd1[sporsb1rd1==1]),length(sporsb1rd1[sporsb1rd1==2]),length(sporsb1rd1[sporsb1rd1==3]),length(sporsb1rd1[sporsb1rd1==4]))
+
+
+sporsbites2<-subset(spors,Bites==2 & Treatment==0);sporsbites2
+b1<-sporsb2rd1<-c(sporsbites2$Sporozoite1[sporsbites2$Round==2],sporsbites2$Sporozoite2[sporsbites2$Round==2]);
+spb2r2<-c(length(sporsb2rd1[sporsb2rd1==0]),length(sporsb2rd1[sporsb2rd1==1]),length(sporsb2rd1[sporsb2rd1==2]),length(sporsb2rd1[sporsb2rd1==3]),length(sporsb2rd1[sporsb2rd1==4]))
+c1<-sporsb2rd1<-c(sporsbites2$Sporozoite1[sporsbites2$Round==3],sporsbites2$Sporozoite2[sporsbites2$Round==3]);
+spb2r3<-c(length(sporsb2rd1[sporsb2rd1==0]),length(sporsb2rd1[sporsb2rd1==1]),length(sporsb2rd1[sporsb2rd1==2]),length(sporsb2rd1[sporsb2rd1==3]),length(sporsb2rd1[sporsb2rd1==4]))
+d1<-sporsb2rd1<-c(sporsbites2$Sporozoite1[sporsbites2$Round==4],sporsbites2$Sporozoite2[sporsbites2$Round==4]);
+spb2r4<-c(length(sporsb2rd1[sporsb2rd1==0]),length(sporsb2rd1[sporsb2rd1==1]),length(sporsb2rd1[sporsb2rd1==2]),length(sporsb2rd1[sporsb2rd1==3]),length(sporsb2rd1[sporsb2rd1==4]))
+
+
+sporsbites3<-subset(spors,Bites==3 & Treatment==0);sporsbites3
+ff1<-sporsb2rd1<-c(sporsbites3$Sporozoite1[sporsbites3$Round==2],sporsbites3$Sporozoite2[sporsbites3$Round==2],sporsbites3$Sporozoite3[sporsbites3$Round==2]);
+spb3r2<-c(length(sporsb2rd1[sporsb2rd1==0]),length(sporsb2rd1[sporsb2rd1==1]),length(sporsb2rd1[sporsb2rd1==2]),length(sporsb2rd1[sporsb2rd1==3]),length(sporsb2rd1[sporsb2rd1==4]))
+g1<-sporsb2rd1<-c(sporsbites3$Sporozoite1[sporsbites3$Round==3],sporsbites3$Sporozoite2[sporsbites3$Round==3],sporsbites3$Sporozoite3[sporsbites3$Round==3]);
+spb3r3<-c(length(sporsb2rd1[sporsb2rd1==0]),length(sporsb2rd1[sporsb2rd1==1]),length(sporsb2rd1[sporsb2rd1==2]),length(sporsb2rd1[sporsb2rd1==3]),length(sporsb2rd1[sporsb2rd1==4]))
+h1<-sporsb2rd1<-c(sporsbites3$Sporozoite1[sporsbites3$Round==4],sporsbites3$Sporozoite2[sporsbites3$Round==4],sporsbites3$Sporozoite3[sporsbites3$Round==4]);
+spb3r4<-c(length(sporsb2rd1[sporsb2rd1==0]),length(sporsb2rd1[sporsb2rd1==1]),length(sporsb2rd1[sporsb2rd1==2]),length(sporsb2rd1[sporsb2rd1==3]),length(sporsb2rd1[sporsb2rd1==4]))
+
+sporsbites4<-subset(spors,Bites==4 & Treatment==0);sporsbites4
+kk1<-sporsb2rd1<-c(sporsbites4$Sporozoite1[sporsbites4$Round==2],sporsbites4$Sporozoite2[sporsbites4$Round==2],sporsbites4$Sporozoite3[sporsbites4$Round==2],sporsbites4$Sporozoite4[sporsbites4$Round==2]);
+spb4r2<-c(length(sporsb2rd1[sporsb2rd1==0]),length(sporsb2rd1[sporsb2rd1==1]),length(sporsb2rd1[sporsb2rd1==2]),length(sporsb2rd1[sporsb2rd1==3]),length(sporsb2rd1[sporsb2rd1==4]))
+l1<-sporsb2rd1<-c(sporsbites4$Sporozoite1[sporsbites4$Round==3],sporsbites4$Sporozoite2[sporsbites4$Round==3],sporsbites4$Sporozoite3[sporsbites4$Round==3],sporsbites4$Sporozoite4[sporsbites4$Round==3]);
+spb4r3<-c(length(sporsb2rd1[sporsb2rd1==0]),length(sporsb2rd1[sporsb2rd1==1]),length(sporsb2rd1[sporsb2rd1==2]),length(sporsb2rd1[sporsb2rd1==3]),length(sporsb2rd1[sporsb2rd1==4]))
+m1<-sporsb2rd1<-c(sporsbites4$Sporozoite1[sporsbites4$Round==4],sporsbites4$Sporozoite2[sporsbites4$Round==4],sporsbites4$Sporozoite3[sporsbites4$Round==4],sporsbites4$Sporozoite4[sporsbites4$Round==4]);
+spb4r4<-c(length(sporsb2rd1[sporsb2rd1==0]),length(sporsb2rd1[sporsb2rd1==1]),length(sporsb2rd1[sporsb2rd1==2]),length(sporsb2rd1[sporsb2rd1==3]),length(sporsb2rd1[sporsb2rd1==4]))
+
+sporsbites5<-subset(spors,Bites==5 & Treatment==0);sporsbites5
+oo1<-sporsb2rd1<-c(sporsbites5$Sporozoite1[sporsbites5$Round==2],sporsbites5$Sporozoite2[sporsbites5$Round==2],sporsbites5$Sporozoite3[sporsbites5$Round==2],sporsbites5$Sporozoite4[sporsbites5$Round==2],sporsbites5$Sporozoite5[sporsbites5$Round==2]);
+spb5r2<-c(length(sporsb2rd1[sporsb2rd1==0]),length(sporsb2rd1[sporsb2rd1==1]),length(sporsb2rd1[sporsb2rd1==2]),length(sporsb2rd1[sporsb2rd1==3]),length(sporsb2rd1[sporsb2rd1==4]))
+pp1<-sporsb2rd1<-c(sporsbites5$Sporozoite1[sporsbites5$Round==3],sporsbites5$Sporozoite2[sporsbites5$Round==3],sporsbites5$Sporozoite3[sporsbites5$Round==3],sporsbites5$Sporozoite4[sporsbites5$Round==3],sporsbites5$Sporozoite5[sporsbites5$Round==3]);
+spb5r3<-c(length(sporsb2rd1[sporsb2rd1==0]),length(sporsb2rd1[sporsb2rd1==1]),length(sporsb2rd1[sporsb2rd1==2]),length(sporsb2rd1[sporsb2rd1==3]),length(sporsb2rd1[sporsb2rd1==4]))
+qq1<-sporsb2rd1<-c(sporsbites5$Sporozoite1[sporsbites5$Round==4],sporsbites5$Sporozoite2[sporsbites5$Round==4],sporsbites5$Sporozoite3[sporsbites5$Round==4],sporsbites5$Sporozoite4[sporsbites5$Round==4],sporsbites5$Sporozoite5[sporsbites5$Round==4]);
+spb5r4<-c(length(sporsb2rd1[sporsb2rd1==0]),length(sporsb2rd1[sporsb2rd1==1]),length(sporsb2rd1[sporsb2rd1==2]),length(sporsb2rd1[sporsb2rd1==3]),length(sporsb2rd1[sporsb2rd1==4]))
+
+spors_C_2<-rbind(spb1r2,spb1r3,spb1r4,
+               spb2r2,spb2r3,spb2r4,
+               spb3r2,spb3r3,spb3r4,
+               spb4r2,spb4r3,spb4r4,
+               spb5r2,spb5r3,spb5r4)
+
+sporsbites1<-subset(spors,Bites==1 & Treatment==1);sporsbites1
+new_b<-sporsb1rd1<-c(sporsbites1$Sporozoite1[sporsbites1$Round==2]);
+spb1r2<-c(length(sporsb1rd1[sporsb1rd1==0]),length(sporsb1rd1[sporsb1rd1==1]),length(sporsb1rd1[sporsb1rd1==2]),length(sporsb1rd1[sporsb1rd1==3]),length(sporsb1rd1[sporsb1rd1==4]))
+new_c<-sporsb1rd1<-c(sporsbites1$Sporozoite1[sporsbites1$Round==3]);
+spb1r3<-c(length(sporsb1rd1[sporsb1rd1==0]),length(sporsb1rd1[sporsb1rd1==1]),length(sporsb1rd1[sporsb1rd1==2]),length(sporsb1rd1[sporsb1rd1==3]),length(sporsb1rd1[sporsb1rd1==4]))
+new_d<-sporsb1rd1<-c(sporsbites1$Sporozoite1[sporsbites1$Round==4]);
+spb1r4<-c(length(sporsb1rd1[sporsb1rd1==0]),length(sporsb1rd1[sporsb1rd1==1]),length(sporsb1rd1[sporsb1rd1==2]),length(sporsb1rd1[sporsb1rd1==3]),length(sporsb1rd1[sporsb1rd1==4]))
+
+
+sporsbites2<-subset(spors,Bites==2 & Treatment==1);sporsbites2
+b<-  sporsb2rd1<-c(sporsbites2$Sporozoite1[sporsbites2$Round==2],sporsbites2$Sporozoite2[sporsbites2$Round==2]);
+spb2r2<-c(length(sporsb2rd1[sporsb2rd1==0]),length(sporsb2rd1[sporsb2rd1==1]),length(sporsb2rd1[sporsb2rd1==2]),length(sporsb2rd1[sporsb2rd1==3]),length(sporsb2rd1[sporsb2rd1==4]))
+c<-    sporsb2rd1<-c(sporsbites2$Sporozoite1[sporsbites2$Round==3],sporsbites2$Sporozoite2[sporsbites2$Round==3]);
+spb2r3<-c(length(sporsb2rd1[sporsb2rd1==0]),length(sporsb2rd1[sporsb2rd1==1]),length(sporsb2rd1[sporsb2rd1==2]),length(sporsb2rd1[sporsb2rd1==3]),length(sporsb2rd1[sporsb2rd1==4]))
+d<-    sporsb2rd1<-c(sporsbites2$Sporozoite1[sporsbites2$Round==4],sporsbites2$Sporozoite2[sporsbites2$Round==4]);
+spb2r4<-c(length(sporsb2rd1[sporsb2rd1==0]),length(sporsb2rd1[sporsb2rd1==1]),length(sporsb2rd1[sporsb2rd1==2]),length(sporsb2rd1[sporsb2rd1==3]),length(sporsb2rd1[sporsb2rd1==4]))
+
+
+sporsbites3<-subset(spors,Bites==3 & Treatment==1);sporsbites3
+ff<-  sporsb2rd1<-c(sporsbites3$Sporozoite1[sporsbites3$Round==2],sporsbites3$Sporozoite2[sporsbites3$Round==2],sporsbites3$Sporozoite3[sporsbites3$Round==2]);
+spb3r2<-c(length(sporsb2rd1[sporsb2rd1==0]),length(sporsb2rd1[sporsb2rd1==1]),length(sporsb2rd1[sporsb2rd1==2]),length(sporsb2rd1[sporsb2rd1==3]),length(sporsb2rd1[sporsb2rd1==4]))
+g<-  sporsb2rd1<-c(sporsbites3$Sporozoite1[sporsbites3$Round==3],sporsbites3$Sporozoite2[sporsbites3$Round==3],sporsbites3$Sporozoite3[sporsbites3$Round==3]);
+spb3r3<-c(length(sporsb2rd1[sporsb2rd1==0]),length(sporsb2rd1[sporsb2rd1==1]),length(sporsb2rd1[sporsb2rd1==2]),length(sporsb2rd1[sporsb2rd1==3]),length(sporsb2rd1[sporsb2rd1==4]))
+h<- sporsb2rd1<-c(sporsbites3$Sporozoite1[sporsbites3$Round==4],sporsbites3$Sporozoite2[sporsbites3$Round==4],sporsbites3$Sporozoite3[sporsbites3$Round==4]);
+spb3r4<-c(length(sporsb2rd1[sporsb2rd1==0]),length(sporsb2rd1[sporsb2rd1==1]),length(sporsb2rd1[sporsb2rd1==2]),length(sporsb2rd1[sporsb2rd1==3]),length(sporsb2rd1[sporsb2rd1==4]))
+
+sporsbites4<-subset(spors,Bites==4 & Treatment==1);sporsbites4
+kk<-  sporsb2rd1<-c(sporsbites4$Sporozoite1[sporsbites4$Round==2],sporsbites4$Sporozoite2[sporsbites4$Round==2],sporsbites4$Sporozoite3[sporsbites4$Round==2],sporsbites4$Sporozoite4[sporsbites4$Round==2]);
+spb4r2<-c(length(sporsb2rd1[sporsb2rd1==0]),length(sporsb2rd1[sporsb2rd1==1]),length(sporsb2rd1[sporsb2rd1==2]),length(sporsb2rd1[sporsb2rd1==3]),length(sporsb2rd1[sporsb2rd1==4]))
+l<-  sporsb2rd1<-c(sporsbites4$Sporozoite1[sporsbites4$Round==3],sporsbites4$Sporozoite2[sporsbites4$Round==3],sporsbites4$Sporozoite3[sporsbites4$Round==3],sporsbites4$Sporozoite4[sporsbites4$Round==3]);
+spb4r3<-c(length(sporsb2rd1[sporsb2rd1==0]),length(sporsb2rd1[sporsb2rd1==1]),length(sporsb2rd1[sporsb2rd1==2]),length(sporsb2rd1[sporsb2rd1==3]),length(sporsb2rd1[sporsb2rd1==4]))
+m<- sporsb2rd1<-c(sporsbites4$Sporozoite1[sporsbites4$Round==4],sporsbites4$Sporozoite2[sporsbites4$Round==4],sporsbites4$Sporozoite3[sporsbites4$Round==4],sporsbites4$Sporozoite4[sporsbites4$Round==4]);
+spb4r4<-c(length(sporsb2rd1[sporsb2rd1==0]),length(sporsb2rd1[sporsb2rd1==1]),length(sporsb2rd1[sporsb2rd1==2]),length(sporsb2rd1[sporsb2rd1==3]),length(sporsb2rd1[sporsb2rd1==4]))
+
+sporsbites5<-subset(spors,Bites==5 & Treatment==1);sporsbites5
+oo<-sporsb2rd1<-c(sporsbites5$Sporozoite1[sporsbites5$Round==2],sporsbites5$Sporozoite2[sporsbites5$Round==2],sporsbites5$Sporozoite3[sporsbites5$Round==2],sporsbites5$Sporozoite4[sporsbites5$Round==2],sporsbites5$Sporozoite5[sporsbites5$Round==2]);
+spb5r2<-c(length(sporsb2rd1[sporsb2rd1==0]),length(sporsb2rd1[sporsb2rd1==1]),length(sporsb2rd1[sporsb2rd1==2]),length(sporsb2rd1[sporsb2rd1==3]),length(sporsb2rd1[sporsb2rd1==4]))
+pp<-sporsb2rd1<-c(sporsbites5$Sporozoite1[sporsbites5$Round==3],sporsbites5$Sporozoite2[sporsbites5$Round==3],sporsbites5$Sporozoite3[sporsbites5$Round==3],sporsbites5$Sporozoite4[sporsbites5$Round==3],sporsbites5$Sporozoite5[sporsbites5$Round==3]);
+spb5r3<-c(length(sporsb2rd1[sporsb2rd1==0]),length(sporsb2rd1[sporsb2rd1==1]),length(sporsb2rd1[sporsb2rd1==2]),length(sporsb2rd1[sporsb2rd1==3]),length(sporsb2rd1[sporsb2rd1==4]))
+qq<-sporsb2rd1<-c(sporsbites5$Sporozoite1[sporsbites5$Round==4],sporsbites5$Sporozoite2[sporsbites5$Round==4],sporsbites5$Sporozoite3[sporsbites5$Round==4],sporsbites5$Sporozoite4[sporsbites5$Round==4],sporsbites5$Sporozoite5[sporsbites5$Round==4]);
+spb5r4<-c(length(sporsb2rd1[sporsb2rd1==0]),length(sporsb2rd1[sporsb2rd1==1]),length(sporsb2rd1[sporsb2rd1==2]),length(sporsb2rd1[sporsb2rd1==3]),length(sporsb2rd1[sporsb2rd1==4]))
+
+spors_T_2<-rbind(spb1r2,spb1r3,spb1r4,
+               spb2r2,spb2r3,spb2r4,
+               spb3r2,spb3r3,spb3r4,
+               spb4r2,spb4r3,spb4r4,
+               spb5r2,spb5r3,spb5r4)
+####################################################
+
+
+
+ooc_count_Ttemp = structure(.Data = c(oocystsT_2),
+                            .Dim=c(24,20))
+ooc_count_Ctemp = structure(.Data = c(oocystsC_2),
+                            .Dim=c(24,20))
+
+parasit2CONVERT<-round(parasit*1200)
+parasitT2CONVERT<-round(parasitT*1200)
+
+para_intC1 <- structure(.Data =c(parasit2CONVERT[,1:4],
+                               parasit2CONVERT[,6:9],
+                               parasit2CONVERT[,11:14],
+                               parasit2CONVERT[,16:19],
+                               parasit2CONVERT[,21:24]),.Dim=c(5,20))
+
+para_intT1 <- structure(.Data =c(parasitT2CONVERT[,1:4],
+                                 parasitT2CONVERT[,6:9],
+                                 parasitT2CONVERT[,11:14],
+                                 parasitT2CONVERT[,16:19],
+                                 parasitT2CONVERT[,21:24]),.Dim=c(5,20))
+
+para_endC1 <- structure(.Data =c(parasit2CONVERT[,2:5],
+                                 parasit2CONVERT[,7:10],
+                                 parasit2CONVERT[,12:15],
+                                 parasit2CONVERT[,17:20],
+                                 parasit2CONVERT[,22:25]),.Dim=c(5,20))
+
+para_endT1 <- structure(.Data =c(parasitT2CONVERT[,2:5],
+                                 parasitT2CONVERT[,7:10],
+                                 parasitT2CONVERT[,12:15],
+                                 parasitT2CONVERT[,17:20],
+                                 parasitT2CONVERT[,22:25]),.Dim=c(5,20))
+N_bite_C=5
+N_round_C=4
+N_bite_T=5
+N_round_T=4
+data2<-list(N_C=20,
+            N_T=20,
+            N_ooc=24,
+            N_mice =5,
+            N_bite=5,
+            N_round=4,
+            para_init_counts_C = structure(.Data=t(para_intC1),.Dim=c(20,5)),
+            para_init_counts_T = structure(.Data=t(para_intT1),.Dim=c(20,5)),
+            ooc_count_C = structure(.Data=t(ooc_count_Ctemp),.Dim=c(20,24)),
+            ooc_count_T = structure(.Data=t(ooc_count_Ttemp),.Dim=c(20,24)),
+            para_end_counts_C = structure(.Data=t(para_endC1),.Dim=c(20,5)),
+            para_end_counts_T = structure(.Data=t(para_endT1),.Dim=c(20,5)),
+            N_bin=5,
+            bin_edge=c(0,1,10,100,1000,1002),
+            sporo_count_C = structure(.Data=spors_C,.Dim=c(20,5)),
+            sporo_count_T = structure(.Data=spors_T,.Dim=c(20,5)),
+            bite_C = c(rep(seq(1:N_bite_C),each=N_round_C)),
+            round_C = c(rep(seq(1:N_round_C),N_bite_C)),
+            bite_T = c(rep(seq(1:N_bite_T),each=N_round_T)),
+            round_T = c(rep(seq(1:N_round_T),N_bite_T))
+)
+
+### e.g 17 bite array of x integers i.e if i put 17 in it gives me a specific
+
+stan_rdump(ls(data2), "ElliedataMousetoMouse_CORRECTED.R", envir=list2env(data2))
+
+fit1 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\Malaria2\\mice.censored_sp.stan", data=data1,
+             iter=1000, chains=2)
+
+
+#

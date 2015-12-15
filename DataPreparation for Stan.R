@@ -1,3 +1,4 @@
+###***************Add the initial parasitemia in different mice
 
 library(nlme)
 library(lme4)
@@ -27,7 +28,7 @@ library(contrast)
 ##1.1 Controls complete sample
 
 ##1.1 Oocysts 
-con<-read.table("C:\\Users\\Ellie\\Documents\\Data Malaria\\ALL DATA RE_ARRANGED_20062015\\controls\\mosquito.txt",header=TRUE)
+con<-read.table("C:\\Users\\Ellie\\Documents\\Data Malaria\\ALL DATA RE_ARRANGED_20062015\\controls\\mosquito_includingdec2015controls.txt",header=TRUE)
 con$OocPrev<-ifelse(con$Oocyst==0,0,1)
 
 ##Minimuum is 45 can change sample number depending on the minimum treatment group
@@ -38,7 +39,7 @@ oocystsC<-c(sample(con$Oocyst[con$Bites == 1 & con$Round == 1],45),sample(con$Oo
             sample(con$Oocyst[con$Bites == 5 & con$Round == 1],45),sample(con$Oocyst[con$Bites == 5 & con$Round == 2],45),
             sample(con$Oocyst[con$Bites == 5 & con$Round == 3],45),sample(con$Oocyst[con$Bites == 5 & con$Round == 4],45),
             sample(con$Oocyst[con$Bites == 10 & con$Round == 1],45),sample(con$Oocyst[con$Bites == 10 & con$Round == 2],45),
-            sample(con$Oocyst[con$Bites == 10 & con$Round == 3],45))
+            sample(con$Oocyst[con$Bites == 10 & con$Round == 3],45),sample(con$Oocyst[con$Bites == 10 & con$Round == 4],45))
 
 length(oocystsC)
 prevoocC<-ifelse(oocystsC==0,0,1)
@@ -59,42 +60,50 @@ meanoocystsC<-c(mean(con$Oocyst[con$Bites == 1 & con$Round == 1]),mean(con$Oocys
 
 
 ##1.1 Sporozoites, parasitemia and Gametocytemia 
-spors2<-read.table("C:\\Users\\Ellie\\Documents\\Data Malaria\\ALL DATA RE_ARRANGED_20062015\\controls\\mouse3AddingCombinations.txt",header=TRUE)##Or do mouse3AddingCombinations
+spors<-read.table("C:\\Users\\Ellie\\Documents\\Data Malaria\\ALL DATA RE_ARRANGED_20062015\\controls\\mouse_includingdec2015controls.txt",header=TRUE)
+spors$Treatment<- ifelse(spors$Treatment == 0, "CONTROL","1")
+spors2<-read.table("C:\\Users\\Ellie\\Documents\\Data Malaria\\ALL DATA RE_ARRANGED_20062015\\controls\\mouse_includingdec2015controls.txt",header=TRUE)##Or do mouse3AddingCombinations
 
 ##MEAN PARASITEMIA IN MICE
-parasitC<-cbind(
-  sample(spors2$Parasitemia[spors2$Bites==1 & spors2$Treatment == "CONTROL" & spors2$Round == 1],5),
-  sample(spors2$Parasitemia[spors2$Bites==1 & spors2$Treatment == "CONTROL" & spors2$Round == 2],5),
-  sample(spors2$Parasitemia[spors2$Bites==1 & spors2$Treatment == "CONTROL" & spors2$Round == 3],5),
-  sample(spors2$Parasitemia[spors2$Bites==1 & spors2$Treatment == "CONTROL" & spors2$Round == 4],5),
-  
-  sample(spors2$Parasitemia[spors2$Bites==2 & spors2$Treatment == "CONTROL" & spors2$Round == 1],5),
-  sample(spors2$Parasitemia[spors2$Bites==2 & spors2$Treatment == "CONTROL" & spors2$Round == 2],5),
-  sample(spors2$Parasitemia[spors2$Bites==2 & spors2$Treatment == "CONTROL" & spors2$Round == 3],5),
-  sample(spors2$Parasitemia[spors2$Bites==2 & spors2$Treatment == "CONTROL" & spors2$Round == 4],5),
-
-  sample(spors2$Parasitemia[spors2$Bites==5 & spors2$Treatment == "CONTROL" & spors2$Round == 1],5),
-  sample(spors2$Parasitemia[spors2$Bites==5 & spors2$Treatment == "CONTROL" & spors2$Round == 2],5),
-  sample(spors2$Parasitemia[spors2$Bites==5 & spors2$Treatment == "CONTROL" & spors2$Round == 3],5),
-  sample(spors2$Parasitemia[spors2$Bites==5 & spors2$Treatment == "CONTROL" & spors2$Round == 4],5),
-  
-  sample(spors2$Parasitemia[spors2$Bites==10 & spors2$Treatment == "CONTROL" & spors2$Round == 1],5),
-  sample(spors2$Parasitemia[spors2$Bites==10 & spors2$Treatment == "CONTROL" & spors2$Round == 2],5),
-  sample(spors2$Parasitemia[spors2$Bites==10 & spors2$Treatment == "CONTROL" & spors2$Round == 3],5))
+parasitC<-cbind(c(19.5,22.4,16.8,17.1,21.8),
+  sample(spors$Parasitemia[spors$Bites==1 & spors$Treatment == "1" & spors$Round == 1],5,replace=FALSE),
+  sample(spors$Parasitemia[spors$Bites==1 & spors$Treatment == "1" & spors$Round == 2],5,replace=FALSE),
+  sample(spors$Parasitemia[spors$Bites==1 & spors$Treatment == "1" & spors$Round == 3],5,replace=FALSE),
+  sample(spors$Parasitemia[spors$Bites==1 & spors$Treatment == "1" & spors$Round == 4],5,replace=FALSE),
+  c(19.5,22.4,16.8,17.1,21.8),
+  sample(spors$Parasitemia[spors$Bites==2 & spors$Treatment == "1" & spors$Round == 1],5,replace=FALSE),
+  sample(spors$Parasitemia[spors$Bites==2 & spors$Treatment == "1" & spors$Round == 2],5,replace=FALSE),
+  sample(spors$Parasitemia[spors$Bites==2 & spors$Treatment == "1" & spors$Round == 3],5,replace=FALSE),
+  sample(spors$Parasitemia[spors$Bites==2 & spors$Treatment == "1" & spors$Round == 4],5,replace=FALSE),
+  c(19.5,22.4,16.8,17.1,21.8),
+  sample(spors$Parasitemia[spors$Bites==5 & spors$Treatment == "1" & spors$Round == 1],5,replace=FALSE),
+  sample(spors$Parasitemia[spors$Bites==5 & spors$Treatment == "1" & spors$Round == 2],5,replace=FALSE),
+  sample(spors$Parasitemia[spors$Bites==5 & spors$Treatment == "1" & spors$Round == 3],5,replace=FALSE),
+  sample(spors$Parasitemia[spors$Bites==5 & spors$Treatment == "1" & spors$Round == 4],5,replace=FALSE),
+  c(19.5,22.4,16.8,17.1,21.8),
+  sample(spors$Parasitemia[spors$Bites==10 & spors$Treatment == "1" & spors$Round == 1],5,replace=FALSE),
+  sample(spors$Parasitemia[spors$Bites==10 & spors$Treatment == "1" & spors$Round == 2],5,replace=FALSE),
+  sample(spors$Parasitemia[spors$Bites==10 & spors$Treatment == "1" & spors$Round == 3],5,replace=FALSE),
+  sample(spors$Parasitemia[spors$Bites==10 & spors$Treatment == "1" & spors$Round == 4],5,replace=FALSE)
+  )
 
 parasitC_REAL<-cbind(
   c(spors2$Parasitemia[spors2$Bites==1 & spors2$Treatment == "CONTROL" & spors2$Round == 1],rep(0,20)),
   c(spors2$Parasitemia[spors2$Bites==1 & spors2$Treatment == "CONTROL" & spors2$Round == 2],rep(0,20)),
   c(spors2$Parasitemia[spors2$Bites==1 & spors2$Treatment == "CONTROL" & spors2$Round == 3],rep(0,20)),
+  c(spors2$Parasitemia[spors2$Bites==1 & spors2$Treatment == "CONTROL" & spors2$Round == 4],rep(0,20)),
   spors2$Parasitemia[spors2$Bites==2 & spors2$Treatment == "CONTROL" & spors2$Round == 1],
   c(spors2$Parasitemia[spors2$Bites==2 & spors2$Treatment == "CONTROL" & spors2$Round == 2],rep(0,20)),
   c(spors2$Parasitemia[spors2$Bites==2 & spors2$Treatment == "CONTROL" & spors2$Round == 3],rep(0,20)),
+  c(spors2$Parasitemia[spors2$Bites==2 & spors2$Treatment == "CONTROL" & spors2$Round == 4],rep(0,20)),
   spors2$Parasitemia[spors2$Bites==5 & spors2$Treatment == "CONTROL" & spors2$Round == 1],
   c(spors2$Parasitemia[spors2$Bites==5 & spors2$Treatment == "CONTROL" & spors2$Round == 2],rep(0,20)),
   c(spors2$Parasitemia[spors2$Bites==5 & spors2$Treatment == "CONTROL" & spors2$Round == 3],rep(0,20)),
+  c(spors2$Parasitemia[spors2$Bites==5 & spors2$Treatment == "CONTROL" & spors2$Round == 4],rep(0,20)),
   c(spors2$Parasitemia[spors2$Bites==10 & spors2$Treatment == "CONTROL" & spors2$Round == 1],rep(0,7)),
   c(spors2$Parasitemia[spors2$Bites==10 & spors2$Treatment == "CONTROL" & spors2$Round == 2],rep(0,25)),
-  c(spors2$Parasitemia[spors2$Bites==10 & spors2$Treatment == "CONTROL" & spors2$Round == 3],rep(0,25)))
+  c(spors2$Parasitemia[spors2$Bites==10 & spors2$Treatment == "CONTROL" & spors2$Round == 3],rep(0,25)),
+  c(spors2$Parasitemia[spors2$Bites==10 & spors2$Treatment == "CONTROL" & spors2$Round == 3],rep(0,20)),)
 
 
 newparaC_REAL<-t(parasitC_REAL)
@@ -342,10 +351,19 @@ spb5r4<-c(length(Sporozoite5d[Sporozoite5d==0]),length(Sporozoite5d[Sporozoite5d
           length(Sporozoite5d[Sporozoite5d==2]),length(Sporozoite5d[Sporozoite5d==3]),
           length(Sporozoite5d[Sporozoite5d==4]))
 
-spors2_C<-rbind(spb1r1,spb1r2,spb1r3,
-               spb2r1,spb2r2,spb2r3,
-               spb5r1,spb5r2,spb5r3,
-               spb10r1,spb10r2,spb10r3)
+Sporozoite10d<-c(spors2$Sporozoite1[spors2$Round==4 & spors2$Bites==10],spors2$Sporozoite2[spors2$Round==4 & spors2$Bites==10],
+                spors2$Sporozoite3[spors2$Round==4 & spors2$Bites==10],spors2$Sporozoite4[spors2$Round==4 & spors2$Bites==10],
+                spors2$Sporozoite5[spors2$Round==4 & spors2$Bites==10],spors2$Sporozoite6[spors2$Round==4 & spors2$Bites==10],
+                spors2$Sporozoite7[spors2$Round==4 & spors2$Bites==10],spors2$Sporozoite8[spors2$Round==4 & spors2$Bites==10],
+                spors2$Sporozoite9[spors2$Round==4 & spors2$Bites==10],spors2$Sporozoite10[spors2$Round==4 & spors2$Bites==10])
+spb10r4<-c(length(Sporozoite10d[Sporozoite10d==0]),length(Sporozoite10d[Sporozoite10d==1]),
+          length(Sporozoite10d[Sporozoite10d==2]),length(Sporozoite10d[Sporozoite10d==3]),
+          length(Sporozoite10d[Sporozoite10d==4]))
+
+spors2_C<-rbind(spb1r1,spb1r2,spb1r3,spb1r4,
+               spb2r1,spb2r2,spb2r3,spb2r4,
+               spb5r1,spb5r2,spb5r3,spb5r4,
+               spb10r1,spb10r2,spb10r3,spb10r4)
 
 MEANsp<-c(
   mean(Sporozoite1a,na.rm=T),mean(Sporozoite1b,na.rm=T),mean(Sporozoite1c,na.rm=T),
@@ -377,13 +395,21 @@ ATV25<-read.table("C:\\Users\\Ellie\\Documents\\Data Malaria\\ALL DATA RE_ARRANG
 ATV25$OocPrev<-ifelse(ATV25$Oocyst==0,0,1)
 
 ##Minimuum is 45 can change sample number depending on the minimum treatment group
-oocysts_ATV25<-c(sample(ATV25$Oocyst[ATV25$Bites == 1 & ATV25$Round == 1],45),sample(ATV25$Oocyst[ATV25$Bites == 1 & ATV25$Round == 2],45),
+oocysts_ATV25<-c(sample(ATV25$Oocyst[ATV25$Bites == 0 & ATV25$Round == 0],45),
+                 sample(ATV25$Oocyst[ATV25$Bites == 1 & ATV25$Round == 1],45),
+                 sample(ATV25$Oocyst[ATV25$Bites == 1 & ATV25$Round == 2],45),
                  sample(ATV25$Oocyst[ATV25$Bites == 1 & ATV25$Round == 3],45),
-                 sample(ATV25$Oocyst[ATV25$Bites == 2 & ATV25$Round == 1],45),sample(ATV25$Oocyst[ATV25$Bites == 2 & ATV25$Round == 2],45),
+                 sample(ATV25$Oocyst[ATV25$Bites == 0 & ATV25$Round == 0],45),
+                 sample(ATV25$Oocyst[ATV25$Bites == 2 & ATV25$Round == 1],45),
+                 sample(ATV25$Oocyst[ATV25$Bites == 2 & ATV25$Round == 2],45),
                  sample(ATV25$Oocyst[ATV25$Bites == 2 & ATV25$Round == 3],45),
-                 sample(ATV25$Oocyst[ATV25$Bites == 5 & ATV25$Round == 1],45),sample(ATV25$Oocyst[ATV25$Bites == 5 & ATV25$Round == 2],45),
+                 sample(ATV25$Oocyst[ATV25$Bites == 0 & ATV25$Round == 0],45),
+                 sample(ATV25$Oocyst[ATV25$Bites == 5 & ATV25$Round == 1],45),
+                 sample(ATV25$Oocyst[ATV25$Bites == 5 & ATV25$Round == 2],45),
                  sample(ATV25$Oocyst[ATV25$Bites == 5 & ATV25$Round == 3],45),
-                 sample(ATV25$Oocyst[ATV25$Bites == 10 & ATV25$Round == 1],45),sample(ATV25$Oocyst[ATV25$Bites == 10 & ATV25$Round == 2],45),
+                 sample(ATV25$Oocyst[ATV25$Bites == 0 & ATV25$Round == 0],45),
+                 sample(ATV25$Oocyst[ATV25$Bites == 10 & ATV25$Round == 1],45),
+                 sample(ATV25$Oocyst[ATV25$Bites == 10 & ATV25$Round == 2],45),
                  sample(ATV25$Oocyst[ATV25$Bites == 10 & ATV25$Round == 3],45))
 
 length(oocysts_ATV25)
@@ -410,21 +436,26 @@ sporsATV25<-read.table("C:\\Users\\Ellie\\Documents\\Data Malaria\\ALL DATA RE_A
 
 ##MEAN PARASITEMIA IN MICE
 parasitATV25<-cbind(
+  sporsATV25$Parasitemia[sporsATV25$Bites==1 & sporsATV25$Round == 0],
   sporsATV25$Parasitemia[sporsATV25$Bites==1 & sporsATV25$Round == 1],
   sporsATV25$Parasitemia[sporsATV25$Bites==1 & sporsATV25$Round == 2],
   sporsATV25$Parasitemia[sporsATV25$Bites==1 & sporsATV25$Round == 3],
-  
+  sporsATV25$Parasitemia[sporsATV25$Bites==1 & sporsATV25$Round == 4],
+  sporsATV25$Parasitemia[sporsATV25$Bites==2 & sporsATV25$Round == 0],
   sporsATV25$Parasitemia[sporsATV25$Bites==2 & sporsATV25$Round == 1],
   sporsATV25$Parasitemia[sporsATV25$Bites==2 & sporsATV25$Round == 2],
   sporsATV25$Parasitemia[sporsATV25$Bites==2 & sporsATV25$Round == 3],
-  
+  sporsATV25$Parasitemia[sporsATV25$Bites==2 & sporsATV25$Round == 4],
+  sporsATV25$Parasitemia[sporsATV25$Bites==5 & sporsATV25$Round == 0],
   sporsATV25$Parasitemia[sporsATV25$Bites==5 & sporsATV25$Round == 1],
   sporsATV25$Parasitemia[sporsATV25$Bites==5 & sporsATV25$Round == 2],
   sporsATV25$Parasitemia[sporsATV25$Bites==5 & sporsATV25$Round == 3],
-  
+  sporsATV25$Parasitemia[sporsATV25$Bites==5 & sporsATV25$Round == 4],
+  sporsATV25$Parasitemia[sporsATV25$Bites==10 & sporsATV25$Round == 0],
   sporsATV25$Parasitemia[sporsATV25$Bites==10 & sporsATV25$Round == 1],
   sporsATV25$Parasitemia[sporsATV25$Bites==10 & sporsATV25$Round == 2],
-  sporsATV25$Parasitemia[sporsATV25$Bites==10 & sporsATV25$Round == 3])
+  sporsATV25$Parasitemia[sporsATV25$Bites==10 & sporsATV25$Round == 3],
+  sporsATV25$Parasitemia[sporsATV25$Bites==10 & sporsATV25$Round == 4])
 newparasitATV25<-t(parasitATV25)
 
 lines(c(mean(sporsATV25$Parasitemia[sporsATV25$Bites==1]),
@@ -562,6 +593,32 @@ PREV_ATV25Mean<-c(
   mean(sporsATV25$prevBS[sporsATV25$Bites==10 & sporsATV25$Round == 3]))
 
 ###Sporozoite intensity
+Sporozoite1z<-sporsATV25$Sporozoite1[sporsATV25$Round==0 & sporsATV25$Bites==1]
+spb1r0<-c(length(Sporozoite1z[Sporozoite1z==0]),length(Sporozoite1z[Sporozoite1z==1]),
+          length(Sporozoite1z[Sporozoite1z==2]),length(Sporozoite1z[Sporozoite1z==3]),
+          length(Sporozoite1z[Sporozoite1z==4]))
+
+Sporozoite2z<-c(sporsATV25$Sporozoite1[sporsATV25$Round==0 & sporsATV25$Bites==2],sporsATV25$Sporozoite2[sporsATV25$Round==0 & sporsATV25$Bites==2])
+spb2r0<-c(length(Sporozoite2z[Sporozoite2z==0]),length(Sporozoite2z[Sporozoite2z==1]),
+          length(Sporozoite2z[Sporozoite2z==2]),length(Sporozoite2z[Sporozoite2z==3]),
+          length(Sporozoite2z[Sporozoite2z==4]))
+
+Sporozoite5z<-c(sporsATV25$Sporozoite1[sporsATV25$Round==0 & sporsATV25$Bites==5],sporsATV25$Sporozoite2[sporsATV25$Round==0 & sporsATV25$Bites==5],
+                sporsATV25$Sporozoite3[sporsATV25$Round==0 & sporsATV25$Bites==5],sporsATV25$Sporozoite4[sporsATV25$Round==0 & sporsATV25$Bites==5],
+                sporsATV25$Sporozoite5[sporsATV25$Round==0 & sporsATV25$Bites==5])
+spb5r0<-c(length(Sporozoite5z[Sporozoite5z==0]),length(Sporozoite5z[Sporozoite5z==1]),
+          length(Sporozoite5z[Sporozoite5z==2]),length(Sporozoite5z[Sporozoite5z==3]),
+          length(Sporozoite5z[Sporozoite5z==4]))
+
+Sporozoite10z<-c(sporsATV25$Sporozoite1[sporsATV25$Round==0 & sporsATV25$Bites==10],sporsATV25$Sporozoite2[sporsATV25$Round==0 & sporsATV25$Bites==10],
+                 sporsATV25$Sporozoite3[sporsATV25$Round==0 & sporsATV25$Bites==10],sporsATV25$Sporozoite4[sporsATV25$Round==0 & sporsATV25$Bites==10],
+                 sporsATV25$Sporozoite5[sporsATV25$Round==0 & sporsATV25$Bites==10],sporsATV25$Sporozoite6[sporsATV25$Round==0 & sporsATV25$Bites==10],
+                 sporsATV25$Sporozoite7[sporsATV25$Round==0 & sporsATV25$Bites==10],sporsATV25$Sporozoite8[sporsATV25$Round==0 & sporsATV25$Bites==10],
+                 sporsATV25$Sporozoite9[sporsATV25$Round==0 & sporsATV25$Bites==10],sporsATV25$Sporozoite10[sporsATV25$Round==0 & sporsATV25$Bites==10])
+spb10r0<-c(length(Sporozoite10z[Sporozoite10z==0]),length(Sporozoite10z[Sporozoite10z==1]),
+           length(Sporozoite10z[Sporozoite10z==2]),length(Sporozoite10z[Sporozoite10z==3]),
+           length(Sporozoite10z[Sporozoite10z==4]))
+##
 Sporozoite1a<-sporsATV25$Sporozoite1[sporsATV25$Round==1 & sporsATV25$Bites==1]
 spb1r1<-c(length(Sporozoite1a[Sporozoite1a==0]),length(Sporozoite1a[Sporozoite1a==1]),
           length(Sporozoite1a[Sporozoite1a==2]),length(Sporozoite1a[Sporozoite1a==3]),
@@ -643,10 +700,11 @@ spb10r3<-c(length(Sporozoite10c[Sporozoite10c==0]),length(Sporozoite10c[Sporozoi
            length(Sporozoite10c[Sporozoite10c==4]))
 
 
-bsporsATV25<-rbind(spb1r1,spb1r2,spb1r3,
-               spb2r1,spb2r2,spb2r3,
-               spb5r1,spb5r2,spb5r3,
-               spb10r1,spb10r2,spb10r3)
+
+bsporsATV25<-rbind(spb1r0,spb1r1,spb1r2,spb1r3,
+                   spb2r0,spb2r1,spb2r2,spb2r3,
+                   spb5r0,spb5r1,spb5r2,spb5r3,
+                   spb10r0,spb10r1,spb10r2,spb10r3)
 
 MEANspATV25<-c(
   mean(Sporozoite1a,na.rm=T),mean(Sporozoite1b,na.rm=T),mean(Sporozoite1c,na.rm=T),
@@ -679,15 +737,23 @@ abline(lm(c(0,mean(sporsATV25$Parasitemia[sporsATV25$Bites==1]),
 ##1.3 Oocysts 
 ATV50<-read.table("C:\\Users\\Ellie\\Documents\\Data Malaria\\ALL DATA RE_ARRANGED_20062015\\ATV-50 Graph\\mosquito.txt",header=TRUE)
 ATV50$OocPrev<-ifelse(ATV50$Oocyst==0,0,1)
-
+head(ATV50)
 ##Minimuum is 45 can change sample number depending on the minimum treatment group
-oocysts_ATV50<-c(sample(ATV50$Oocyst[ATV50$Bites == 1 & ATV50$Round == 1],45),sample(ATV50$Oocyst[ATV50$Bites == 1 & ATV50$Round == 2],45),
+oocysts_ATV50<-c(sample(ATV50$Oocyst[ATV50$Bites == 0 & ATV50$Round == 0],45),
+                 sample(ATV50$Oocyst[ATV50$Bites == 1 & ATV50$Round == 1],45),
+                 sample(ATV50$Oocyst[ATV50$Bites == 1 & ATV50$Round == 2],45),
                  sample(ATV50$Oocyst[ATV50$Bites == 1 & ATV50$Round == 3],45),
-                 sample(ATV50$Oocyst[ATV50$Bites == 2 & ATV50$Round == 1],45),sample(ATV50$Oocyst[ATV50$Bites == 2 & ATV50$Round == 2],45),
+                 sample(ATV50$Oocyst[ATV50$Bites == 0 & ATV50$Round == 0],45),
+                 sample(ATV50$Oocyst[ATV50$Bites == 2 & ATV50$Round == 1],45),
+                 sample(ATV50$Oocyst[ATV50$Bites == 2 & ATV50$Round == 2],45),
                  sample(ATV50$Oocyst[ATV50$Bites == 2 & ATV50$Round == 3],45),
-                 sample(ATV50$Oocyst[ATV50$Bites == 5 & ATV50$Round == 1],45),sample(ATV50$Oocyst[ATV50$Bites == 5 & ATV50$Round == 2],45),
+                 sample(ATV50$Oocyst[ATV50$Bites == 0 & ATV50$Round == 0],45),
+                 sample(ATV50$Oocyst[ATV50$Bites == 5 & ATV50$Round == 1],45),
+                 sample(ATV50$Oocyst[ATV50$Bites == 5 & ATV50$Round == 2],45),
                  sample(ATV50$Oocyst[ATV50$Bites == 5 & ATV50$Round == 3],45),
-                 sample(ATV50$Oocyst[ATV50$Bites == 10 & ATV50$Round == 1],45),sample(ATV50$Oocyst[ATV50$Bites == 10 & ATV50$Round == 2],45),
+                 sample(ATV50$Oocyst[ATV50$Bites == 0 & ATV50$Round == 0],45),
+                 sample(ATV50$Oocyst[ATV50$Bites == 10 & ATV50$Round == 1],45),
+                 sample(ATV50$Oocyst[ATV50$Bites == 10 & ATV50$Round == 2],45),
                  sample(ATV50$Oocyst[ATV50$Bites == 10 & ATV50$Round == 3],45))
 
 length(oocysts_ATV50)
@@ -714,21 +780,26 @@ sporsATV50<-read.table("C:\\Users\\Ellie\\Documents\\Data Malaria\\ALL DATA RE_A
 head(sporsATV50)
 ##MEAN PARASITEMIA IN MICE
 parasitATV50<-cbind(
+  sporsATV50$Parasitemia[sporsATV50$Bites==1 & sporsATV50$Round == 0],
   sporsATV50$Parasitemia[sporsATV50$Bites==1 & sporsATV50$Round == 1],
   sporsATV50$Parasitemia[sporsATV50$Bites==1 & sporsATV50$Round == 2],
   sporsATV50$Parasitemia[sporsATV50$Bites==1 & sporsATV50$Round == 3],
-  
+  sporsATV50$Parasitemia[sporsATV50$Bites==1 & sporsATV50$Round == 4],
+  sporsATV50$Parasitemia[sporsATV50$Bites==2 & sporsATV50$Round == 0],
   sporsATV50$Parasitemia[sporsATV50$Bites==2 & sporsATV50$Round == 1],
   sporsATV50$Parasitemia[sporsATV50$Bites==2 & sporsATV50$Round == 2],
   sporsATV50$Parasitemia[sporsATV50$Bites==2 & sporsATV50$Round == 3],
-  
+  sporsATV50$Parasitemia[sporsATV50$Bites==2 & sporsATV50$Round == 4],
+  sporsATV50$Parasitemia[sporsATV50$Bites==5 & sporsATV50$Round == 0],
   sporsATV50$Parasitemia[sporsATV50$Bites==5 & sporsATV50$Round == 1],
   sporsATV50$Parasitemia[sporsATV50$Bites==5 & sporsATV50$Round == 2],
   sporsATV50$Parasitemia[sporsATV50$Bites==5 & sporsATV50$Round == 3],
-  
+  sporsATV50$Parasitemia[sporsATV50$Bites==5 & sporsATV50$Round == 4],
+  sporsATV50$Parasitemia[sporsATV50$Bites==10 & sporsATV50$Round == 0],
   sporsATV50$Parasitemia[sporsATV50$Bites==10 & sporsATV50$Round == 1],
   sporsATV50$Parasitemia[sporsATV50$Bites==10 & sporsATV50$Round == 2],
-  sporsATV50$Parasitemia[sporsATV50$Bites==10 & sporsATV50$Round == 3])
+  sporsATV50$Parasitemia[sporsATV50$Bites==10 & sporsATV50$Round == 3],
+  sporsATV50$Parasitemia[sporsATV50$Bites==10 & sporsATV50$Round == 4])
 
 newparasitATV50<-t(parasitATV50)
 
@@ -868,6 +939,33 @@ PREV_ATV50mean<-c(
   mean(sporsATV50$prevBS[sporsATV50$Bites==10 & sporsATV50$Round == 3]))
 
 ###Sporozoite intensity
+Sporozoite1Z<-sporsATV50$Sporozoite1[sporsATV50$Round==0 & sporsATV50$Bites==1]
+spb1r0<-c(length(Sporozoite1Z[Sporozoite1Z==0]),length(Sporozoite1Z[Sporozoite1Z==1]),
+          length(Sporozoite1Z[Sporozoite1Z==2]),length(Sporozoite1Z[Sporozoite1Z==3]),
+          length(Sporozoite1Z[Sporozoite1Z==4]))
+
+Sporozoite2Z<-c(sporsATV50$Sporozoite1[sporsATV50$Round==0 & sporsATV50$Bites==2],sporsATV50$Sporozoite2[sporsATV50$Round==0 & sporsATV50$Bites==2])
+spb2r0<-c(length(Sporozoite2Z[Sporozoite2Z==0]),length(Sporozoite2Z[Sporozoite2Z==1]),
+          length(Sporozoite2Z[Sporozoite2Z==2]),length(Sporozoite2Z[Sporozoite2Z==3]),
+          length(Sporozoite2Z[Sporozoite2Z==4]))
+
+Sporozoite5Z<-c(sporsATV50$Sporozoite1[sporsATV50$Round==0 & sporsATV50$Bites==5],sporsATV50$Sporozoite2[sporsATV50$Round==0 & sporsATV50$Bites==5],
+                sporsATV50$Sporozoite3[sporsATV50$Round==0 & sporsATV50$Bites==5],sporsATV50$Sporozoite4[sporsATV50$Round==0 & sporsATV50$Bites==5],
+                sporsATV50$Sporozoite5[sporsATV50$Round==0 & sporsATV50$Bites==5])
+spb5r0<-c(length(Sporozoite5Z[Sporozoite5Z==0]),length(Sporozoite5Z[Sporozoite5Z==1]),
+          length(Sporozoite5Z[Sporozoite5Z==2]),length(Sporozoite5Z[Sporozoite5Z==3]),
+          length(Sporozoite5Z[Sporozoite5Z==4]))
+
+Sporozoite10Z<-c(sporsATV50$Sporozoite1[sporsATV50$Round==0 & sporsATV50$Bites==10],sporsATV50$Sporozoite2[sporsATV50$Round==0 & sporsATV50$Bites==10],
+                 sporsATV50$Sporozoite3[sporsATV50$Round==0 & sporsATV50$Bites==10],sporsATV50$Sporozoite4[sporsATV50$Round==0 & sporsATV50$Bites==10],
+                 sporsATV50$Sporozoite5[sporsATV50$Round==0 & sporsATV50$Bites==10],sporsATV50$Sporozoite6[sporsATV50$Round==0 & sporsATV50$Bites==10],
+                 sporsATV50$Sporozoite7[sporsATV50$Round==0 & sporsATV50$Bites==10],sporsATV50$Sporozoite8[sporsATV50$Round==0 & sporsATV50$Bites==10],
+                 sporsATV50$Sporozoite9[sporsATV50$Round==0 & sporsATV50$Bites==10],sporsATV50$Sporozoite10[sporsATV50$Round==0 & sporsATV50$Bites==10])
+spb10r0<-c(length(Sporozoite10Z[Sporozoite10Z==0]),length(Sporozoite10Z[Sporozoite10Z==1]),
+           length(Sporozoite10Z[Sporozoite10Z==2]),length(Sporozoite10Z[Sporozoite10Z==3]),
+           length(Sporozoite10Z[Sporozoite10Z==4]))
+
+##
 Sporozoite1a<-sporsATV50$Sporozoite1[sporsATV50$Round==1 & sporsATV50$Bites==1]
 spb1r1<-c(length(Sporozoite1a[Sporozoite1a==0]),length(Sporozoite1a[Sporozoite1a==1]),
           length(Sporozoite1a[Sporozoite1a==2]),length(Sporozoite1a[Sporozoite1a==3]),
@@ -949,10 +1047,10 @@ spb10r3<-c(length(Sporozoite10c[Sporozoite10c==0]),length(Sporozoite10c[Sporozoi
            length(Sporozoite10c[Sporozoite10c==4]))
 
 
-bsporsATV50<-rbind(spb1r1,spb1r2,spb1r3,
-                  spb2r1,spb2r2,spb2r3,
-                  spb5r1,spb5r2,spb5r3,
-                  spb10r1,spb10r2,spb10r3)
+bsporsATV50<-rbind(spb1r0,spb1r1,spb1r2,spb1r3,
+                   spb2r0,spb2r1,spb2r2,spb2r3,
+                   spb5r0,spb5r1,spb5r2,spb5r3,
+                   spb10r0,spb10r1,spb10r2,spb10r3)
 
 MEANspATV50<-c(
   mean(Sporozoite1a,na.rm=T),mean(Sporozoite1b,na.rm=T),mean(Sporozoite1c,na.rm=T),
@@ -983,12 +1081,12 @@ abline(lm(c(0,mean(sporsATV50$Parasitemia[sporsATV50$Bites==1]),
 ##1.4 Oocysts 
 ATV85<-read.table("C:\\Users\\Ellie\\Documents\\Data Malaria\\ALL DATA RE_ARRANGED_20062015\\ATV-85\\mosquito.txt",header=TRUE)
 ATV85$OocPrev<-ifelse(ATV85$Oocyst==0,0,1)
-
+head(ATV85)
 ##Minimuum is 45 can change sample number depending on the minimum treatment group
-oocysts_ATV85<-c(sample(ATV85$Oocyst[ATV85$Bites == 1 & ATV85$Round == 1],45),
-                 sample(ATV85$Oocyst[ATV85$Bites == 2 & ATV85$Round == 1],45),
-                 sample(ATV85$Oocyst[ATV85$Bites == 5 & ATV85$Round == 1],45),
-                 sample(ATV85$Oocyst[ATV85$Bites == 10 & ATV85$Round == 1],45))
+oocysts_ATV85<-c(sample(ATV85$Oocyst[ATV85$Bites == 0 & ATV85$Round == 0],45),sample(ATV85$Oocyst[ATV85$Bites == 1 & ATV85$Round == 1],45),rep(0,45*2),
+                 sample(ATV85$Oocyst[ATV85$Bites == 0 & ATV85$Round == 0],45),sample(ATV85$Oocyst[ATV85$Bites == 2 & ATV85$Round == 1],45),rep(0,45*2),
+                 sample(ATV85$Oocyst[ATV85$Bites == 0 & ATV85$Round == 0],45),sample(ATV85$Oocyst[ATV85$Bites == 5 & ATV85$Round == 1],45),rep(0,45*2),
+                 sample(ATV85$Oocyst[ATV85$Bites == 0 & ATV85$Round == 0],45),sample(ATV85$Oocyst[ATV85$Bites == 10 & ATV85$Round == 1],45),rep(0,45*2))
 
 length(oocysts_ATV85)
 prevooc<-ifelse(oocysts_ATV85==0,0,1)
@@ -1011,10 +1109,14 @@ summary(sporsATV85)
 
 ##MEAN PARASITEMIA IN MICE
 parasitATV85<-cbind(
-    sporsATV85$Parasitemia[sporsATV85$Bites==1 & sporsATV85$Round == 1],
-    sporsATV85$Parasitemia[sporsATV85$Bites==2 & sporsATV85$Round == 1],
-    sporsATV85$Parasitemia[sporsATV85$Bites==5 & sporsATV85$Round == 1],
-    sporsATV85$Parasitemia[sporsATV85$Bites==10 & sporsATV85$Round == 1])
+  sporsATV85$Parasitemia[sporsATV85$Bites==1 & sporsATV85$Round == 0],
+  sporsATV85$Parasitemia[sporsATV85$Bites==1 & sporsATV85$Round == 1],rep(0,5),rep(0,5),rep(0,5),
+    sporsATV85$Parasitemia[sporsATV85$Bites==2 & sporsATV85$Round == 0],
+  sporsATV85$Parasitemia[sporsATV85$Bites==2 & sporsATV85$Round == 1],rep(0,5),rep(0,5),rep(0,5),
+    sporsATV85$Parasitemia[sporsATV85$Bites==5 & sporsATV85$Round == 0],
+  sporsATV85$Parasitemia[sporsATV85$Bites==5 & sporsATV85$Round == 1],rep(0,5),rep(0,5),rep(0,5),
+    sporsATV85$Parasitemia[sporsATV85$Bites==10 & sporsATV85$Round == 0],
+  sporsATV85$Parasitemia[sporsATV85$Bites==10 & sporsATV85$Round == 1],rep(0,5),rep(0,5),rep(0,5))
 
 newparasitATV85<-t(parasitATV85)
 
@@ -1059,6 +1161,32 @@ PREV_ATV85<-cbind(
   sample(sporsATV85$prevBS[sporsATV85$Bites==10 & sporsATV85$Round == 1],5))
 
 ###Sporozoite intensity
+Sporozoite1z<-sporsATV85$Sporozoite1[sporsATV85$Round==0 & sporsATV85$Bites==1]
+spb1r0<-c(length(Sporozoite1z[Sporozoite1z==0]),length(Sporozoite1z[Sporozoite1z==1]),
+          length(Sporozoite1z[Sporozoite1z==2]),length(Sporozoite1z[Sporozoite1z==3]),
+          length(Sporozoite1z[Sporozoite1z==4]))
+
+Sporozoite2z<-c(sporsATV85$Sporozoite1[sporsATV85$Round==0 & sporsATV85$Bites==2],sporsATV85$Sporozoite2[sporsATV85$Round==0 & sporsATV85$Bites==2])
+spb2r0<-c(length(Sporozoite2z[Sporozoite2z==0]),length(Sporozoite2z[Sporozoite2z==1]),
+          length(Sporozoite2z[Sporozoite2z==2]),length(Sporozoite2z[Sporozoite2z==3]),
+          length(Sporozoite2z[Sporozoite2z==4]))
+
+Sporozoite5z<-c(sporsATV85$Sporozoite1[sporsATV85$Round==0 & sporsATV85$Bites==5],sporsATV85$Sporozoite2[sporsATV85$Round==0 & sporsATV85$Bites==5],
+                sporsATV85$Sporozoite3[sporsATV85$Round==0 & sporsATV85$Bites==5],sporsATV85$Sporozoite4[sporsATV85$Round==0 & sporsATV85$Bites==5],
+                sporsATV85$Sporozoite5[sporsATV85$Round==0 & sporsATV85$Bites==5])
+spb5r0<-c(length(Sporozoite5z[Sporozoite5z==0]),length(Sporozoite5z[Sporozoite5z==1]),
+          length(Sporozoite5z[Sporozoite5z==2]),length(Sporozoite5z[Sporozoite5z==3]),
+          length(Sporozoite5z[Sporozoite5z==4]))
+
+Sporozoite10z<-c(sporsATV85$Sporozoite1[sporsATV85$Round==0 & sporsATV85$Bites==10],sporsATV85$Sporozoite2[sporsATV85$Round==0 & sporsATV85$Bites==10],
+                 sporsATV85$Sporozoite3[sporsATV85$Round==0 & sporsATV85$Bites==10],sporsATV85$Sporozoite4[sporsATV85$Round==0 & sporsATV85$Bites==10],
+                 sporsATV85$Sporozoite5[sporsATV85$Round==0 & sporsATV85$Bites==10],sporsATV85$Sporozoite6[sporsATV85$Round==0 & sporsATV85$Bites==10],
+                 sporsATV85$Sporozoite7[sporsATV85$Round==0 & sporsATV85$Bites==10],sporsATV85$Sporozoite8[sporsATV85$Round==0 & sporsATV85$Bites==10],
+                 sporsATV85$Sporozoite9[sporsATV85$Round==0 & sporsATV85$Bites==10],sporsATV85$Sporozoite10[sporsATV85$Round==0 & sporsATV85$Bites==10])
+spb10r0<-c(length(Sporozoite10z[Sporozoite10z==0]),length(Sporozoite10z[Sporozoite10z==1]),
+           length(Sporozoite10z[Sporozoite10z==2]),length(Sporozoite10z[Sporozoite10z==3]),
+           length(Sporozoite10z[Sporozoite10z==4]))
+##
 Sporozoite1a<-sporsATV85$Sporozoite1[sporsATV85$Round==1 & sporsATV85$Bites==1]
 spb1r1<-c(length(Sporozoite1a[Sporozoite1a==0]),length(Sporozoite1a[Sporozoite1a==1]),
           length(Sporozoite1a[Sporozoite1a==2]),length(Sporozoite1a[Sporozoite1a==3]),
@@ -1086,7 +1214,10 @@ spb10r1<-c(length(Sporozoite10a[Sporozoite10a==0]),length(Sporozoite10a[Sporozoi
            length(Sporozoite10a[Sporozoite10a==4]))
 
 
-sporsATV85<-rbind(spb1r1,spb2r1,spb5r1,spb10r1)
+sporsATV85<-rbind(spb1r0,spb1r1,rep(0,5),rep(0,5),
+                  spb2r0,spb2r1,rep(0,5),rep(0,5),
+                  spb5r0,spb5r1,rep(0,5),rep(0,5),
+                  spb10r0,spb10r1,rep(0,5),rep(0,5))
 
 MEANspATV85<-c(mean(Sporozoite1a,na.rm=T),mean(Sporozoite2a,na.rm=T),
                mean(Sporozoite5a,na.rm=T),mean(Sporozoite10a,na.rm=T))
@@ -1097,12 +1228,12 @@ MEANspATV85<-c(mean(Sporozoite1a,na.rm=T),mean(Sporozoite2a,na.rm=T),
 ##1.5 Oocysts 
 t4B785<-read.table("C:\\Users\\Ellie\\Documents\\Data Malaria\\ALL DATA RE_ARRANGED_20062015\\4B7-85\\mosquito.txt",header=TRUE)
 t4B785$OocPrev<-ifelse(t4B785$Oocyst==0,0,1)
-
+head(t4B785)
 ##Minimuum is 45 can change sample number depending on the minimum treatment group
-oocysts_t4B785<-c(sample(t4B785$Oocyst[t4B785$Bites == 1 & t4B785$Round == 1],45),
-                 sample(t4B785$Oocyst[t4B785$Bites == 2 & t4B785$Round == 1],45),
-                 sample(t4B785$Oocyst[t4B785$Bites == 5 & t4B785$Round == 1],45),
-                 sample(t4B785$Oocyst[t4B785$Bites == 10 & t4B785$Round == 1],45))
+oocysts_t4B785<-c(sample(t4B785$Oocyst[t4B785$Bites == 0 & t4B785$Round == 0],45),sample(t4B785$Oocyst[t4B785$Bites == 1 & t4B785$Round == 1],45),rep(0,45*2),
+                  sample(t4B785$Oocyst[t4B785$Bites == 0 & t4B785$Round == 0],45),sample(t4B785$Oocyst[t4B785$Bites == 2 & t4B785$Round == 1],45),rep(0,45*2),
+                  sample(t4B785$Oocyst[t4B785$Bites == 0 & t4B785$Round == 0],45),sample(t4B785$Oocyst[t4B785$Bites == 5 & t4B785$Round == 1],45),rep(0,45*2),
+                  sample(t4B785$Oocyst[t4B785$Bites == 0 & t4B785$Round == 0],45),sample(t4B785$Oocyst[t4B785$Bites == 10 & t4B785$Round == 1],45),rep(0,45*2))
 
 length(oocysts_t4B785)
 prevooc<-ifelse(oocysts_t4B785==0,0,1)
@@ -1125,10 +1256,14 @@ summary(sporst4B785)
 
 ##MEAN PARASITEMIA IN MICE
 parasitt4B785<-cbind(
-  sporst4B785$Parasitemia[sporst4B785$Bites==1 & sporst4B785$Round == 1],
-  sporst4B785$Parasitemia[sporst4B785$Bites==2 & sporst4B785$Round == 1],
-  sporst4B785$Parasitemia[sporst4B785$Bites==5 & sporst4B785$Round == 1],
-  sporst4B785$Parasitemia[sporst4B785$Bites==10 & sporst4B785$Round == 1])
+  sporst4B785$Parasitemia[sporst4B785$Bites==1 & sporst4B785$Round == 0],
+  sporst4B785$Parasitemia[sporst4B785$Bites==1 & sporst4B785$Round == 1],rep(0,5),rep(0,5),rep(0,5),
+  sporst4B785$Parasitemia[sporst4B785$Bites==2 & sporst4B785$Round == 0],
+  sporst4B785$Parasitemia[sporst4B785$Bites==2 & sporst4B785$Round == 1],rep(0,5),rep(0,5),rep(0,5),
+  sporst4B785$Parasitemia[sporst4B785$Bites==5 & sporst4B785$Round == 0],
+  sporst4B785$Parasitemia[sporst4B785$Bites==5 & sporst4B785$Round == 1],rep(0,5),rep(0,5),rep(0,5),
+  sporst4B785$Parasitemia[sporst4B785$Bites==10 & sporst4B785$Round == 0],
+  sporst4B785$Parasitemia[sporst4B785$Bites==10 & sporst4B785$Round == 1],rep(0,5),rep(0,5),rep(0,5))
 
 newparasitt4B785<-t(parasitt4B785)
 
@@ -1173,6 +1308,32 @@ PREV_t4B785<-cbind(
   sample(sporst4B785$prevBS[sporst4B785$Bites==10 & sporst4B785$Round == 1],5))
 
 ###Sporozoite intensity
+Sporozoite1z<-sporst4B785$Sporozoite1[sporst4B785$Round==0 & sporst4B785$Bites==1]
+spb1r0<-c(length(Sporozoite1z[Sporozoite1z==0]),length(Sporozoite1z[Sporozoite1z==1]),
+          length(Sporozoite1z[Sporozoite1z==2]),length(Sporozoite1z[Sporozoite1z==3]),
+          length(Sporozoite1z[Sporozoite1z==4]))
+
+Sporozoite2z<-c(sporst4B785$Sporozoite1[sporst4B785$Round==0 & sporst4B785$Bites==2],sporst4B785$Sporozoite2[sporst4B785$Round==0 & sporst4B785$Bites==2])
+spb2r0<-c(length(Sporozoite2z[Sporozoite2z==0]),length(Sporozoite2z[Sporozoite2z==1]),
+          length(Sporozoite2z[Sporozoite2z==2]),length(Sporozoite2z[Sporozoite2z==3]),
+          length(Sporozoite2z[Sporozoite2z==4]))
+
+Sporozoite5z<-c(sporst4B785$Sporozoite1[sporst4B785$Round==0 & sporst4B785$Bites==5],sporst4B785$Sporozoite2[sporst4B785$Round==0 & sporst4B785$Bites==5],
+                sporst4B785$Sporozoite3[sporst4B785$Round==0 & sporst4B785$Bites==5],sporst4B785$Sporozoite4[sporst4B785$Round==0 & sporst4B785$Bites==5],
+                sporst4B785$Sporozoite5[sporst4B785$Round==0 & sporst4B785$Bites==5])
+spb5r0<-c(length(Sporozoite5z[Sporozoite5z==0]),length(Sporozoite5z[Sporozoite5z==1]),
+          length(Sporozoite5z[Sporozoite5z==2]),length(Sporozoite5z[Sporozoite5z==3]),
+          length(Sporozoite5z[Sporozoite5z==4]))
+
+Sporozoite10z<-c(sporst4B785$Sporozoite1[sporst4B785$Round==0 & sporst4B785$Bites==10],sporst4B785$Sporozoite2[sporst4B785$Round==0 & sporst4B785$Bites==10],
+                 sporst4B785$Sporozoite3[sporst4B785$Round==0 & sporst4B785$Bites==10],sporst4B785$Sporozoite4[sporst4B785$Round==0 & sporst4B785$Bites==10],
+                 sporst4B785$Sporozoite5[sporst4B785$Round==0 & sporst4B785$Bites==10],sporst4B785$Sporozoite6[sporst4B785$Round==0 & sporst4B785$Bites==10],
+                 sporst4B785$Sporozoite7[sporst4B785$Round==0 & sporst4B785$Bites==10],sporst4B785$Sporozoite8[sporst4B785$Round==0 & sporst4B785$Bites==10],
+                 sporst4B785$Sporozoite9[sporst4B785$Round==0 & sporst4B785$Bites==10],sporst4B785$Sporozoite10[sporst4B785$Round==0 & sporst4B785$Bites==10])
+spb10r0<-c(length(Sporozoite10z[Sporozoite10z==0]),length(Sporozoite10z[Sporozoite10z==1]),
+           length(Sporozoite10z[Sporozoite10z==2]),length(Sporozoite10z[Sporozoite10z==3]),
+           length(Sporozoite10z[Sporozoite10z==4]))
+##
 Sporozoite1a<-sporst4B785$Sporozoite1[sporst4B785$Round==1 & sporst4B785$Bites==1]
 spb1r1<-c(length(Sporozoite1a[Sporozoite1a==0]),length(Sporozoite1a[Sporozoite1a==1]),
           length(Sporozoite1a[Sporozoite1a==2]),length(Sporozoite1a[Sporozoite1a==3]),
@@ -1200,7 +1361,10 @@ spb10r1<-c(length(Sporozoite10a[Sporozoite10a==0]),length(Sporozoite10a[Sporozoi
            length(Sporozoite10a[Sporozoite10a==4]))
 
 
-sporst4B785<-rbind(spb1r1,spb2r1,spb5r1,spb10r1)
+spors2t4B785<-rbind(spb1r0,spb1r1,rep(0,5),rep(0,5),
+                   spb2r0,spb2r1,rep(0,5),rep(0,5),
+                   spb5r0,spb5r1,rep(0,5),rep(0,5),
+                   spb10r0,spb10r1,rep(0,5),rep(0,5))
 
 MEANspt4B785<-c(mean(Sporozoite1a,na.rm=T),mean(Sporozoite2a,na.rm=T),
                mean(Sporozoite5a,na.rm=T),mean(Sporozoite10a,na.rm=T))
@@ -1213,15 +1377,15 @@ MEANspt4B785<-c(mean(Sporozoite1a,na.rm=T),mean(Sporozoite2a,na.rm=T),
 ##1.6 Oocysts 
 t3d11andATV85<-read.table("C:\\Users\\Ellie\\Documents\\Data Malaria\\ALL DATA RE_ARRANGED_20062015\\3d11 35ATV-85\\mosquito.txt",header=TRUE)
 t3d11andATV85$OocPrev<-ifelse(t3d11andATV85$Oocyst==0,0,1)
-
-
+head(t3d11andATV85)
+t3d11andATV85$Oocyst[t3d11andATV85$Bites == 0 & t3d11andATV85$Round == 0]
 
 ##Minimuum is 45 can change sample number depending on the minimum treatment group
 oocysts_t3d11andATV85<-c(
-  sample(t3d11andATV85$Oocyst[t3d11andATV85$Bites == 1 & t3d11andATV85$Round == 1],45),
-  sample(t3d11andATV85$Oocyst[t3d11andATV85$Bites == 2 & t3d11andATV85$Round == 1],45),
-  sample(t3d11andATV85$Oocyst[t3d11andATV85$Bites == 5 & t3d11andATV85$Round == 1],45),
-  sample(t3d11andATV85$Oocyst[t3d11andATV85$Bites == 10 & t3d11andATV85$Round == 1],45))
+  sample(t3d11andATV85$Oocyst[t3d11andATV85$Bites == 0 & t3d11andATV85$Round == 0],45),sample(t3d11andATV85$Oocyst[t3d11andATV85$Bites == 1 & t3d11andATV85$Round == 1],45),rep(0,45*2),
+  sample(t3d11andATV85$Oocyst[t3d11andATV85$Bites == 0 & t3d11andATV85$Round == 0],45),sample(t3d11andATV85$Oocyst[t3d11andATV85$Bites == 2 & t3d11andATV85$Round == 1],45),rep(0,45*2),
+  sample(t3d11andATV85$Oocyst[t3d11andATV85$Bites == 0 & t3d11andATV85$Round == 0],45),sample(t3d11andATV85$Oocyst[t3d11andATV85$Bites == 5 & t3d11andATV85$Round == 1],45),rep(0,45*2),
+  sample(t3d11andATV85$Oocyst[t3d11andATV85$Bites == 0 & t3d11andATV85$Round == 0],45),sample(t3d11andATV85$Oocyst[t3d11andATV85$Bites == 10 & t3d11andATV85$Round == 1],45),rep(0,45*2))
 
 length(oocysts_t3d11andATV85)
 prevooc<-ifelse(oocysts_t3d11andATV85==0,0,1)
@@ -1243,10 +1407,14 @@ sporst3d11andATV85<-read.table("C:\\Users\\Ellie\\Documents\\Data Malaria\\ALL D
 
 ##MEAN PARASITEMIA IN MICE
 parasitt3d11andATV85<-cbind(
-  sporst3d11andATV85$Parasitemia[sporst3d11andATV85$Bites==1 & sporst3d11andATV85$Round == 1],
-  sporst3d11andATV85$Parasitemia[sporst3d11andATV85$Bites==2 & sporst3d11andATV85$Round == 1],
-  sporst3d11andATV85$Parasitemia[sporst3d11andATV85$Bites==5 & sporst3d11andATV85$Round == 1],
-  sporst3d11andATV85$Parasitemia[sporst3d11andATV85$Bites==10 & sporst3d11andATV85$Round == 1])
+  sporst3d11andATV85$Parasitemia[sporst3d11andATV85$Bites==1 & sporst3d11andATV85$Round == 0],
+  sporst3d11andATV85$Parasitemia[sporst3d11andATV85$Bites==1 & sporst3d11andATV85$Round == 1],rep(0,5),rep(0,5),rep(0,5),
+  sporst3d11andATV85$Parasitemia[sporst3d11andATV85$Bites==2 & sporst3d11andATV85$Round == 0],
+  sporst3d11andATV85$Parasitemia[sporst3d11andATV85$Bites==2 & sporst3d11andATV85$Round == 1],rep(0,5),rep(0,5),rep(0,5),
+  sporst3d11andATV85$Parasitemia[sporst3d11andATV85$Bites==5 & sporst3d11andATV85$Round == 0],
+  sporst3d11andATV85$Parasitemia[sporst3d11andATV85$Bites==5 & sporst3d11andATV85$Round == 1],rep(0,5),rep(0,5),rep(0,5),
+  sporst3d11andATV85$Parasitemia[sporst3d11andATV85$Bites==10 & sporst3d11andATV85$Round == 0],
+  sporst3d11andATV85$Parasitemia[sporst3d11andATV85$Bites==10 & sporst3d11andATV85$Round == 1],rep(0,5),rep(0,5),rep(0,5))
 
 newparasitt3d11andATV85<-t(parasitt3d11andATV85)
 
@@ -1317,7 +1485,10 @@ spb10r1<-c(length(Sporozoite10a[Sporozoite10a==0]),length(Sporozoite10a[Sporozoi
            length(Sporozoite10a[Sporozoite10a==2]),length(Sporozoite10a[Sporozoite10a==3]),
            length(Sporozoite10a[Sporozoite10a==4]))
 
-sporst3d11andATV85<-rbind(spb1r1,spb2r1,spb5r1,spb10r1)
+sporst3d11andATV85<-rbind(spb1r1,rep(0,5),rep(0,5),rep(0,5),
+                          spb2r1,rep(0,5),rep(0,5),rep(0,5),
+                          spb5r1,rep(0,5),rep(0,5),rep(0,5),
+                          spb10r1,rep(0,5),rep(0,5),rep(0,5))
 
 MEANspt3d11andATV85<-c(
   mean(Sporozoite1a,na.rm=T),
@@ -1338,7 +1509,7 @@ oocystsT3d11<-c(sample(T3d11$Oocyst[T3d11$Bites == 1 & T3d11$Round == 1],45),sam
             sample(T3d11$Oocyst[T3d11$Bites == 5 & T3d11$Round == 1],45),sample(T3d11$Oocyst[T3d11$Bites == 5 & T3d11$Round == 2],45),
             sample(T3d11$Oocyst[T3d11$Bites == 5 & T3d11$Round == 3],45),sample(T3d11$Oocyst[T3d11$Bites == 5 & T3d11$Round == 4],45),
             sample(T3d11$Oocyst[T3d11$Bites == 10 & T3d11$Round == 1],45),sample(T3d11$Oocyst[T3d11$Bites == 10 & T3d11$Round == 2],45),
-            sample(T3d11$Oocyst[T3d11$Bites == 10 & T3d11$Round == 3],45))
+            sample(T3d11$Oocyst[T3d11$Bites == 10 & T3d11$Round == 3],45),sample(T3d11$Oocyst[T3d11$Bites == 10 & T3d11$Round == 4],45))
 
 length(oocystsT3d11)
 prevooc<-ifelse(oocystsT3d11==0,0,1)
@@ -1364,18 +1535,26 @@ T3d11<-read.table("C:\\Users\\Ellie\\Documents\\Data Malaria\\ALL DATA RE_ARRANG
 
 ##MEAN PARASITEMIA IN MICE
 parasitT3d11<-cbind(
+  T3d11$Parasitemia[T3d11$Bites==1 & T3d11$Round == 0],
   T3d11$Parasitemia[T3d11$Bites==1 & T3d11$Round == 1],
   T3d11$Parasitemia[T3d11$Bites==1 & T3d11$Round == 2],
   T3d11$Parasitemia[T3d11$Bites==1 & T3d11$Round == 3],
+  T3d11$Parasitemia[T3d11$Bites==1 & T3d11$Round == 4],
+  T3d11$Parasitemia[T3d11$Bites==2 & T3d11$Round == 0],
   T3d11$Parasitemia[T3d11$Bites==2 & T3d11$Round == 1],
   T3d11$Parasitemia[T3d11$Bites==2 & T3d11$Round == 2],
   T3d11$Parasitemia[T3d11$Bites==2 & T3d11$Round == 3],
+  T3d11$Parasitemia[T3d11$Bites==2 & T3d11$Round == 4],
+  T3d11$Parasitemia[T3d11$Bites==5 & T3d11$Round == 0],
   T3d11$Parasitemia[T3d11$Bites==5 & T3d11$Round == 1],
   T3d11$Parasitemia[T3d11$Bites==5 & T3d11$Round == 2],
   T3d11$Parasitemia[T3d11$Bites==5 & T3d11$Round == 3],
+  T3d11$Parasitemia[T3d11$Bites==5 & T3d11$Round == 4],
+  T3d11$Parasitemia[T3d11$Bites==10 & T3d11$Round == 0],
   T3d11$Parasitemia[T3d11$Bites==10 & T3d11$Round == 1],
   T3d11$Parasitemia[T3d11$Bites==10 & T3d11$Round == 2],
-  T3d11$Parasitemia[T3d11$Bites==10 & T3d11$Round == 3])
+  T3d11$Parasitemia[T3d11$Bites==10 & T3d11$Round == 3],
+  T3d11$Parasitemia[T3d11$Bites==10 & T3d11$Round == 4])
 newparasitT3d11<-t(parasitT3d11)
 
 points(c(0,mean(T3d11$Parasitemia[T3d11$Bites==1]),
@@ -1526,6 +1705,32 @@ PREV_T3d11mean<-c(
   mean(T3d11$prevBS[T3d11$Bites==10 & T3d11$Round == 3]))
 
 ###Sporozoite intensity
+Sporozoite1z<-T3d11$Sporozoite1[T3d11$Round==0 & T3d11$Bites==1]
+spb1r0<-c(length(Sporozoite1z[Sporozoite1z==0]),length(Sporozoite1z[Sporozoite1z==1]),
+          length(Sporozoite1z[Sporozoite1z==2]),length(Sporozoite1z[Sporozoite1z==3]),
+          length(Sporozoite1z[Sporozoite1z==4]))
+
+Sporozoite2z<-c(T3d11$Sporozoite1[T3d11$Round==0 & T3d11$Bites==2],T3d11$Sporozoite2[T3d11$Round==0 & T3d11$Bites==2])
+spb2r0<-c(length(Sporozoite2z[Sporozoite2z==0]),length(Sporozoite2z[Sporozoite2z==1]),
+          length(Sporozoite2z[Sporozoite2z==2]),length(Sporozoite2z[Sporozoite2z==3]),
+          length(Sporozoite2z[Sporozoite2z==4]))
+
+Sporozoite5z<-c(T3d11$Sporozoite1[T3d11$Round==0 & T3d11$Bites==5],T3d11$Sporozoite2[T3d11$Round==0 & T3d11$Bites==5],
+                T3d11$Sporozoite3[T3d11$Round==0 & T3d11$Bites==5],T3d11$Sporozoite4[T3d11$Round==0 & T3d11$Bites==5],
+                T3d11$Sporozoite5[T3d11$Round==0 & T3d11$Bites==5])
+spb5r0<-c(length(Sporozoite5z[Sporozoite5z==0]),length(Sporozoite5z[Sporozoite5z==1]),
+          length(Sporozoite5z[Sporozoite5z==2]),length(Sporozoite5z[Sporozoite5z==3]),
+          length(Sporozoite5z[Sporozoite5z==4]))
+
+Sporozoite10z<-c(T3d11$Sporozoite1[T3d11$Round==0 & T3d11$Bites==10],T3d11$Sporozoite2[T3d11$Round==0 & T3d11$Bites==10],
+                 T3d11$Sporozoite3[T3d11$Round==0 & T3d11$Bites==10],T3d11$Sporozoite4[T3d11$Round==0 & T3d11$Bites==10],
+                 T3d11$Sporozoite5[T3d11$Round==0 & T3d11$Bites==10],T3d11$Sporozoite6[T3d11$Round==0 & T3d11$Bites==10],
+                 T3d11$Sporozoite7[T3d11$Round==0 & T3d11$Bites==10],T3d11$Sporozoite8[T3d11$Round==0 & T3d11$Bites==10],
+                 T3d11$Sporozoite9[T3d11$Round==0 & T3d11$Bites==10],T3d11$Sporozoite10[T3d11$Round==0 & T3d11$Bites==10])
+spb10r0<-c(length(Sporozoite10z[Sporozoite10z==0]),length(Sporozoite10z[Sporozoite10z==1]),
+           length(Sporozoite10z[Sporozoite10z==2]),length(Sporozoite10z[Sporozoite10z==3]),
+           length(Sporozoite10z[Sporozoite10z==4]))
+##
 Sporozoite1a<-T3d11$Sporozoite1[T3d11$Round==1 & T3d11$Bites==1]
 spb1r1<-c(length(Sporozoite1a[Sporozoite1a==0]),length(Sporozoite1a[Sporozoite1a==1]),
           length(Sporozoite1a[Sporozoite1a==2]),length(Sporozoite1a[Sporozoite1a==3]),
@@ -1624,10 +1829,19 @@ spb5r4<-c(length(Sporozoite5d[Sporozoite5d==0]),length(Sporozoite5d[Sporozoite5d
           length(Sporozoite5d[Sporozoite5d==2]),length(Sporozoite5d[Sporozoite5d==3]),
           length(Sporozoite5d[Sporozoite5d==4]))
 
-T3d11_C<-rbind(spb1r1,spb1r2,spb1r3,spb1r4,
-               spb2r1,spb2r2,spb2r3,spb2r4,
-               spb5r1,spb5r2,spb5r3,spb5r4,
-               spb10r1,spb10r2,spb10r3)
+Sporozoite10d<-c(T3d11$Sporozoite1[T3d11$Round==4 & T3d11$Bites==10],T3d11$Sporozoite2[T3d11$Round==4 & T3d11$Bites==10],
+                T3d11$Sporozoite3[T3d11$Round==4 & T3d11$Bites==10],T3d11$Sporozoite4[T3d11$Round==4 & T3d11$Bites==10],
+                T3d11$Sporozoite5[T3d11$Round==4 & T3d11$Bites==10],T3d11$Sporozoite6[T3d11$Round==4 & T3d11$Bites==10],
+                T3d11$Sporozoite7[T3d11$Round==4 & T3d11$Bites==10],T3d11$Sporozoite8[T3d11$Round==4 & T3d11$Bites==10],
+                T3d11$Sporozoite9[T3d11$Round==4 & T3d11$Bites==10],T3d11$Sporozoite10[T3d11$Round==4 & T3d11$Bites==10])
+spb10r4<-c(length(Sporozoite10d[Sporozoite10d==0]),length(Sporozoite10d[Sporozoite10d==1]),
+          length(Sporozoite10d[Sporozoite10d==2]),length(Sporozoite10d[Sporozoite10d==3]),
+          length(Sporozoite10d[Sporozoite10d==4]))
+
+T3d11_C<-rbind(spb1r0,spb1r1,spb1r2,spb1r3,
+               spb2r0,spb2r1,spb2r2,spb2r3,
+               spb5r0,spb5r1,spb5r2,spb5r3,
+               spb10r0,spb10r1,spb10r2,spb10r3)
 
 MEANspT3d11<-c(
   mean(Sporozoite1a,na.rm=T),mean(Sporozoite1b,na.rm=T),mean(Sporozoite1c,na.rm=T),#mean(Sporozoite1d,na.rm=T),
@@ -1658,15 +1872,15 @@ abline(lm(c(0,mean(T3d11$Parasitemia[T3d11$Bites==1]),
 ##1.8 Oocysts 
 t3d11and4B785<-read.table("C:\\Users\\Ellie\\Documents\\Data Malaria\\ALL DATA RE_ARRANGED_20062015\\3d11 35ATV-85\\mosquito.txt",header=TRUE)
 t3d11and4B785$OocPrev<-ifelse(t3d11and4B785$Oocyst==0,0,1)
-
+head(t3d11and4B785)
 
 
 ##Minimuum is 45 can change sample number depending on the minimum treatment group
 oocysts_t3d11and4B785<-c(
-  sample(t3d11and4B785$Oocyst[t3d11and4B785$Bites == 1 & t3d11and4B785$Round == 1],45),
-  sample(t3d11and4B785$Oocyst[t3d11and4B785$Bites == 2 & t3d11and4B785$Round == 1],45),
-  sample(t3d11and4B785$Oocyst[t3d11and4B785$Bites == 5 & t3d11and4B785$Round == 1],45),
-  sample(t3d11and4B785$Oocyst[t3d11and4B785$Bites == 10 & t3d11and4B785$Round == 1],45))
+  sample(t3d11and4B785$Oocyst[t3d11and4B785$Bites == 0 & t3d11and4B785$Round == 0],45),sample(t3d11and4B785$Oocyst[t3d11and4B785$Bites == 1 & t3d11and4B785$Round == 1],45),rep(0,45*2),
+  sample(t3d11and4B785$Oocyst[t3d11and4B785$Bites == 0 & t3d11and4B785$Round == 0],45),sample(t3d11and4B785$Oocyst[t3d11and4B785$Bites == 2 & t3d11and4B785$Round == 1],45),rep(0,45*2),
+  sample(t3d11and4B785$Oocyst[t3d11and4B785$Bites == 0 & t3d11and4B785$Round == 0],45),sample(t3d11and4B785$Oocyst[t3d11and4B785$Bites == 5 & t3d11and4B785$Round == 1],45),rep(0,45*2),
+  sample(t3d11and4B785$Oocyst[t3d11and4B785$Bites == 0 & t3d11and4B785$Round == 0],45),sample(t3d11and4B785$Oocyst[t3d11and4B785$Bites == 10 & t3d11and4B785$Round == 1],45),rep(0,45*2))
 
 length(oocysts_t3d11and4B785)
 prevooc<-ifelse(oocysts_t3d11and4B785==0,0,1)
@@ -1688,10 +1902,14 @@ sporst3d11and4B785<-read.table("C:\\Users\\Ellie\\Documents\\Data Malaria\\ALL D
 
 ##MEAN PARASITEMIA IN MICE
 parasitt3d11and4B785<-cbind(
-  sporst3d11and4B785$Parasitemia[sporst3d11and4B785$Bites==1 & sporst3d11and4B785$Round == 1],
-  sporst3d11and4B785$Parasitemia[sporst3d11and4B785$Bites==2 & sporst3d11and4B785$Round == 1],
-  sporst3d11and4B785$Parasitemia[sporst3d11and4B785$Bites==5 & sporst3d11and4B785$Round == 1],
-  sporst3d11and4B785$Parasitemia[sporst3d11and4B785$Bites==10 & sporst3d11and4B785$Round == 1])
+  sporst3d11and4B785$Parasitemia[sporst3d11and4B785$Bites==1 & sporst3d11and4B785$Round == 0],
+  sporst3d11and4B785$Parasitemia[sporst3d11and4B785$Bites==1 & sporst3d11and4B785$Round == 1],rep(0,5),rep(0,5),rep(0,5),
+  sporst3d11and4B785$Parasitemia[sporst3d11and4B785$Bites==2 & sporst3d11and4B785$Round == 0],
+  sporst3d11and4B785$Parasitemia[sporst3d11and4B785$Bites==2 & sporst3d11and4B785$Round == 1],rep(0,5),rep(0,5),rep(0,5),
+  sporst3d11and4B785$Parasitemia[sporst3d11and4B785$Bites==5 & sporst3d11and4B785$Round == 0],
+  sporst3d11and4B785$Parasitemia[sporst3d11and4B785$Bites==5 & sporst3d11and4B785$Round == 1],rep(0,5),rep(0,5),rep(0,5),
+  sporst3d11and4B785$Parasitemia[sporst3d11and4B785$Bites==10 & sporst3d11and4B785$Round == 0],
+  sporst3d11and4B785$Parasitemia[sporst3d11and4B785$Bites==10 & sporst3d11and4B785$Round == 1],rep(0,5),rep(0,5),rep(0,5))
 
 newparasitt3d11and4B785<-t(parasitt3d11and4B785)
 parasitemt3d11and4B785<-parasitemUPPt3d11and4B785<-parasitemLOWt3d11and4B785<-numeric(4)
@@ -1735,6 +1953,32 @@ PREV_t3d11and4B785<-cbind(
   sample(sporst3d11and4B785$prevBS[sporst3d11and4B785$Bites==10 & sporst3d11and4B785$Round == 1],5))
 
 ###Sporozoite intensity
+Sporozoite1z<-sporst3d11and4B785$Sporozoite1[sporst3d11and4B785$Round==0 & sporst3d11and4B785$Bites==1]
+spb1r0<-c(length(Sporozoite1z[Sporozoite1z==0]),length(Sporozoite1z[Sporozoite1z==1]),
+          length(Sporozoite1z[Sporozoite1z==2]),length(Sporozoite1z[Sporozoite1z==3]),
+          length(Sporozoite1z[Sporozoite1z==4]))
+
+Sporozoite2z<-c(sporst3d11and4B785$Sporozoite1[sporst3d11and4B785$Round==0 & sporst3d11and4B785$Bites==2],sporst3d11and4B785$Sporozoite2[sporst3d11and4B785$Round==0 & sporst3d11and4B785$Bites==2])
+spb2r0<-c(length(Sporozoite2z[Sporozoite2z==0]),length(Sporozoite2z[Sporozoite2z==1]),
+          length(Sporozoite2z[Sporozoite2z==2]),length(Sporozoite2z[Sporozoite2z==3]),
+          length(Sporozoite2z[Sporozoite2z==4]))
+
+Sporozoite5z<-c(sporst3d11and4B785$Sporozoite1[sporst3d11and4B785$Round==0 & sporst3d11and4B785$Bites==5],sporst3d11and4B785$Sporozoite2[sporst3d11and4B785$Round==0 & sporst3d11and4B785$Bites==5],
+                sporst3d11and4B785$Sporozoite3[sporst3d11and4B785$Round==0 & sporst3d11and4B785$Bites==5],sporst3d11and4B785$Sporozoite4[sporst3d11and4B785$Round==0 & sporst3d11and4B785$Bites==5],
+                sporst3d11and4B785$Sporozoite5[sporst3d11and4B785$Round==0 & sporst3d11and4B785$Bites==5])
+spb5r0<-c(length(Sporozoite5z[Sporozoite5z==0]),length(Sporozoite5z[Sporozoite5z==1]),
+          length(Sporozoite5z[Sporozoite5z==2]),length(Sporozoite5z[Sporozoite5z==3]),
+          length(Sporozoite5z[Sporozoite5z==4]))
+
+Sporozoite10z<-c(sporst3d11and4B785$Sporozoite1[sporst3d11and4B785$Round==0 & sporst3d11and4B785$Bites==10],sporst3d11and4B785$Sporozoite2[sporst3d11and4B785$Round==0 & sporst3d11and4B785$Bites==10],
+                 sporst3d11and4B785$Sporozoite3[sporst3d11and4B785$Round==0 & sporst3d11and4B785$Bites==10],sporst3d11and4B785$Sporozoite4[sporst3d11and4B785$Round==0 & sporst3d11and4B785$Bites==10],
+                 sporst3d11and4B785$Sporozoite5[sporst3d11and4B785$Round==0 & sporst3d11and4B785$Bites==10],sporst3d11and4B785$Sporozoite6[sporst3d11and4B785$Round==0 & sporst3d11and4B785$Bites==10],
+                 sporst3d11and4B785$Sporozoite7[sporst3d11and4B785$Round==0 & sporst3d11and4B785$Bites==10],sporst3d11and4B785$Sporozoite8[sporst3d11and4B785$Round==0 & sporst3d11and4B785$Bites==10],
+                 sporst3d11and4B785$Sporozoite9[sporst3d11and4B785$Round==0 & sporst3d11and4B785$Bites==10],sporst3d11and4B785$Sporozoite10[sporst3d11and4B785$Round==0 & sporst3d11and4B785$Bites==10])
+spb10r0<-c(length(Sporozoite10z[Sporozoite10z==0]),length(Sporozoite10z[Sporozoite10z==1]),
+           length(Sporozoite10z[Sporozoite10z==2]),length(Sporozoite10z[Sporozoite10z==3]),
+           length(Sporozoite10z[Sporozoite10z==4]))
+##
 Sporozoite1a<-sporst3d11and4B785$Sporozoite1[sporst3d11and4B785$Round==1 & sporst3d11and4B785$Bites==1]
 spb1r1<-c(length(Sporozoite1a[Sporozoite1a==0]),length(Sporozoite1a[Sporozoite1a==1]),
           length(Sporozoite1a[Sporozoite1a==2]),length(Sporozoite1a[Sporozoite1a==3]),
@@ -1761,7 +2005,10 @@ spb10r1<-c(length(Sporozoite10a[Sporozoite10a==0]),length(Sporozoite10a[Sporozoi
            length(Sporozoite10a[Sporozoite10a==2]),length(Sporozoite10a[Sporozoite10a==3]),
            length(Sporozoite10a[Sporozoite10a==4]))
 
-sporst3d11and4B785<-rbind(spb1r1,spb2r1,spb5r1,spb10r1)
+sporst3d11and4B785<-rbind(spb1r0,spb1r1,rep(0,5),rep(0,5),
+                          spb1r0,spb2r1,rep(0,5),rep(0,5),
+                          spb1r0,spb5r1,rep(0,5),rep(0,5),
+                          spb1r0,spb10r1,rep(0,5),rep(0,5))
 
 MEANspt3d11and4B785<-c(
   mean(Sporozoite1a,na.rm=T),
@@ -1863,292 +2110,307 @@ effectSpors3d11and4b785prev<-(spors_Cprev2-spors_T3d11and4b785prev)/spors_Cprev2
 ##
 #############################################################
 
-###############
-##
-## ATV 25
-##
+###
+### Organise the data for the initial and final parasitemia and translate to parasite density
+##assume that an infection with 30% parasitemia results in death
+parasitATV25[4,1] <- parasitATV25[4,6] <- parasitATV25[4,11]  <- parasitATV25[4,16]  <- 30
+parasitATV50[3:5,1] <- parasitATV50[3:5,6] <- parasitATV50[3:5,11]  <- parasitATV50[3:5,16] <- 30
+parasitt4B785[5,1] <- parasitt4B785[5,6] <- parasitt4B785[5,11] <- parasitt4B785[5,16] <- 30
 
-oocystsC ## THE COMPLETE VECTOR OF CONTROLS, 
-         ## EACH GROUP IS 45 UNITS 
-         ## GROUPS DEFINED BY ROUND THEN BITE e.g. r1 b1, 
-         ##                                        r1 b2, 
-         ##                                        r1 b3, etc
+parasitT3d11[3:5,1] <-  parasitT3d11[3:5,6] <- parasitT3d11[3:5,11] <- parasitT3d11[3:5,16] <- 30     
+parasitt3d11andATV85[2:5,1] <- parasitt3d11andATV85[2:5,6] <- parasitt3d11andATV85[2:5,11] <- parasitt3d11andATV85[2:5,16] <- 30
+parasitt3d11and4B785[2:5,1] <- parasitt3d11and4B785[2:5,6] <- parasitt3d11and4B785[2:5,11] <- parasitt3d11and4B785[2:5,16] <- 30
 
-oocysts_ATV25 ## 3 ROUNDS AND 4 BITING RATES (1, 2, 5, 10)
+parasit2_C <- round(parasitC*1200)
+parasit2_T_ATV25 <- round(parasitATV25*1200)
+parasit2_T_ATV50 <- round(parasitATV50*1200)
+parasit2_T_ATV85 <- round(parasitATV85*1200)
+parasit2_T_4B785 <- round(parasitt4B785*1200)
+parasit2_T_3D11_50 <- round(parasitT3d11*1200)
+parasit2_T_ATV85_3D11_50 <- round(parasitt3d11andATV85*1200)
+parasit2_T_4B785_3D11_50 <- round(parasitt3d11and4B785*1200)
 
-oocystsC2 <- c(oocystsC[1:135],oocystsC[181:315],oocystsC[361:495],oocystsC[541:675])
+para_intC <- structure(.Data =c( parasit2_C[,1:4],
+                                 parasit2_C[,6:9],
+                                 parasit2_C[,11:14],
+                                 parasit2_C[,16:19]),.Dim=c(5,16))
 
-PREV_CNEW <- ifelse(newparaC_REAL == 0, 0, 1)
-PREV_TNEW <- ifelse(newparasitATV25 == 0, 0, 1)
+para_intT_ATV25 <- structure(.Data =c(parasit2_T_ATV25[,1:4],
+                                      parasit2_T_ATV25[,6:9],
+                                      parasit2_T_ATV25[,11:14],
+                                      parasit2_T_ATV25[,16:19]),.Dim=c(5,16))
 
+para_intT_ATV50 <- structure(.Data =c(parasit2_T_ATV50[,1:4],
+                                      parasit2_T_ATV50[,6:9],
+                                      parasit2_T_ATV50[,11:14],
+                                      parasit2_T_ATV50[,16:19]),.Dim=c(5,16))
 
-PREV_ATV25_data<-list(N_C=12,
-            N_T=12,
-            N_ooc=45,
-            N_mice_C=c(10,10,10,30,10,10,30,10,10,23,5,5),
-            max_mice_C=max(c(10,10,10,30,10,10,30,10,10,23,5,5)),
-            N_mice_T=5,
-            ooc_count_C = structure(.Data = c(oocystsC2),
-                                    .Dim=c(45,12)),
-            ooc_count_T = structure(.Data = c(oocysts_ATV25),
-                                    .Dim=c(45,12)),
-            prev_C = structure(.Data =PREV_CNEW,.Dim=c(12,30)),
-            prev_T = structure(.Data =PREV_TNEW,.Dim=c(12,5)),
-            N_bin=5,
-            bin_edge=c(0,1,10,100,1000,1002),
-            sporo_count_C = structure(.Data=spors_C,.Dim=c(12,5)),
-            sporo_count_T = structure(.Data=bsporsATV25,.Dim=c(12,5))
-  )
+para_intT_ATV85 <- structure(.Data =c(parasit2_T_ATV85[,1:4],
+                                      parasit2_T_ATV85[,6:9],
+                                      parasit2_T_ATV85[,11:14],
+                                      parasit2_T_ATV85[,16:19]),.Dim=c(5,16))
 
-stan_rdump(ls(ATV25_data), "ATV25_data_Ellie.R", envir=list2env(ATV25_data))
-stan_rdump(ls(PREV_ATV25_data), "PREV_ATV25_data_Ellie.R", envir=list2env(PREV_ATV25_data))
-###############
-##
-## ATV 50
-##
+para_intT_4B785 <- structure(.Data =c(parasit2_T_4B785[,1:4],
+                                      parasit2_T_4B785[,6:9],
+                                      parasit2_T_4B785[,11:14],
+                                      parasit2_T_4B785[,16:19]),.Dim=c(5,16))
 
-oocystsC ## THE COMPLETE VECTOR OF CONTROLS, 
-## EACH GROUP IS 45 UNITS 
-## GROUPS DEFINED BY ROUND THEN BITE e.g. r1 b1, 
-##                                        r1 b2, 
-##                                        r1 b3, etc
+para_intT_3D11_50 <- structure(.Data =c(parasit2_T_3D11_50[,1:4],
+                                      parasit2_T_3D11_50[,6:9],
+                                      parasit2_T_3D11_50[,11:14],
+                                      parasit2_T_3D11_50[,16:19]),.Dim=c(5,16))
 
-oocysts_ATV50 ## 3 ROUNDS AND 4 BITING RATES (1, 2, 5, 10)
+para_intT_ATV85_3D11_50 <- structure(.Data =c(parasit2_T_ATV85_3D11_50[,1:4],
+                                      parasit2_T_ATV85_3D11_50[,6:9],
+                                      parasit2_T_ATV85_3D11_50[,11:14],
+                                      parasit2_T_ATV85_3D11_50[,16:19]),.Dim=c(5,16))
 
-oocystsC2 <- c(oocystsC[1:135],oocystsC[181:315],oocystsC[361:495],oocystsC[541:675])
-
-
-PREV_C  ## THE COMPLETE MATRIX
-## EACH GROUP IS A COLUMN
-## EACH ROW IS A MOUSE
+para_intT_4B785_3D11_50 <- structure(.Data =c(parasit2_T_4B785_3D11_50[,1:4],
+                                      parasit2_T_4B785_3D11_50[,6:9],
+                                      parasit2_T_4B785_3D11_50[,11:14],
+                                      parasit2_T_4B785_3D11_50[,16:19]),.Dim=c(5,16))
 
 
-PREV_T2D11<-ifelse(newparasitATV50==0,0,1)
-PREV_ATV50_data<-list(N_C=12,
-                      N_T=12,
-                      N_ooc=45,
-                      N_mice_C=c(10,10,10,30,10,10,30,10,10,23,5,5),
-                      max_mice_C=max(c(10,10,10,30,10,10,30,10,10,23,5,5)),
-                      N_mice_T=5,
-                 ooc_count_C = structure(.Data = c(oocystsC2),
-                                         .Dim=c(45,12)),
-                 ooc_count_T = structure(.Data = c(oocysts_ATV50),
-                                         .Dim=c(45,12)),
-                 parasitemia_C = structure(.Data =PREV_CNEW,.Dim=c(12,30)),
-                 parasitemia_T = structure(.Data =PREV_T2D11,.Dim=c(12,5)),
-                 N_bin=5,
-                 bin_edge=c(0,1,10,100,1000,1002),
-                 sporo_count_C = structure(.Data=spors_C,.Dim=c(12,5)),
-                 sporo_count_T = structure(.Data=bsporsATV50,.Dim=c(12,5))
+para_endC <- structure(.Data =c( parasit2_C[,2:5],
+                                 parasit2_C[,7:10],
+                                 parasit2_C[,12:15],
+                                 parasit2_C[,17:20]),.Dim=c(5,16))
+
+para_endT_ATV25 <- structure(.Data =c(parasit2_T_ATV25[,2:5],
+                                      parasit2_T_ATV25[,7:10],
+                                      parasit2_T_ATV25[,12:15],
+                                      parasit2_T_ATV25[,17:20]),.Dim=c(5,16))
+
+para_endT_ATV50 <- structure(.Data =c(parasit2_T_ATV50[,2:5],
+                                      parasit2_T_ATV50[,7:10],
+                                      parasit2_T_ATV50[,12:15],
+                                      parasit2_T_ATV50[,17:20]),.Dim=c(5,16))
+
+para_endT_ATV85 <- structure(.Data =c(parasit2_T_ATV85[,2:5],
+                                      parasit2_T_ATV85[,7:10],
+                                      parasit2_T_ATV85[,12:15],
+                                      parasit2_T_ATV85[,17:20]),.Dim=c(5,16))
+
+para_endT_4B785 <- structure(.Data =c(parasit2_T_4B785[,2:5],
+                                      parasit2_T_4B785[,7:10],
+                                      parasit2_T_4B785[,12:15],
+                                      parasit2_T_4B785[,17:20]),.Dim=c(5,16))
+
+para_endT_3D11_50 <- structure(.Data =c(parasit2_T_3D11_50[,2:5],
+                                        parasit2_T_3D11_50[,7:10],
+                                        parasit2_T_3D11_50[,12:15],
+                                        parasit2_T_3D11_50[,17:20]),.Dim=c(5,16))
+
+para_endT_ATV85_3D11_50 <- structure(.Data =c(parasit2_T_ATV85_3D11_50[,2:5],
+                                              parasit2_T_ATV85_3D11_50[,7:10],
+                                              parasit2_T_ATV85_3D11_50[,12:15],
+                                              parasit2_T_ATV85_3D11_50[,17:20]),.Dim=c(5,16))
+
+para_endT_4B785_3D11_50 <- structure(.Data =c(parasit2_T_4B785_3D11_50[,2:5],
+                                              parasit2_T_4B785_3D11_50[,7:10],
+                                              parasit2_T_4B785_3D11_50[,12:15],
+                                              parasit2_T_4B785_3D11_50[,17:20]),.Dim=c(5,16))
+
+ooc_count_C_temp = structure(.Data = c(oocystsC),.Dim=c(45,16)),   ## FROM THE NEW DATA
+ooc_count_T_ATV25_temp = structure(.Data = c(oocysts_ATV25),.Dim=c(45,16))  
+ooc_count_T_ATV50_temp = structure(.Data = c(oocysts_ATV50),.Dim=c(45,16))  
+ooc_count_T_ATV85_temp = structure(.Data = c(oocysts_ATV85),.Dim=c(45,16))  
+ooc_count_T_4B785_temp = structure(.Data = c(oocysts_t4B785),.Dim=c(45,16))
+ooc_count_T_3D11_50_temp = structure(.Data = c(oocystsT3d11),.Dim=c(45,16))
+ooc_count_T_ATV85_3D11_50_temp = structure(.Data = c(oocysts_t3d11andATV85),.Dim=c(45,16))  
+ooc_count_T_4B785_3D11_50_temp = structure(.Data = c(oocysts_t3d11and4B785),.Dim=c(45,16)) 
+
+Alldata <- list(
+    N_bin = 5,
+    bin_edge = c(0, 1, 10, 100, 1000, 1002),
+    
+    N_mice = 5,
+    N_bite = 4,  ## 1, 2, 5 and 10 bites
+    N_round = 4, ## 4 made up with zero's where necessary
+    
+    bite_C = c(1, 1, 1, 1, 2, 2, 2, 2, 5, 5, 5, 5, 10, 10, 10, 10),
+    bite_T_ATV25 = c(1, 1, 1, 1, 2, 2, 2, 2, 5, 5, 5, 5, 10, 10, 10, 10),
+    bite_T_ATV50 = c(1, 1, 1, 1, 2, 2, 2, 2, 5, 5, 5, 5, 10, 10, 10, 10),
+    bite_T_ATV85 = c(1, 1, 1, 1, 2, 2, 2, 2, 5, 5, 5, 5, 10, 10, 10, 10),
+    bite_T_4B785 = c(1, 1, 1, 1, 2, 2, 2, 2, 5, 5, 5, 5, 10, 10, 10, 10),
+    bite_T_3D11_50 = c(1, 1, 1, 1, 2, 2, 2, 2, 5, 5, 5, 5, 10, 10, 10, 10),
+    bite_T_ATV85_3D11_50 = c(1, 1, 1, 1, 2, 2, 2, 2, 5, 5, 5, 5, 10, 10, 10, 10),
+    bite_T_4B785_3D11_50 = c(1, 1, 1, 1, 2, 2, 2, 2, 5, 5, 5, 5, 10, 10, 10, 10),
+    
+    round_C = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4),
+    round_T_ATV25 = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4),
+    round_T_ATV50 = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4),
+    round_T_ATV85 = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4),
+    round_T_4B785 = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4),
+    round_T_3D11_50 = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4),
+    round_T_ATV85_3D11_50 = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4),
+    round_T_4B785_3D11_50 = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4),
+    
+    N_ooc = 45,
+
+    N_C = 16,
+    N_T_ATV25 = 16,
+    N_T_ATV50 = 16,
+    N_T_ATV85 = 16,
+    N_T_4B785 = 16,
+    N_T_3D11_50 = 16,
+    N_T_ATV85_3D11_50 = 16,
+    N_T_4B785_3D11_50 = 16,
+
+    para_init_count_C = structure(.Data = c(para_intC),.Dim=c(16,5)), 
+    para_init_count_T_ATV25 = structure(.Data = c(para_intT_ATV25),.Dim=c(16,5)),
+    para_init_count_T_ATV50 = structure(.Data = c(para_intT_ATV50),.Dim=c(16,5)),
+    para_init_count_T_ATV85 = structure(.Data = c(para_intT_ATV85),.Dim=c(16,5)),
+    para_init_count_T_4B785 = structure(.Data = c(para_intT_4B785),.Dim=c(16,5)),
+    para_init_count_T_3D11_50 = structure(.Data = c(para_intT_3D11_50),.Dim=c(16,5)),
+    para_init_count_T_ATV85_3D11_50 = structure(.Data = c(para_intT_ATV85_3D11_50),.Dim=c(16,5)),
+    para_init_count_T_4B785_3D11_50 = structure(.Data = c(para_intT_4B785_3D11_50),.Dim=c(16,5)),
+    
+    ooc_count_C = t(ooc_count_C_temp),   ## FROM THE NEW DATA
+    ooc_count_T_ATV25 = t(ooc_count_T_ATV25_temp),  
+    ooc_count_T_ATV50 = t(ooc_count_T_ATV50_temp),  
+    ooc_count_T_ATV85 = t(ooc_count_T_ATV85_temp),  
+    ooc_count_T_4B785 = t(ooc_count_T_4B785_temp),
+    ooc_count_T_3D11_50 = t(ooc_count_T_3D11_50_temp),
+    ooc_count_T_ATV85_3D11_50 = t(ooc_count_T_ATV85_3D11_50_temp),  
+    ooc_count_T_4B785_3D11_50 = t(ooc_count_T_4B785_3D11_50_temp),  
+    
+    sporo_count_C = structure(.Data=spors2_C,.Dim=c(16,5)),
+    sporo_count_T_ATV25 = structure(.Data=bsporsATV25,.Dim=c(16,5)),
+    sporo_count_T_ATV50 = structure(.Data=bsporsATV50,.Dim=c(16,5)),
+    sporo_count_T_ATV85 = structure(.Data=sporsATV85,.Dim=c(16,5)),
+    sporo_count_T_4B785 = structure(.Data=spors2t4B785,.Dim=c(16,5)),
+    sporo_count_T_3D11_50 = structure(.Data=T3d11_C,.Dim=c(16,5)),
+    sporo_count_T_ATV85_3D11_50 = structure(.Data=sporst3d11andATV85,.Dim=c(16,5)),
+    sporo_count_T_4B785_3D11_50 = structure(.Data=sporst3d11and4B785,.Dim=c(16,5)),
+        
+    para_end_count_C = structure(.Data = c(para_endC),.Dim=c(16,5)),
+    para_end_count_T_ATV25 = structure(.Data = c(para_endT_ATV25),.Dim=c(16,5)),
+    para_end_count_T_ATV50 = structure(.Data = c(para_endT_ATV50),.Dim=c(16,5)),
+    para_end_count_T_ATV85 = structure(.Data = c(para_endT_ATV85),.Dim=c(16,5)),
+    para_end_count_T_4B785 = structure(.Data = c(para_endT_4B785),.Dim=c(16,5)),
+    para_end_count_T_3D11_50 = structure(.Data = c(para_endT_3D11_50),.Dim=c(16,5)),
+    para_end_count_T_ATV85_3D11_50 = structure(.Data = c(para_endT_ATV85_3D11_50),.Dim=c(16,5)),
+    para_end_count_T_4B785_3D11_50 = structure(.Data = c(para_endT_4B785_3D11_50),.Dim=c(16,5))
+    
 )
-stan_rdump(ls(PREV_ATV50_data), "PREV_ATV50_data.R", envir=list2env(PREV_ATV50_data))
-#stan_rdump(ls(PARA_ATV50_data), "PARA_ATV50_data_Ellie.R", envir=list2env(PARA_ATV50_data))
-###############
-##
-## 3D11 50%
-##
 
-oocystsC ## THE COMPLETE VECTOR OF CONTROLS, 
-## EACH GROUP IS 45 UNITS 
-## GROUPS DEFINED BY ROUND THEN BITE e.g. r1 b1, 
-##                                        r1 b2, 
-##                                        r1 b3, etc
-oocystsC2 <- c(oocystsC[1:135],oocystsC[181:315],oocystsC[361:495],oocystsC[541:675])
+stan_rdump(ls(Alldata), "ElliedataMousetoMouse_Alldata_dec2015.R", envir=list2env(Alldata))
 
-
-PREV_C  ## THE COMPLETE MATRIX
-## EACH GROUP IS A COLUMN
-## EACH ROW IS A MOUSE
-
-spors_C_3ROUNDS<-rbind(spors_C[1:3,],spors_C[5:7,],spors_C[9:11,],spors_C[13:15,])
-
-oocystsT3d11_2 <- c(oocystsT3d11[1:135],oocystsT3d11[181:315],oocystsT3d11[361:495],oocystsT3d11[541:675])## Same as controls
-
-T3d11_2<-rbind(T3d11_C[1:3,],T3d11_C[5:7,],T3d11_C[9:11,],T3d11_C[13:15,])
-
-PREV_T3d11_2 <- cbind(PREV_T3d11[,1:3],PREV_T3d11[,5:7],PREV_T3d11[,9:11],PREV_T3d11[,13:15])  ## 12 COLUMNS REPRESENTING 3 ROUNDS, 4 BITE RATES
-
-T3d11_data<-list(N_C=12,
-                      N_T=12,
-                      N_ooc=45,
-                      N_mice_C=c(10,10,10,30,10,10,30,10,10,23,5,5),
-                      max_mice_C=max(c(10,10,10,30,10,10,30,10,10,23,5,5)),
-                      N_mice_T=5,
-                 ooc_count_C = structure(.Data = c(oocystsC2),
-                                         .Dim=c(45,12)),
-                 ooc_count_T = structure(.Data = c(oocystsT3d11_2),
-                                         .Dim=c(45,12)),
-                 parasitemia_C = structure(.Data =newparaC_REAL/100,.Dim=c(12,30)),
-                 parasitemia_T = structure(.Data =newparasitT3d11/100,.Dim=c(12,5)),
-                 N_bin=5,
-                 bin_edge=c(0,1,10,100,1000,1002),
-                 sporo_count_C = structure(.Data=spors_C_3ROUNDS,.Dim=c(12,5)),
-                 sporo_count_T = structure(.Data=T3d11_2,.Dim=c(12,5))
-)
-stan_rdump(ls(PREV_T3d11_data), "PREV_T3d11_data_Ellie.R", envir=list2env(PREV_T3d11_data))
+test1 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\TBI_testing_model\\mouse_to_mouse\\mouse_to_mouse_extended to fit to all experimental data.stan", data=Alldata,
+              iter=1000, chains=4)
 
 ###############
 ##
-## ATV 85%
+## All tb compared
 ##
 
-oocystsC ## THE COMPLETE VECTOR OF CONTROLS, 
-## EACH GROUP IS 45 UNITS 
-## GROUPS DEFINED BY ROUND THEN BITE e.g. r1 b1, 
-##                                        r1 b2, 
-##                                        r1 b3, etc
+ooc_count_C_temp = structure(.Data = c(oocystsC),.Dim=c(45,16))   ## FROM THE NEW DATA
+ooc_count_T_ATV25_temp = structure(.Data = c(oocysts_ATV25),.Dim=c(45,16))  
+ooc_count_T_ATV50_temp = structure(.Data = c(oocysts_ATV50),.Dim=c(45,16))  
+ooc_count_T_ATV85_temp = structure(.Data = c(oocysts_ATV85),.Dim=c(45,16))  
+ooc_count_T_4B785_temp = structure(.Data = c(oocysts_t4B785),.Dim=c(45,16))
 
-oocysts_ATV85 ## Only Round 1 matched
+ooc_count_C = t(ooc_count_C_temp)
+ooc_count_T_ATV25 = t(ooc_count_T_ATV25_temp)
+ooc_count_T_ATV50 = t(ooc_count_T_ATV50_temp)
+ooc_count_T_ATV85 = t(ooc_count_T_ATV85_temp)
+ooc_count_T_4B785 = t(ooc_count_T_4B785_temp)
 
-oocystsC3 <- c(oocystsC[1:45],oocystsC[181:225],oocystsC[361:405],oocystsC[541:585])
-
-PREV_C  ## THE COMPLETE MATRIX
-## EACH GROUP IS A COLUMN
-## EACH ROW IS A MOUSE
-PREVC_3 <- cbind(PREV_C[,1],PREV_C[,5],PREV_C[,9],PREV_C[,13])
-
-PREV_ATV85  ## 12 COLUMNS REPRESENTING 3 ROUNDS, 4 BITE RATES
-
-spors_C_1ROUND<-rbind(spors_C[1,],spors_C[5,],spors_C[9,],spors_C[13,])
-
-sporsATV85
-
-ATV85_data<-list(N_C=4,
-                 N_T=4,
-                 N_ooc=45,
-                 N_mice=5,
-                 ooc_count_C = structure(.Data = c(oocystsC3),
-                                         .Dim=c(45,4)),
-                 ooc_count_T = structure(.Data = c(oocysts_ATV85),
-                                         .Dim=c(45,4)),
-                 prev_C = structure(.Data =PREVC_3,.Dim=c(5,4)),
-                 prev_T = structure(.Data =PREV_ATV85,.Dim=c(5,4)),
-                 N_bin=5,
-                 bin_edge=c(0,1,10,100,1000,1002),
-                 s_count_C = structure(.Data=spors_C_1ROUND,.Dim=c(4,5)),
-                 s_count_T = structure(.Data=sporsATV85,.Dim=c(4,5))
+TB_data<- list(
+  N_bin = 5,
+  bin_edge = c(0, 1, 10, 100, 1000, 1002),
+  
+  N_mice = 5,
+  N_bite = 4,  ## 1, 2, 5 and 10 bites
+  N_round = 4, ## 4 made up with zero's where necessary
+  
+  bite_C = rep(c(1,2,3,4),each=4),#c(1, 1, 1, 1, 2, 2, 2, 2, 5, 5, 5, 5, 10, 10, 10, 10),
+  bite_T_ATV25 = rep(c(1,2,3,4),each=4),#c(1, 1, 1, 1, 2, 2, 2, 2, 5, 5, 5, 5, 10, 10, 10, 10),
+  bite_T_ATV50 = rep(c(1,2,3,4),each=4),#c(1, 1, 1, 1, 2, 2, 2, 2, 5, 5, 5, 5, 10, 10, 10, 10),
+  bite_T_ATV85 = rep(c(1,2,3,4),each=4),#c(1, 1, 1, 1, 2, 2, 2, 2, 5, 5, 5, 5, 10, 10, 10, 10),
+  bite_T_4B785 = rep(c(1,2,3,4),each=4),#c(1, 1, 1, 1, 2, 2, 2, 2, 5, 5, 5, 5, 10, 10, 10, 10),
+  
+  round_C = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4),
+  round_T_ATV25 = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4),
+  round_T_ATV50 = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4),
+  round_T_ATV85 = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4),
+  round_T_4B785 = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4),
+  
+  N_ooc = 45,
+  
+  N_C = 16,
+  N_T_ATV25 = 16,
+  N_T_ATV50 = 16,
+  N_T_ATV85 = 16,
+  N_T_4B785 = 16,
+  
+  para_init_count_C = t(para_intC), 
+  para_init_count_T_ATV25 = t(para_intT_ATV25),
+  para_init_count_T_ATV50 = t(para_intT_ATV50),
+  para_init_count_T_ATV85 = t(para_intT_ATV85),
+  para_init_count_T_4B785 = t(para_intT_4B785),
+    
+  ooc_count_C = ooc_count_C,   ## FROM THE NEW DATA
+  ooc_count_T_ATV25 = ooc_count_T_ATV25,  
+  ooc_count_T_ATV50 = ooc_count_T_ATV50,  
+  ooc_count_T_ATV85 = ooc_count_T_ATV85,  
+  ooc_count_T_4B785 = ooc_count_T_4B785,
+    
+  sporo_count_C = structure(.Data=spors2_C,.Dim=c(16,5)),
+  sporo_count_T_ATV25 = structure(.Data=bsporsATV25,.Dim=c(16,5)),
+  sporo_count_T_ATV50 = structure(.Data=bsporsATV50,.Dim=c(16,5)),
+  sporo_count_T_ATV85 = structure(.Data=sporsATV85,.Dim=c(16,5)),
+  sporo_count_T_4B785 = structure(.Data=spors2t4B785,.Dim=c(16,5)),
+    
+  para_end_count_C = t(para_endC),
+  para_end_count_T_ATV25 = t(para_endT_ATV25),
+  para_end_count_T_ATV50 = t(para_endT_ATV50),
+  para_end_count_T_ATV85 = t(para_endT_ATV85),
+  para_end_count_T_4B785 = t(para_endT_4B785)
+    
 )
 
-###############
-##
-## 4b7 85%
+stan_rdump(ls(TB_data), "TB_data.R", envir=list2env(TB_data))
 ##
 
-oocystsC ## THE COMPLETE VECTOR OF CONTROLS, 
-## EACH GROUP IS 45 UNITS 
-## GROUPS DEFINED BY ROUND THEN BITE e.g. r1 b1, 
-##                                        r1 b2, 
-##                                        r1 b3, etc
-
-oocysts_t4B785 ## Only Round 1 matched
-
-oocystsC3 <- c(oocystsC[1:45],oocystsC[181:225],oocystsC[361:405],oocystsC[541:585])
-
-PREV_C  ## THE COMPLETE MATRIX
-## EACH GROUP IS A COLUMN
-## EACH ROW IS A MOUSE
-PREVC_3 <- cbind(PREV_C[,1],PREV_C[,5],PREV_C[,9],PREV_C[,13])
-
-PREV_t4B785   ## 12 COLUMNS REPRESENTING 1 ROUNDS, 4 BITE RATES
-
-spors_C_1ROUND<-rbind(spors_C[1,],spors_C[5,],spors_C[9,],spors_C[13,])
-
-sporst4B785 
-
-t4B785_data<-list(N_C=4,
-                 N_T=4,
-                 N_ooc=45,
-                 N_mice=5,
-                 ooc_count_C = structure(.Data = c(oocystsC3),
-                                         .Dim=c(45,4)),
-                 ooc_count_T = structure(.Data = c(oocysts_t4B785),
-                                         .Dim=c(45,4)),
-                 prev_C = structure(.Data =PREVC_3,.Dim=c(5,4)),
-                 prev_T = structure(.Data =PREV_t4B785,.Dim=c(5,4)),
-                 N_bin=5,
-                 bin_edge=c(0,1,10,100,1000,1002),
-                 s_count_C = structure(.Data=spors_C_1ROUND,.Dim=c(4,5)),
-                 s_count_T = structure(.Data=sporst4B785,.Dim=c(4,5))
+##Below works for ATV25
+datalisted <- list(
+  N_bin = 5,
+  bin_edge = c(0, 1, 10, 100, 1000, 1002),
+  
+  N_mice = 5,
+  N_bite = 4,  ## 1, 2, 5 and 10 bites
+  N_round = 4, ## 4 made up with zero's where necessary
+  
+  bite_C = rep(c(1,2,3,4),each=4),#c(1, 1, 1, 1, 2, 2, 2, 2, 5, 5, 5, 5, 10, 10, 10, 10),
+  bite_T = rep(c(1,2,3,4),each=4),#c(1, 1, 1, 1, 2, 2, 2, 2, 5, 5, 5, 5, 10, 10, 10, 10),
+  
+  round_C = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4),
+  round_T = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4),
+  
+  N_ooc = 45,
+  
+  N_C = 16,
+  N_T = 16,
+  
+  para_init_count_C = t(para_intC), 
+  para_init_count_T = t(para_intT_ATV85),
+  
+  ooc_count_C = ooc_count_C,   ## FROM THE NEW DATA
+  ooc_count_T = ooc_count_T_ATV85, 
+  
+  sporo_count_C = structure(.Data=spors2_C,.Dim=c(16,5)),
+  sporo_count_T = structure(.Data=bsporsATV85,.Dim=c(16,5)),
+  
+  para_end_count_C = t(para_endC),
+  para_end_count_T = t(para_endT_ATV85)
+  
 )
-###############
-##
-## 3D11 50% + ATV_85
-##
+test1ATV85 <- stan(file="C:\\Users\\Ellie\\Documents\\RStudioProjects\\TBI_testing_model\\mouse_to_mouse\\mouse_to_mouse.stan", 
+              data=datalisted, 
+              sample_file = "atv85_output.csv", set_seed = 8675309,
+              iter=1000, chains=4)
 
-oocystsC ## THE COMPLETE VECTOR OF CONTROLS, 
-## EACH GROUP IS 45 UNITS 
-## GROUPS DEFINED BY ROUND THEN BITE e.g. r1 b1, 
-##                                        r1 b2, 
-##                                        r1 b3, etc
-
-oocysts_t3d11andATV85 ## Only Round 1 matched
-
-oocystsC3 <- c(oocystsC[1:45],oocystsC[181:225],oocystsC[361:405],oocystsC[541:585])
-
-PREV_C  ## THE COMPLETE MATRIX
-## EACH GROUP IS A COLUMN
-## EACH ROW IS A MOUSE
-PREVC_3 <- cbind(PREV_C[,1],PREV_C[,5],PREV_C[,9],PREV_C[,13])
-
-PREV_t3d11andATV85 ## 4 COLUMNS REPRESENTING 1 ROUNDS, 4 BITE RATES
-
-spors_C_1ROUND<-rbind(spors_C[1,],spors_C[5,],spors_C[9,],spors_C[13,])
-
-sporst3d11andATV85
-
-t3d11andATV85_data<-list(N_C=4,
-                 N_T=4,
-                 N_ooc=45,
-                 N_mice=5,
-                 ooc_count_C = structure(.Data = c(oocystsC3),
-                                         .Dim=c(45,4)),
-                 ooc_count_T = structure(.Data = c(oocysts_t3d11andATV85),
-                                         .Dim=c(45,4)),
-                 prev_C = structure(.Data =PREVC_3,.Dim=c(5,4)),
-                 prev_T = structure(.Data =PREV_t3d11andATV85,.Dim=c(5,4)),
-                 N_bin=5,
-                 bin_edge=c(0,1,10,100,1000,1002),
-                 s_count_C = structure(.Data=spors_C_1ROUND,.Dim=c(4,5)),
-                 s_count_T = structure(.Data=sporst3d11andATV85,.Dim=c(4,5))
-)
-###############
-##
-## 3D11 50% & 4B7 85%
-##
-
-oocystsC ## THE COMPLETE VECTOR OF CONTROLS, 
-## EACH GROUP IS 45 UNITS 
-## GROUPS DEFINED BY ROUND THEN BITE e.g. r1 b1, 
-##                                        r1 b2, 
-##                                        r1 b3, etc
-
-oocysts_t3d11and4B785 ## Only Round 1 matched
-
-oocystsC3 <- c(oocystsC[1:45],oocystsC[181:225],oocystsC[361:405],oocystsC[541:585])
-
-PREV_C  ## THE COMPLETE MATRIX
-## EACH GROUP IS A COLUMN
-## EACH ROW IS A MOUSE
-PREVC_3 <- cbind(PREV_C[,1],PREV_C[,5],PREV_C[,9],PREV_C[,13])
-
-PREV_t3d11and4B785 ## 4 COLUMNS REPRESENTING 1 ROUNDS, 4 BITE RATES
-
-spors_C_1ROUND<-rbind(spors_C[1,],spors_C[5,],spors_C[9,],spors_C[13,])
-
-sporst3d11and4B785
-
-t3d11and4B785_data<-list(N_C=4,
-                         N_T=4,
-                         N_ooc=45,
-                         N_mice=5,
-                         ooc_count_C = structure(.Data = c(oocystsC3),
-                                                 .Dim=c(45,4)),
-                         ooc_count_T = structure(.Data = c(oocysts_t3d11and4B785),
-                                                 .Dim=c(45,4)),
-                         prev_C = structure(.Data =PREVC_3,.Dim=c(5,4)),
-                         prev_T = structure(.Data =PREV_t3d11and4B785,.Dim=c(5,4)),
-                         N_bin=5,
-                         bin_edge=c(0,1,10,100,1000,1002),
-                         s_count_C = structure(.Data=spors_C_1ROUND,.Dim=c(4,5)),
-                         s_count_T = structure(.Data=sporst3d11and4B785,.Dim=c(4,5))
-)
+##write.csv(test1ATV85, file = "test1ATV85.csv")
+print(test1ATV85)

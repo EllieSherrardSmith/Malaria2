@@ -15,3 +15,9 @@ model {
 ## not normal distribution (between 0 and 1)
 }
 
+generated quantities {
+  vector[N] log_lik;
+  for (n in 1:N){
+    log_lik[n] <- normal_log(y[n], (alpha/beta) * exp(-exp(delta - beta * x[n])), sigma);
+  }
+}

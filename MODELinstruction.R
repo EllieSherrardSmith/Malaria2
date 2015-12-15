@@ -1483,3 +1483,61 @@ axis(1,at=c(2.5,4.5,6.5),labels=c(1,2,3))
 (mean(bm)-mean(bmT))/mean(bm)
 (mean(bm2bites)-mean(bm2bitesT))/mean(bm2bites)
 (mean(bm3bites)-mean(bm3bitesT))/mean(bm3bites)
+####
+####
+####
+#### What is going on with the sporozoites
+sporsbites1<-subset(spors,Bites==1 & Treatment==1);sporsbites1
+distsporsB1T <- c(sporsbites2[,6])
+sporsbites1<-subset(spors,Bites==1 & Treatment==0);sporsbites1
+distsporsB1C <- c(sporsbites1[,6])
+summary(distsporsB1C)
+summary(distsporsB1T)
+sporsB1check <- c(distsporsB1C,distsporsB1T);typecheck <- c(rep("con",20),rep("treat",20)) 
+summary.aov(lm(sporsB1check~typecheck))
+boxplot(sporsB1check~typecheck)
+
+
+sporsbites2<-subset(spors,Bites==2 & Treatment==1);sporsbites2
+distsporsB2T <- c(sporsbites2[,6],sporsbites2[,7])
+sporsbites2<-subset(spors,Bites==2 & Treatment==0);sporsbites2
+distsporsB2C <- c(sporsbites2[,6],sporsbites2[,7])
+summary(distsporsB2C)
+summary(distsporsB2T)
+sporsB2check <- c(distsporsB2C,distsporsB2T);typecheck <- c(rep("con",40),rep("treat",40)) 
+summary.aov(lm(sporsB2check~typecheck))
+boxplot(sporsB2check~typecheck)
+
+
+sporsbites3<-subset(spors,Bites==3 & Treatment==1);sporsbites3
+distsporsB3T <- c(sporsbites3[,6],sporsbites3[,7],sporsbites3[,8])
+sporsbites3<-subset(spors,Bites==3 & Treatment==0);sporsbites3
+distsporsB3C <- c(sporsbites3[,6],sporsbites3[,7],sporsbites3[,8])
+summary(distsporsB3C)
+summary(distsporsB3T)
+sporsB3check <- c(distsporsB3C,distsporsB3T);typecheck <- c(rep("con",60),rep("treat",60)) 
+summary.aov(lm(sporsB3check~typecheck))
+boxplot(sporsB3check~typecheck)
+
+
+sporsbites4<-subset(spors,Bites==4 & Treatment==1);sporsbites4
+distsporsB4T <- c(sporsbites4[,6],sporsbites4[,7],sporsbites4[,8],sporsbites4[,9])
+sporsbites4<-subset(spors,Bites==4 & Treatment==0);sporsbites4
+distsporsB4C <- c(sporsbites4[,6],sporsbites4[,7],sporsbites4[,8],sporsbites4[,9])
+summary(distsporsB4C)
+summary(distsporsB4T)
+sporsB4check <- c(distsporsB4C,distsporsB4T);typecheck <- c(rep("con",80),rep("treat",80)) 
+summary.aov(lm(sporsB4check~typecheck))
+boxplot(sporsB4check~typecheck)
+
+
+sporsbites5<-subset(spors,Bites==5 & Treatment==1);sporsbites5
+distsporsB5T <- c(sporsbites5[,6],sporsbites5[,7],sporsbites5[,8],sporsbites5[,9],sporsbites5[,10])
+sporsbites5<-subset(spors,Bites==5 & Treatment==0);sporsbites5
+distsporsB5C <- c(sporsbites5[,6],sporsbites5[,7],sporsbites5[,8],sporsbites5[,9],sporsbites5[,10])
+summary(distsporsB5C)
+summary(distsporsB5T)
+sporsB5check <- c(distsporsB5C,distsporsB5T);typecheck <- c(rep("con",100),rep("treat",100)) 
+summary.aov(lm(sporsB5check~typecheck))
+boxplot(sporsB5check~typecheck)
+
