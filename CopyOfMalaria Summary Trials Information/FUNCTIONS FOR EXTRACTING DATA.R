@@ -216,9 +216,9 @@ summary(t4b765b)
 t4b765<-read.table("C:\\Users\\Ellie\\Documents\\Data Malaria\\ALL DATA RE_ARRANGED_20062015\\4B7-65\\mosquito.txt",header=TRUE)
 t4b765$OocPrev<-ifelse(t4b765$Oocyst==0,0,1)
 
-atv50<-read.table("C:\\Users\\Ellie\\Dropbox\\Malaria\\Data Malaria\\Blagborough data Nat Comms\\grant data\\Andrew Blagborough\\ATV-50 Graph\\Mosquito.txt",header=TRUE)
+atv50<-read.table("H:\\Ellie\\Synergy TBI and PEV\\ALL DATA RE_ARRANGED_20062015\\Figures for Andrew 11072017\\slow_mosquito.txt",header=TRUE)
 atv50$OocPrev<-ifelse(atv50$Oocyst==0,0,1)
-atv50b<-read.table("C:\\Users\\Ellie\\Dropbox\\Malaria\\Data Malaria\\Blagborough data Nat Comms\\grant data\\Andrew Blagborough\\ATV-50 Graph\\Mouse.txt",header=TRUE)
+atv50b<-read.table("H:\\Ellie\\Synergy TBI and PEV\\ALL DATA RE_ARRANGED_20062015\\Figures for Andrew 11072017\\slow_mouse.txt",header=TRUE)
 atv50b$bloodstage<-ifelse(atv50b$Parasitemia==0,0,1)
 
 ##############################################
@@ -234,7 +234,7 @@ atv50b$bloodstage<-ifelse(atv50b$Parasitemia==0,0,1)
 ooc_4B7 <- oocysts_graph(atv50,nrnds=4,nbites=4,rounds=rep(c(1,2,3,4),4),16)
 para_4B7 <- bloodstage_graph(atv50b, nrnds=4,nbites=4,rounds=rep(c(1,2,3,4),4),16)
 sporprev_4B7 <- spors_f(atv50b, 16, nrow(atv50b), 6,15, seque <- seq(1,76,5))
-spor_int_4B7 <- spor_score(atv50b, Rounds=c(1,2,3,4),4,4,16)
+spor_int_4B7 <- spor_score(atv50b, Rounds=c(0,1,2,3),4,4,16)
 
 
 
@@ -291,17 +291,17 @@ for(mb in 1:4){
 }
 
 ##Oocyst prevalence
-prevMO.round.1<-t(ooc_4B7[[3]][2:4,1:4])/100
-prevMO.lower.1<-t(matrix(ncol=4,nrow=3,
-                         c(ooc_4B7[[4]][2:4,1],
-                           ooc_4B7[[4]][6:8,1],
-                           ooc_4B7[[4]][10:12,1],
-                           ooc_4B7[[4]][14:16,1])))/100
-prevMO.upper.1<-t(matrix(ncol=4,nrow=3,
-                         c(ooc_4B7[[4]][2:4,2],
-                           ooc_4B7[[4]][6:8,2],
-                           ooc_4B7[[4]][10:12,2],
-                           ooc_4B7[[4]][14:16,2])))/100
+prevMO.round.1<-t(ooc_4B7[[3]][1:4,1:4])/100
+prevMO.lower.1<-t(matrix(ncol=4,nrow=4,
+                         c(ooc_4B7[[4]][1:4,1],
+                           ooc_4B7[[4]][5:8,1],
+                           ooc_4B7[[4]][9:12,1],
+                           ooc_4B7[[4]][13:16,1])))/100
+prevMO.upper.1<-t(matrix(ncol=4,nrow=4,
+                         c(ooc_4B7[[4]][1:4,2],
+                           ooc_4B7[[4]][5:8,2],
+                           ooc_4B7[[4]][9:12,2],
+                           ooc_4B7[[4]][13:16,2])))/100
 
 for(mb in 1:4){
   
@@ -309,7 +309,7 @@ for(mb in 1:4){
   hh.max<-apply(hh, 2, max)+6
   ciL<-rbind(prevMO.lower.1[mb,])
   ciU<-rbind(prevMO.upper.1[mb,])
-  colnames(hh)<-seq(1,3,1)
+  colnames(hh)<-seq(1,4,1)
   par(las=1,col.axis="black")
   
   mybarcol <- "gray20"
@@ -323,17 +323,17 @@ for(mb in 1:4){
   
 }
 ##Oocyst intensity
-prevMOI.round.1<-t(ooc_4B7[[1]][2:4,1:4])
-bootMOI.lower1<-t(matrix(ncol=4,nrow=3,
-                         c(ooc_4B7[[2]][2:4,1],
-                           ooc_4B7[[2]][6:8,1],
-                           ooc_4B7[[2]][10:12,1],
-                           ooc_4B7[[2]][14:16,1])))
-bootMOI.upper1<-t(matrix(ncol=4,nrow=3,
-                         c(ooc_4B7[[2]][2:4,2],
-                           ooc_4B7[[2]][6:8,2],
-                           ooc_4B7[[2]][10:12,2],
-                           ooc_4B7[[2]][14:16,2])))
+prevMOI.round.1<-t(ooc_4B7[[1]][1:4,1:4])
+bootMOI.lower1<-t(matrix(ncol=4,nrow=4,
+                         c(ooc_4B7[[2]][1:4,1],
+                           ooc_4B7[[2]][5:8,1],
+                           ooc_4B7[[2]][9:12,1],
+                           ooc_4B7[[2]][13:16,1])))
+bootMOI.upper1<-t(matrix(ncol=4,nrow=4,
+                         c(ooc_4B7[[2]][1:4,2],
+                           ooc_4B7[[2]][5:8,2],
+                           ooc_4B7[[2]][9:12,2],
+                           ooc_4B7[[2]][13:16,2])))
 
 for(mb in 1:4){
   
@@ -341,7 +341,7 @@ for(mb in 1:4){
   hh.max<-apply(hh, 2, max)+5
   ciL<-rbind(bootMOI.lower1[mb,])
   ciU<-rbind(bootMOI.upper1[mb,])
-  colnames(hh)<-seq(1,3,1)
+  colnames(hh)<-seq(1,4,1)
   par(las=1,col.axis="black")
   
   
@@ -364,24 +364,24 @@ for(mb in 1:4){
 
 sporprev_4B7
 
-prevMOS.round.1<-matrix(ncol=3,nrow=4,sporprev_4B7[[2]][1:12])
-prevMOS.lower.1<-t(matrix(ncol=4,nrow=3,
-                          c(sporprev_4B7[[3]][1,1],sporprev_4B7[[3]][5,1],sporprev_4B7[[3]][9,1],
-                            sporprev_4B7[[3]][2,1],sporprev_4B7[[3]][6,1],sporprev_4B7[[3]][10,1],
-                            sporprev_4B7[[3]][3,1],sporprev_4B7[[3]][7,1],sporprev_4B7[[3]][11,1],
-                            sporprev_4B7[[3]][4,1],sporprev_4B7[[3]][8,1],sporprev_4B7[[3]][12,1])))
-prevMOS.upper.1<-t(matrix(ncol=4,nrow=3,
-                          c(sporprev_4B7[[3]][1,2],sporprev_4B7[[3]][5,2],sporprev_4B7[[3]][9,2],
-                            sporprev_4B7[[3]][2,2],sporprev_4B7[[3]][6,2],sporprev_4B7[[3]][10,2],
-                            sporprev_4B7[[3]][3,2],sporprev_4B7[[3]][7,2],sporprev_4B7[[3]][11,2],
-                            sporprev_4B7[[3]][4,2],sporprev_4B7[[3]][8,2],sporprev_4B7[[3]][12,2])))
+prevMOS.round.1<-matrix(ncol=4,nrow=4,sporprev_4B7[[2]][1:16])
+prevMOS.lower.1<-t(matrix(ncol=4,nrow=4,
+                          c(sporprev_4B7[[3]][1,1],sporprev_4B7[[3]][5,1],sporprev_4B7[[3]][9,1],sporprev_4B7[[3]][13,1],
+                            sporprev_4B7[[3]][2,1],sporprev_4B7[[3]][6,1],sporprev_4B7[[3]][10,1],sporprev_4B7[[3]][14,1],
+                            sporprev_4B7[[3]][3,1],sporprev_4B7[[3]][7,1],sporprev_4B7[[3]][11,1],sporprev_4B7[[3]][15,1],
+                            sporprev_4B7[[3]][4,1],sporprev_4B7[[3]][8,1],sporprev_4B7[[3]][12,1],sporprev_4B7[[3]][16,1])))
+prevMOS.upper.1<-t(matrix(ncol=4,nrow=4,
+                          c(sporprev_4B7[[3]][1,2],sporprev_4B7[[3]][5,2],sporprev_4B7[[3]][9,2],sporprev_4B7[[3]][13,2],
+                            sporprev_4B7[[3]][2,2],sporprev_4B7[[3]][6,2],sporprev_4B7[[3]][10,2],sporprev_4B7[[3]][14,2],
+                            sporprev_4B7[[3]][3,2],sporprev_4B7[[3]][7,2],sporprev_4B7[[3]][11,2],sporprev_4B7[[3]][15,2],
+                            sporprev_4B7[[3]][4,2],sporprev_4B7[[3]][8,2],sporprev_4B7[[3]][12,2],sporprev_4B7[[3]][16,2])))
 for(mb in 1:4){
   
   hh=rbind(prevMOS.round.1[mb,])
   hh.max<-apply(hh, 2, max)+6
   ciL<-rbind(prevMOS.lower.1[mb,])
   ciU<-rbind(prevMOS.upper.1[mb,])
-  colnames(hh)<-seq(1,3,1)
+  colnames(hh)<-seq(1,4,1)
   par(las=1,col.axis="black")
   
   mybarcol <- "gray20"
@@ -398,21 +398,21 @@ for(mb in 1:4){
 
 #spor_int_4B7
 
-MOSI.round.1<-t(matrix(ncol=4,nrow=3,spor_int_4B7[[1]][1:3,1:4]))
-bootMOSI.lower1<-t(matrix(ncol=4,nrow=3,
-                          c(spor_int_4B7[[2]][1:3,1],
-                            spor_int_4B7[[2]][5:7,1],
-                            spor_int_4B7[[2]][9:11,1],
-                            spor_int_4B7[[2]][13:15,1])))
-bootMOSI.upper1<-t(matrix(ncol=4,nrow=3,
-                          c(spor_int_4B7[[2]][1:3,2],
-                            spor_int_4B7[[2]][5:7,2],
-                            spor_int_4B7[[2]][9:11,2],
-                            spor_int_4B7[[2]][13:15,2])))
+MOSI.round.1<-t(matrix(ncol=4,nrow=4,spor_int_4B7[[1]][1:4,1:4]))
+bootMOSI.lower1<-t(matrix(ncol=4,nrow=4,
+                          c(spor_int_4B7[[2]][1:4,1],
+                            spor_int_4B7[[2]][5:8,1],
+                            spor_int_4B7[[2]][9:12,1],
+                            spor_int_4B7[[2]][13:16,1])))
+bootMOSI.upper1<-t(matrix(ncol=4,nrow=4,
+                          c(spor_int_4B7[[2]][1:4,2],
+                            spor_int_4B7[[2]][5:8,2],
+                            spor_int_4B7[[2]][9:12,2],
+                            spor_int_4B7[[2]][13:16,2])))
 
 for(nb in 1:4){
   
-  colnames(MOSI.round.1)<-c(1,2,3)
+  colnames(MOSI.round.1)<-c(1,2,3,4)
   mp <- barplot(MOSI.round.1[nb,],ylim=c(0,2.5),col = "mediumpurple",cex.names = 1.4)
   
   par(las=1,col.axis="black")
